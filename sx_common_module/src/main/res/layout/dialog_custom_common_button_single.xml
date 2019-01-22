@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/mGrayED" />
+
+    <!--按钮-->
+    <TextView
+        android:id="@+id/id_btn_dialog_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:background="@drawable/bg_dialog_btn_white_bottom"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/txt_i_know"
+        android:textColor="@color/mBlue"
+        android:textSize="28px" />
+</com.zhy.autolayout.AutoLinearLayout>

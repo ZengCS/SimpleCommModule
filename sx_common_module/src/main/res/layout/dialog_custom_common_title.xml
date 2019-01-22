@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/id_tv_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="25px"
+            android:text="@string/txt_dialog_dft_title"
+            android:textSize="30px" />
+
+        <com.zhy.autolayout.AutoFrameLayout
+            android:id="@+id/id_iv_dialog_close"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12px"
+            android:background="@drawable/bg_dialog_btn_white_close"
+            android:clickable="true"
+            app:layout_auto_basewidth="height">
+
+            <ImageView
+                android:layout_width="52px"
+                android:layout_height="52px"
+                android:layout_gravity="center"
+                android:padding="10px"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_close_gray" />
+        </com.zhy.autolayout.AutoFrameLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mGreen" />
+</com.zhy.autolayout.AutoLinearLayout>

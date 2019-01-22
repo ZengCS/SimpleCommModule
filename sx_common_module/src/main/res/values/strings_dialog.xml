@@ -1,0 +1,13 @@
+<resources>
+    <string name="txt_dialog_dft_title">提示信息</string>
+    <string name="txt_dialog_title_modify_pwd">修改密码</string>
+    <string name="txt_dialog_capture_title">截屏板书</string>
+    <string name="txt_dialog_select_chapter_title">选择章节</string>
+    <string name="txt_title_request_permission_failed">权限请求失败</string>
+    <string name="txt_re_request_permission">重新授权</string>
+    <string name="txt_confirm_request_permission">权限请求失败，请进入权限设置，为程序授予必要的权限。否则程序将无法运行！</string>
+
+    <string name="txt_goto_active_admin">前往激活</string>
+    <string name="txt_title_request_admin_permission">设备管理器</string>
+    <string name="txt_confirm_request_admin_permission">必须将“生学桌面”激活为“设备管理器”才能正常运行！</string>
+</resources>

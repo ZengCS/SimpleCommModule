@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/mGrayED" />
+
+    <!--按钮-->
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80px">
+
+        <TextView
+            android:id="@+id/id_btn_dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_dialog_btn_white_left"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/mGray"
+            android:textSize="28px" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:id="@+id/id_dialog_btn_split_line"
+            android:layout_height="match_parent"
+            android:background="@color/mGrayED" />
+
+        <TextView
+            android:id="@+id/id_btn_dialog_confirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_dialog_btn_white_right"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/txt_ok"
+            android:textColor="@color/mGreen"
+            android:textSize="28px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

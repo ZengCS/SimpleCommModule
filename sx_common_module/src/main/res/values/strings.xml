@@ -1,3 +1,54 @@
 <resources>
-    <string name="app_name">sx_common_module</string>
+    <string name="app_name">生学桌面</string>
+    <string name="sxw_copyright">Copyright©2016&#8211;2017 生学教育</string>
+    <string name="update_base_info_tip">确定更新基础信息吗？</string>
+    <string name="clear_data_tip">是否清空当前所有数据？</string>
+    <string name="feedback_tip">请输入你的问题或建议，谢谢。</string>
+    <string name="logout_tip">确定退出登录吗？</string>
+
+    <string name="txt_curr_battery_percent">剩余电量 %1$s</string>
+    <string name="txt_battery_percent_charging">正在充电 %1$s</string>
+
+    <string name="txt_login">登录</string>
+    <string name="txt_forget_pwd">忘记密码?</string>
+    <string name="hint_input_pwd">请输入密码</string>
+    <string name="hint_input_user">请输入用户名</string>
+    <string name="txt_net_error_to_wifi">网络连接错误，设置网络&gt;</string>
+    <string name="tips_confirm_wlan">网络连接错误，请检查你的网络设置。</string>
+    <string name="tips_network_normal">网络连接正常，当前网络环境：WiFi</string>
+    <string name="tips_net_error_check_wlan">网络连接错误，请检查你的网络设置。</string>
+    <string name="tips_no_network">你还没有连接网络，请连接网络后重试。</string>
+    <string name="tips_check_terminal_status_failed">获取终端状态失败，请重试。</string>
+    <string name="tips_get_policy_version_failed">获取策略版本信息失败，请重试。</string>
+    <string name="tips_network_offline">网络连接已断开，请连接网络。</string>
+    <string name="txt_wifi_forbidden">WiFi禁止访问</string>
+    <string name="txt_wifi_forbidden_solution">打开WiFi失败，请从【设置-WLAN】进入WiFi设置</string>
+    <string name="txt_login_welcome_info">登录成功，欢迎您：%1$s</string>
+    <string name="txt_login_failed_retry">登录失败，请重试！</string>
+    <string name="txt_hint_press_exit">再按一次退出</string>
+
+    <string name="txt_loading_common">数据加载中&#8230;</string>
+    <string name="txt_load_data_error">数据加载失败，请稍后重试！</string>
+    <string name="txt_ok">确定</string>
+    <string name="txt_i_know">我知道了</string>
+    <string name="txt_cancel">取消</string>
+    <string name="txt_exit">退出</string>
+    <string name="txt_settings_permission">权限设置</string>
+    <string name="txt_settings_wlan">网络设置</string>
+    <string name="txt_title_net_error">网络错误</string>
+    <string name="txt_next_step">下一步</string>
+    <string name="txt_loading">加载中&#8230;</string>
+
+    <string name="permission_grant_title">温馨提示</string>
+    <string name="permission_grant_tip">应用中截屏、同屏等功能需要读取屏幕相关数据，请授予应用使用相关权限！</string>
+
+    <string name="get_info_failed">错误的请求地址</string>
+    <string name="json_format_error">数据格式错误！</string>
+    <string name="server_error">服务器异常，请重试！</string>
+    <string name="internal_server_error">内部服务器错误，请重试！</string>
+    <string name="login_time_out">登录过期，请重新登录！</string>
+    <string name="network_access_error">没有连接互联网，请连接网络后重试~</string>
+
+    <string name="server_timeout">连接服务器超时，请重试！</string>
+    <string name="server_error_unknown">未知的服务器错误，请重试！</string>
 </resources>

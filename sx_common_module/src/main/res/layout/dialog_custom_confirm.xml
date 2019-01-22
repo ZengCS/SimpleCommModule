@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="660px"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_white_5dp"
+        android:orientation="vertical">
+
+        <!--Dialog标题部分-->
+        <include layout="@layout/dialog_custom_common_title" />
+
+        <!--具体显示内容-->
+        <TextView
+            android:id="@+id/id_tv_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:minLines="2"
+            android:padding="40px"
+            android:text="@string/app_name"
+            android:textColor="@color/mGray"
+            android:textSize="26px" />
+
+        <!--底部按钮-->
+        <include layout="@layout/dialog_custom_common_button" />
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>
