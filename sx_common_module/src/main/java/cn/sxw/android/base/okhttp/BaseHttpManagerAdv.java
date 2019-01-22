@@ -19,11 +19,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.bean.LoginInfoBean;
 import cn.sxw.android.base.event.ReLoginEvent;
@@ -34,6 +36,7 @@ import cn.sxw.android.base.okhttp.response.LoginResponse;
 import cn.sxw.android.base.utils.AESUtils;
 import cn.sxw.android.base.utils.JTextUtils;
 import cn.sxw.android.base.utils.LogUtil;
+import cn.sxw.android.base.utils.MD5Util;
 import cn.sxw.android.base.utils.NetworkUtil;
 import cn.sxw.android.base.utils.SxwMobileSSOUtil;
 import okhttp3.Call;
@@ -131,12 +134,10 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                 LogUtil.methodStepHttp("刷新TOKEN成功,\n" + JSON.toJSONString(loginResponse));
                 // 同步TOKEN
                 SAccountUtil.syncTokenInfo(loginResponse);
-//                if (BuildConfig.DEBUG) {
-//                    LogUtil.methodStepHttp("模拟刷新Token失败，自动重新登录。");
-//                    autoLoginBackground(lastRequest);
-//                    return;
-//                }
+                // 同步SSO
+                SxwMobileSSOUtil.syncLoginResponse(loginResponse);
                 // 重发上一次的请求
+                lastRequest.getHeadMap().put("TOKEN", loginResponse.getToken());
                 sendRequest(lastRequest);
             }
 
@@ -183,10 +184,10 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                 LogUtil.methodStepHttp("自动重新登录成功,\n" + JSON.toJSONString(loginResponse));
                 // 同步TOKEN
                 SAccountUtil.syncTokenInfo(loginResponse);
-//                if (BuildConfig.DEBUG) {
-//                    lastRequest.setApi("http://www.mocky.io/v2/5c3ea04e350000860a3e98ff");
-//                }
+                // 同步SSO
+                SxwMobileSSOUtil.syncLoginResponse(loginResponse);
                 // 重发上一次的请求
+                lastRequest.getHeadMap().put("TOKEN", loginResponse.getToken());
                 sendRequest(lastRequest);
             }
 
@@ -308,6 +309,11 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                         mHandler.post(() -> callback.onFail(null, HttpCode.JSON_ERROR, "数据格式不正确!"));
                     }
                 }
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+                if (canCallback(activity, callback)) {
+                    mHandler.post(() -> callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "接口访问超时！"));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 if (canCallback(activity, callback)) {
@@ -393,8 +399,15 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                 LogUtil.methodStepHttp("当前是登录，无需TOKEN");
                 continue;
             }
-            requestBuilder.addHeader(key, headMap.get(key));
-            LogUtil.methodStepHttp(key + " = " + headMap.get(key));
+            String val = headMap.get(key);
+            if (!TextUtils.isEmpty(val)) {
+                requestBuilder.addHeader(key, val);
+                if (BuildConfig.DEBUG && "token".equalsIgnoreCase(key)) {
+                    LogUtil.methodStepHttp(key + " = " + MD5Util.getMd5(val));
+                } else {
+                    LogUtil.methodStepHttp(key + " = " + val);
+                }
+            }
         }
         LogUtil.methodStepHttp("↑↑↑↑↑↑ HEADERS ↑↑↑↑↑↑");
 

@@ -40,6 +40,9 @@ public interface HttpCode {
     // 其他错误
     int OTHER_ERROR = -6;
 
+    // 接口超时
+    int SOCKET_TIMEOUT = -7;
+
     // 用户名或者密码错误
     int USER_PWD_ERROR = 8072401;
     // 该账号已被禁用

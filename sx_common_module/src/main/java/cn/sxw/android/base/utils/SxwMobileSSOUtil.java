@@ -112,6 +112,20 @@ public class SxwMobileSSOUtil {
     }
 
     /**
+     * 同步Token信息
+     */
+    public static void syncLoginResponse(LoginResponse loginResponse) {
+        if (mSSODetailBean == null) {
+            getSSODetailBean();
+        }
+        if (mSSODetailBean == null) {
+            return;
+        }
+        mSSODetailBean.setTokenBean(loginResponse);
+        saveOSSInfo(mSSODetailBean);
+    }
+
+    /**
      * 此方法仅限管控学生登录成功后，将登录信息加密后保存到SD卡中，课堂课外请使用 getSSOInfo
      */
     public static boolean saveOSSInfo(SSODetailBean ssoDetailBean) {

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,7 +24,7 @@ public abstract class BaseRequest {
     @JSONField(serialize = false)
     private HashMap<String, String> headMap;// Http Header 参数列表
     @JSONField(serialize = false)
-    private Activity activity;// 1.提供Context 2.验证是否需要回调
+    private Activity activity = null;// 1.提供Context 2.验证是否需要回调
     @JSONField(serialize = false)
     private TypeReference typeReference;// 用于FastJson反序列化
     @JSONField(serialize = false)
@@ -32,11 +33,15 @@ public abstract class BaseRequest {
     private boolean allowRefreshToken = true;// 是否可以刷新token
     @JSONField(serialize = false)
     private boolean allowAutoLogin = true;// 是否可以自动登录
+    // 将Activity设置为弱引用,解决内存泄漏问题
+    @JSONField(serialize = false)
+    private WeakReference<Activity> activityWeakReference;
 
     protected abstract <T, V> HttpCallback<T, V> getHttpCallback();
 
     public BaseRequest(Activity activity, String api) {
-        this.activity = activity;
+        if (activity != null)
+            activityWeakReference = new WeakReference<>(activity);
         this.api = api;
     }
 
@@ -78,7 +83,14 @@ public abstract class BaseRequest {
     }
 
     public Activity getActivity() {
-        return activity;
+        if (activityWeakReference == null)
+            return null;
+        try {
+            return activityWeakReference.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void setActivity(Activity activity) {
