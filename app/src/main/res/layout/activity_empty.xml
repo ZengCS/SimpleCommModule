@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--数据列表-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout_common"
+        android:layout_width="960px"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12px"
+        android:background="@color/mWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/id_rv_empty"
+            style="@style/View.RecyclerView" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--模拟按钮组-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/mGrayF0"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/swipe_refresh_layout_common"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="110px"
+            android:background="#DDD"
+            android:elevation="3dp">
+
+            <TextView
+                android:id="@+id/id_tv_response_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10px"
+                android:text="这里显示具体的Response信息" />
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="10px">
+
+                <Button
+                    android:id="@+id/id_btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="模拟登陆" />
+
+                <Button
+                    android:id="@+id/id_btn_token_expired"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="模拟TOKEN过期" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="10px">
+
+                <Button
+                    android:id="@+id/id_btn_get_bean"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="加载单个Bean" />
+
+                <Button
+                    android:id="@+id/id_btn_get_boolean"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="加载Boolean" />
+
+                <Button
+                    android:id="@+id/id_btn_get_string"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="加载String" />
+
+                <Button
+                    android:id="@+id/id_btn_get_integer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="加载Integer" />
+
+                <Button
+                    android:id="@+id/id_btn_failed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="模拟失败" />
+
+                <Button
+                    android:id="@+id/id_btn_error_json"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="模拟JSON错误" />
+
+                <Button
+                    android:id="@+id/id_btn_not_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="模拟404" />
+
+                <Button
+                    android:id="@+id/id_btn_bad_gateway"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="自定义接口地址" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--测试AutoConstraintLayout Start-->
+    <View
+        android:id="@+id/line1"
+        android:layout_width="240px"
+        android:layout_height="10px"
+        android:background="@color/mRed"
+        app:layout_constraintEnd_toStartOf="@id/line2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="240px"
+        android:layout_height="10px"
+        android:background="@color/mGreen"
+        app:layout_constraintEnd_toStartOf="@id/line3"
+        app:layout_constraintStart_toEndOf="@id/line1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="240px"
+        android:layout_height="10px"
+        android:background="@color/mBlue"
+        app:layout_constraintEnd_toStartOf="@id/line4"
+        app:layout_constraintStart_toEndOf="@id/line2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="240px"
+        android:layout_height="10px"
+        android:background="@color/mYellow"
+        app:layout_constraintStart_toEndOf="@id/line3"
+        app:layout_constraintTop_toTopOf="parent" />
+    <!--测试AutoConstraintLayout End-->
+</android.support.constraint.ConstraintLayout>
