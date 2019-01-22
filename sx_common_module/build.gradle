@@ -24,6 +24,38 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    api var.design
+
+    api var.universal_imageloader
+    api var.multidex
+    api var.dagger
+    api var.gson
+    api var.androidannotations
+    api var.eventBus
+    api var.okHttp3
+    api var.okGo
+    api var.fastJson
+    api var.fastJsonAndroid
+    api var.timber//日志工具
+    api var.umengAnalytics//友盟统计分析
+    // Glide
+    api var.glide
+    // annotationProcessor var.glideCompiler
+    // permission 3.1.0
+    implementation var.permissionsDispatcher
+    annotationProcessor var.permissionsDispatcherProcessor
+    // 浮窗日志-
+    api project(':autolayout')
+
+    annotationProcessor var.dagger_compiler
+    annotationProcessor var.androidannotations_compiler
+
+    // RecyclerView适配器
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
+
+    api files('libs/log4j-1.2.17.jar')
+    api files('libs/android-logging-log4j-1.0.3.jar')
 
     api project(':autolayout')
 }
