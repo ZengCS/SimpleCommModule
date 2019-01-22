@@ -51,8 +51,6 @@ dependencies {
     // permission 3.1.0
     implementation var.permissionsDispatcher
     annotationProcessor var.permissionsDispatcherProcessor
-    // 浮窗日志-
-    api project(':autolayout')
 
     annotationProcessor var.dagger_compiler
     annotationProcessor var.androidannotations_compiler
