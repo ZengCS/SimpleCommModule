@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.bean.LoginInfoBean;
 import cn.sxw.android.base.event.ReLoginEvent;
@@ -110,7 +109,6 @@ public class BaseHttpManagerAdv implements OkApiHelper {
             LogUtil.methodStepHttp("当前请求已经触发过一次刷新TOKEN的操作了，不能重复触发。");
             if (lastRequest.isAllowAutoLogin()) {
                 autoLoginBackground(lastRequest);
-                lastRequest.setAllowAutoLogin(false);
             } else {
                 // 告知重新登录
                 LogUtil.methodStepHttp("告知重新登录");
@@ -158,6 +156,8 @@ public class BaseHttpManagerAdv implements OkApiHelper {
     }
 
     private void autoLoginBackground(BaseRequest lastRequest) {
+        lastRequest.setAllowAutoLogin(false);// 表示已经自动登录过了，不能再登录了
+
         LoginRequest loginRequest = new LoginRequest(lastRequest.getActivity());
         LoginInfoBean loginInfoBean = SxwMobileSSOUtil.getLoginInfoBean();
         if (loginInfoBean == null) {
@@ -271,7 +271,15 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                                 || code == HttpCode.TOKEN_SIGNATURE_ERROR// token签名错误
                         ) {
                             // 当出现上述几种情况时，自动刷新Token
-                            autoRefreshToken(req);
+                            if (req instanceof RefreshTokenRequest) {
+                                BaseRequest lastRequest = ((RefreshTokenRequest) req).getLastRequest();
+                                if (lastRequest != null) {
+                                    // 此时表示需要重新登录了
+                                    autoLoginBackground(lastRequest);
+                                }
+                            } else {
+                                autoRefreshToken(req);
+                            }
                             return;
                         }
                         if (onResultCallback != null)
@@ -402,11 +410,10 @@ public class BaseHttpManagerAdv implements OkApiHelper {
             String val = headMap.get(key);
             if (!TextUtils.isEmpty(val)) {
                 requestBuilder.addHeader(key, val);
-                if (BuildConfig.DEBUG && "token".equalsIgnoreCase(key)) {
-                    LogUtil.methodStepHttp(key + " = " + MD5Util.getMd5(val));
-                } else {
-                    LogUtil.methodStepHttp(key + " = " + val);
+                if ("token".equalsIgnoreCase(key)) {
+                    LogUtil.methodStepHttp("TOKEN（MD5） = " + MD5Util.getMd5(val));
                 }
+                LogUtil.methodStepHttp(key + " = " + val);
             }
         }
         LogUtil.methodStepHttp("↑↑↑↑↑↑ HEADERS ↑↑↑↑↑↑");
