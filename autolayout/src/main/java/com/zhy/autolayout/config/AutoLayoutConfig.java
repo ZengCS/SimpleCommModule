@@ -3,7 +3,6 @@ package com.zhy.autolayout.config;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 
 import com.zhy.autolayout.utils.L;
 import com.zhy.autolayout.utils.ScreenUtils;
@@ -25,7 +24,8 @@ public class AutoLayoutConfig {
     private int mDesignWidth;
     private int mDesignHeight;
 
-    private boolean useDeviceSize;
+    private boolean useDeviceSize = false;
+    private boolean useLandscape = false;
 
 
     private AutoLayoutConfig() {
@@ -39,7 +39,14 @@ public class AutoLayoutConfig {
     }
 
     public AutoLayoutConfig useDeviceSize() {
+        L.e("useDeviceSize");
         useDeviceSize = true;
+        return this;
+    }
+
+    public AutoLayoutConfig useLandscape() {
+        L.e("useLandscape");
+        useLandscape = true;
         return this;
     }
 
@@ -70,8 +77,17 @@ public class AutoLayoutConfig {
         getMetaData(context);
 
         int[] screenSize = ScreenUtils.getScreenSize(context, useDeviceSize);
-        mScreenWidth = screenSize[0];
-        mScreenHeight = screenSize[1];
+        int size1 = screenSize[0];
+        int size2 = screenSize[1];
+        if (useLandscape) {// 使用横屏模式
+            L.e("使用横屏模式");
+            mScreenWidth = Math.max(size1, size2);
+            mScreenHeight = Math.min(size1, size2);
+        } else {// 竖屏
+            L.e("使用竖屏模式");
+            mScreenWidth = Math.min(size1, size2);
+            mScreenHeight = Math.max(size1, size2);
+        }
         L.e(" screenWidth =" + mScreenWidth + " ,screenHeight = " + mScreenHeight);
     }
 
@@ -81,19 +97,30 @@ public class AutoLayoutConfig {
         try {
             applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             if (applicationInfo != null && applicationInfo.metaData != null) {
-                try {
-                    int orientation = context.getResources().getConfiguration().orientation;
-                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {// 横屏
-                        mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
-                        mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
-                    } else {// 竖屏
-                        mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
-                        mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
-                    }
-                } catch (Exception e) {
-                    mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
-                    mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
+                int size1 = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
+                int size2 = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
+                if (useLandscape) {// 使用横屏模式
+                    L.e("使用横屏模式");
+                    mDesignWidth = Math.max(size1, size2);
+                    mDesignHeight = Math.min(size1, size2);
+                } else {// 竖屏
+                    L.e("使用竖屏模式");
+                    mDesignWidth = Math.min(size1, size2);
+                    mDesignHeight = Math.max(size1, size2);
                 }
+//                try {
+//                    int orientation = context.getResources().getConfiguration().orientation;
+//                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {// 横屏
+//                        mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
+//                        mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
+//                    } else {// 竖屏
+//                        mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
+//                        mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
+//                    }
+//                } catch (Exception e) {
+//                    mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
+//                    mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
+//                }
             }
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(

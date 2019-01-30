@@ -28,8 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="12px"
             android:background="@drawable/bg_dialog_btn_white_close"
-            android:clickable="true"
-            app:layout_auto_basewidth="height">
+            android:clickable="true">
 
             <ImageView
                 android:layout_width="52px"

@@ -8,14 +8,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.StrictMode;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheEntity;
-import com.lzy.okgo.cache.CacheMode;
 import com.umeng.analytics.MobclickAgent;
+import com.zhy.autolayout.config.AutoLayoutConfig;
 
 import org.xutils.x;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -24,7 +20,6 @@ import cn.sxw.android.base.di.component.DaggerAppComponent;
 import cn.sxw.android.base.di.module.AppModule;
 import cn.sxw.android.base.di.module.ImageModule;
 import cn.sxw.android.base.integration.ActivityLifecycle;
-import okhttp3.OkHttpClient;
 
 public abstract class BaseApplication extends Application {
     private static BaseApplication mApplication;
@@ -50,7 +45,8 @@ public abstract class BaseApplication extends Application {
         mAppComponent.inject(this);
         registerActivityLifecycleCallbacks(mActivityLifecycle);
         //网络初始化
-        initOkGo();
+        // initOkGo();
+        AutoLayoutConfig.getInstance().useDeviceSize().useLandscape();
 
         x.Ext.init(this);
 //        //路由初始化
@@ -72,21 +68,21 @@ public abstract class BaseApplication extends Application {
         }
     }
 
-    private void initOkGo() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        //全局的读取超时时间
-        builder.readTimeout(15 * 1000, TimeUnit.MILLISECONDS);
-        //全局的写入超时时间
-        builder.writeTimeout(15 * 1000, TimeUnit.MILLISECONDS);
-        //全局的连接超时时间
-        builder.connectTimeout(15 * 1000, TimeUnit.MILLISECONDS);
-
-        OkGo.getInstance().init(this)                       //必须调用初始化
-                .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置将使用默认的
-                .setCacheMode(CacheMode.NO_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
-                .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
-                .setRetryCount(3);                         //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
-    }
+//    private void initOkGo() {
+//        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//        //全局的读取超时时间
+//        builder.readTimeout(15 * 1000, TimeUnit.MILLISECONDS);
+//        //全局的写入超时时间
+//        builder.writeTimeout(15 * 1000, TimeUnit.MILLISECONDS);
+//        //全局的连接超时时间
+//        builder.connectTimeout(15 * 1000, TimeUnit.MILLISECONDS);
+//
+//        OkGo.getInstance().init(this)                       //必须调用初始化
+//                .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置将使用默认的
+//                .setCacheMode(CacheMode.NO_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
+//                .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
+//                .setRetryCount(3);                         //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
+//    }
 
 //    private void initHotFix() {
 //        Log.d("tjy", "--------version=" + PackageInfoUtil.getVersionName(this));
