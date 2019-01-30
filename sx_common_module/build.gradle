@@ -40,7 +40,7 @@ dependencies {
     api var.androidannotations
     api var.eventBus
     api var.okHttp3
-    api var.okGo
+    // api var.okGo
     api var.fastJson
     api var.fastJsonAndroid
     api var.timber//日志工具
