@@ -36,6 +36,15 @@
         </activity>
         <activity android:name=".ui.PermissionActivity" />
         <activity android:name=".mvp.ui.activity.EmptyActivity_" />
+        <activity
+            android:name=".ui.SketchPadActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.PenActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.BezierPenActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

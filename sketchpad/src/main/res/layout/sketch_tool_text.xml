@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_auto_basewidth="height">
+
+        <TextView
+            android:id="@+id/id_btn_text_1"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:background="@drawable/bg_geometric_checked"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/ic_pen_1_checked"
+            android:text="A"
+            android:textSize="36px"
+            android:textStyle="bold"
+            app:layout_auto_basewidth="height" />
+
+        <TextView
+            android:id="@+id/id_btn_text_2"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:layout_marginLeft="24px"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/ic_pen_2_normal"
+            android:text="A"
+            android:textSize="48px"
+            android:textStyle="bold"
+            app:layout_auto_basewidth="height" />
+
+        <TextView
+            android:id="@+id/id_btn_text_3"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:layout_marginLeft="24px"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/ic_pen_3_normal"
+            android:text="A"
+            android:textSize="60px"
+            android:textStyle="bold"
+            app:layout_auto_basewidth="height" />
+
+    </LinearLayout>
+</FrameLayout>

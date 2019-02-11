@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SketchViewLib</string>
+    <string name="flag_un_checked">0</string>
+    <string name="flag_checked">1</string>
+    <string name="txt_no_tips_again">不再提示</string>
+    <string name="tips_edit_pic">长按图片可对图片进行操作。</string>
+</resources>

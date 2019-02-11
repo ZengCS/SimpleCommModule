@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_auto_basewidth="height">
+
+        <com.zcs.android.lib.sketch.view.GeometricView
+            android:id="@+id/id_btn_geo_rectangle"
+            android:layout_width="90px"
+            android:layout_height="90px"
+            android:background="@drawable/bg_geometric_checked"
+            android:padding="0dp"
+            app:geometric="rectangle"
+            app:layout_auto_basewidth="height" />
+
+        <com.zcs.android.lib.sketch.view.GeometricView
+            android:id="@+id/id_btn_geo_circle"
+            android:layout_width="90px"
+            android:layout_height="90px"
+            android:layout_marginLeft="9px"
+            app:geometric="circle"
+            app:layout_auto_basewidth="height" />
+
+        <com.zcs.android.lib.sketch.view.GeometricView
+            android:id="@+id/id_btn_geo_triangle"
+            android:layout_width="90px"
+            android:layout_height="90px"
+            android:layout_marginLeft="9px"
+            app:geometric="triangle"
+            app:layout_auto_basewidth="height" />
+
+        <com.zcs.android.lib.sketch.view.GeometricView
+            android:id="@+id/id_btn_geo_line"
+            android:layout_width="90px"
+            android:layout_height="90px"
+            android:layout_marginLeft="9px"
+            app:geometric="line"
+            app:layout_auto_basewidth="height" />
+    </LinearLayout>
+
+</FrameLayout>

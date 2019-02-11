@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal|bottom"
+    android:orientation="horizontal"
+    android:padding="0dp">
+
+    <!--笔形选择-->
+    <LinearLayout
+        android:layout_width="534px"
+        android:layout_height="128px"
+        android:background="@drawable/bg_round_gray_top"
+        android:gravity="center_horizontal|bottom"
+        android:orientation="horizontal"
+        app:layout_auto_basewidth="height">
+
+        <ImageView
+            android:id="@+id/id_btn_pen_1"
+            android:layout_width="120px"
+            android:layout_height="125px"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pen_1_checked"
+            app:layout_auto_basewidth="height" />
+
+        <ImageView
+            android:id="@+id/id_btn_pen_2"
+            android:layout_width="120px"
+            android:layout_height="125px"
+            android:layout_marginLeft="9px"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pen_2_normal"
+            app:layout_auto_basewidth="height" />
+
+        <ImageView
+            android:id="@+id/id_btn_pen_3"
+            android:layout_width="120px"
+            android:layout_height="125px"
+            android:layout_marginLeft="9px"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pen_3_normal"
+            app:layout_auto_basewidth="height" />
+
+        <ImageView
+            android:id="@+id/id_btn_pen_4"
+            android:layout_width="120px"
+            android:layout_height="125px"
+            android:layout_marginLeft="9px"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pen_4_normal"
+            app:layout_auto_basewidth="height" />
+    </LinearLayout>
+
+    <!--字号选择-->
+
+    <LinearLayout
+        android:layout_width="456px"
+        android:layout_height="128px"
+        android:layout_marginLeft="10px"
+        android:background="@drawable/bg_round_gray_top"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_auto_basewidth="height">
+
+        <TextView
+            android:id="@+id/id_btn_text_1"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="A"
+            android:textSize="36px"
+            android:textStyle="bold"
+            app:layout_auto_basewidth="height" />
+
+        <TextView
+            android:id="@+id/id_btn_text_2"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:layout_marginLeft="24px"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="A"
+            android:textSize="48px"
+            android:textStyle="bold"
+            app:layout_auto_basewidth="height" />
+
+        <TextView
+            android:id="@+id/id_btn_text_3"
+            android:layout_width="110px"
+            android:layout_height="110px"
+            android:layout_marginLeft="24px"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="A"
+            android:textSize="60px"
+            android:textStyle="bold"
+            app:layout_auto_basewidth="height" />
+    </LinearLayout>
+</LinearLayout>

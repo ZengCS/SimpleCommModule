@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zcs.android.lib.sketch.pen.view.NewDrawPenView
+        android:id="@+id/draw_pen_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black_40p"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_stroke_pen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="钢笔" />
+
+        <Button
+            android:id="@+id/btn_brush_pen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="毛笔" />
+
+        <Button
+            android:id="@+id/btn_pencil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="铅笔" />
+
+        <Button
+            android:id="@+id/btn_chalk_pen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="粉笔" />
+
+        <Button
+            android:id="@+id/btn_clear_canvas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除画布" />
+
+        <Button
+            android:id="@+id/btn_clear_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="撤销" />
+
+        <Button
+            android:id="@+id/btn_clear_redo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="恢复" />
+
+    </LinearLayout>
+
+</RelativeLayout>

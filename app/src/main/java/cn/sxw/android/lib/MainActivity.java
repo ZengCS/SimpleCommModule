@@ -6,6 +6,7 @@ import android.view.View;
 
 import cn.sxw.android.lib.mvp.ui.activity.EmptyActivity_;
 import cn.sxw.android.lib.ui.PermissionActivity;
+import cn.sxw.android.lib.ui.SketchPadActivity;
 import cn.sxw.android.lib.ui.base.CustomBaseActivity;
 
 public class MainActivity extends CustomBaseActivity {
@@ -23,6 +24,11 @@ public class MainActivity extends CustomBaseActivity {
 
     public void openEmptyActivity(View view) {
         Intent intent = new Intent(this, EmptyActivity_.class);
+        startActivity(intent);
+    }
+
+    public void openSketchActivity(View view) {
+        Intent intent = new Intent(this, SketchPadActivity.class);
         startActivity(intent);
     }
 }

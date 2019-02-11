@@ -21,4 +21,12 @@
         android:layout_height="wrap_content"
         android:onClick="openEmptyActivity"
         android:text="示例Activity" />
+
+    <Button
+        android:id="@+id/id_btn_sketch_pad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openSketchActivity"
+        android:text="画板" />
+
 </LinearLayout>

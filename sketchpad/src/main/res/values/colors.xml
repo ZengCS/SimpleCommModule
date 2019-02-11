@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#399855</color>
+
+    <color name="colorGreen">#53ae73</color>
+    <color name="colorGreenDark">#399855</color>
+    <color name="colorRed">#FD6F6E</color>
+    <color name="colorBlue">#0b89b1</color>
+
+    <color name="customRippleColor">@color/black_20p</color>
+
+    <color name="mWhite">#FFFFFF</color>
+    <color name="mGrayAA">#AAAAAA</color>
+
+    <!-- 不同透明度的黑色 -->
+    <color name="black">#FF000000</color>
+    <color name="black_90p">#E6000000</color>
+    <color name="black_80p">#CC000000</color>
+    <color name="black_70p">#B3000000</color>
+    <color name="black_60p">#99000000</color>
+    <color name="black_50p">#80000000</color>
+    <color name="black_40p">#66000000</color>
+    <color name="black_30p">#4D000000</color>
+    <color name="black_20p">#33000000</color>
+    <color name="black_10p">#1A000000</color>
+    <color name="black_05p">#0A000000</color>
+    <color name="transparent">#00000000</color>
+</resources>

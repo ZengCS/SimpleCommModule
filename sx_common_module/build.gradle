@@ -61,5 +61,5 @@ dependencies {
     api files('libs/log4j-1.2.17.jar')
     api files('libs/android-logging-log4j-1.0.3.jar')
 
-    api project(':autolayout')
+    api project(':sketchpad')
 }

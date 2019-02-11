@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal|bottom"
+    android:orientation="horizontal"
+    android:padding="0dp">
+
+    <!--橡皮擦-->
+    <LinearLayout
+        style="@style/disableSplitMotion"
+        android:layout_width="324px"
+        android:layout_height="128px"
+        android:background="@drawable/bg_round_gray_top"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_auto_basewidth="height">
+
+        <!--橡皮擦-->
+        <RelativeLayout
+            android:id="@+id/id_btn_eraser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/flag_un_checked"
+            android:padding="18px">
+
+            <ImageView
+                android:layout_width="80px"
+                android:layout_height="80px"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_sketch_eraser"
+                app:layout_auto_basewidth="height" />
+        </RelativeLayout>
+
+        <!--聚光灯-->
+        <RelativeLayout
+            android:id="@+id/id_btn_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:contentDescription="@string/flag_un_checked"
+            android:padding="18px">
+
+            <ImageView
+                android:layout_width="80px"
+                android:layout_height="80px"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_sketch_light"
+                app:layout_auto_basewidth="height" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!--格子-->
+    <LinearLayout
+        android:layout_width="666px"
+        android:layout_height="128px"
+        android:layout_marginLeft="10px"
+        android:background="@drawable/bg_round_gray_top"
+        android:orientation="horizontal"
+        app:layout_auto_basewidth="height">
+        <!--滑块-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="128px"
+            android:layout_marginLeft="12px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_auto_basewidth="height">
+
+            <SeekBar
+                android:id="@+id/id_sb_pic_scale"
+                android:layout_width="180px"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="33" />
+
+            <TextView
+                android:id="@+id/id_tv_pic_scale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="33"
+                android:textSize="30px" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/id_rv_tool_cell"
+            style="@style/disableSplitMotion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12px"
+            android:layout_marginRight="12px" />
+    </LinearLayout>
+</LinearLayout>

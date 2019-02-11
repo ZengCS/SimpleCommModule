@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="720px"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_white_5dp"
+        android:orientation="vertical">
+
+        <!--具体显示内容-->
+        <LinearLayout
+            android:id="@+id/id_container_dialog_custom_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/id_et_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15px"
+                android:background="@drawable/bg_border_input_multi"
+                android:gravity="top|left"
+                android:hint="请输入文字"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="4"
+                android:padding="12px"
+                android:textColor="#545454"
+                android:textColorHint="#A2A2A2"
+                android:textSize="28px" />
+        </LinearLayout>
+
+        <!--底部按钮-->
+        <include layout="@layout/dialog_custom_common_button" />
+    </LinearLayout>
+</LinearLayout>

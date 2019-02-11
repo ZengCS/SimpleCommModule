@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/id_sketch_root_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/id_iv_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true" />
+
+        <com.zcs.android.lib.sketch.view.CustomSketchViewAdv
+            android:id="@+id/id_custom_sketch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+        <!--拖拽面板-->
+        <com.zcs.android.lib.sketch.view.VDHLayout
+            android:id="@+id/id_container_input_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/id_container_input_drag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="120px"
+                android:layout_marginRight="120px"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/bg_drag"
+                android:minWidth="180px"
+                android:orientation="vertical"
+                android:padding="0dp"
+                android:visibility="gone">
+
+                <View
+                    android:id="@+id/id_btn_text_delete"
+                    android:layout_width="45px"
+                    android:layout_height="45px"
+                    android:layout_gravity="right"
+                    android:background="?android:selectableItemBackground"
+                    android:clickable="true"
+                    app:layout_auto_basewidth="height" />
+
+                <TextView
+                    android:id="@+id/id_tv_draw_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="42px"
+                    android:layout_marginRight="42px" />
+
+                <View
+                    android:id="@+id/id_btn_text_confirm"
+                    android:layout_width="45px"
+                    android:layout_height="45px"
+                    android:background="?android:selectableItemBackground"
+                    android:clickable="true"
+                    app:layout_auto_basewidth="height" />
+            </LinearLayout>
+        </com.zcs.android.lib.sketch.view.VDHLayout>
+
+    </RelativeLayout>
+
+
+    <!--输入框-->
+    <LinearLayout
+        android:id="@+id/id_container_draw_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="450px"
+        android:layout_marginRight="450px"
+        android:background="@drawable/bg_round_white_5dp_bottom"
+        android:elevation="5dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/id_et_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15px"
+            android:background="@drawable/bg_border_input_multi"
+            android:gravity="top|left"
+            android:hint="请输入文字"
+            android:inputType="textMultiLine"
+            android:maxLines="12"
+            android:minWidth="420px"
+            android:padding="12px"
+            android:textColor="#545454"
+            android:textColorHint="#A2A2A2"
+            android:textSize="28px" />
+
+        <include layout="@layout/dialog_custom_common_button" />
+    </LinearLayout>
+
+    <!--遥控器-->
+    <RelativeLayout
+        android:id="@+id/id_container_tool_pan"
+        android:layout_width="match_parent"
+        android:layout_height="234px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:layout_auto_basewidth="height">
+
+        <!--遥控器-->
+        <RelativeLayout
+            android:id="@+id/id_container_tool_menus"
+            android:layout_width="wrap_content"
+            android:layout_height="72px"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_circle_green"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            app:layout_auto_basewidth="height">
+
+            <!--光标-->
+            <RelativeLayout
+                android:id="@+id/id_container_cursor"
+                android:layout_width="120px"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="90px"
+                    android:layout_height="63px"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_circle_green_dark"
+                    app:layout_auto_basewidth="height" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/id_rv_tool_options"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <!--具体的工具-->
+        <LinearLayout
+            android:id="@+id/id_container_tool_inner"
+            android:layout_width="wrap_content"
+            android:layout_height="200px"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_sketch_tool"
+            android:orientation="horizontal"
+            android:padding="0dp"
+            app:layout_auto_basewidth="height">
+
+            <!--2018年2月7日14:44:37 更新-->
+            <com.zcs.android.lib.sketch.view.NoScrollViewPager
+                android:id="@+id/id_nvp_tool"
+                android:layout_width="1200px"
+                android:layout_height="match_parent"
+                android:padding="0dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/id_view_edit_pic_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30px"
+        android:background="@drawable/bg_circle_red"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:paddingBottom="6px"
+        android:paddingLeft="24px"
+        android:paddingRight="24px"
+        android:paddingTop="6px"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12px"
+            android:text="@string/tips_edit_pic"
+            android:textColor="@color/mWhite" />
+
+        <TextView
+            android:id="@+id/id_btn_no_tips_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="12px"
+            android:text="@string/txt_no_tips_again"
+            android:textColor="@color/colorBlue" />
+    </LinearLayout>
+</RelativeLayout>
