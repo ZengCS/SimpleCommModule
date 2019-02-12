@@ -17,7 +17,7 @@ public class SharedPreferencesUtil {
     /**
      * 保存在手机里面的文件名
      */
-    private static final String FILE_NAME = "SXW_LAUNCHER_V2";
+    private static final String FILE_NAME = "SXW_LAUNCHER_V1";
 
     public static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);

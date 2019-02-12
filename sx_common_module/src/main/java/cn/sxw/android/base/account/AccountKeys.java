@@ -7,8 +7,8 @@ package cn.sxw.android.base.account;
  */
 
 public interface AccountKeys {
-    String IS_LOGIN = "IS_LOGIN";
-    String ACCOUNT_INFO = "ACCOUNT_INFO";
+    String IS_LOGIN = "IS_LOGIN_V2";
+    String ACCOUNT_INFO = "ACCOUNT_INFO_V2";
     String ACCOUNT_BIND_INFO = "ACCOUNT_BIND_INFO";
     String PUSH_CLIENT_ID = "PUSH_CLIENT_ID";
     String KEY_CURR_ENVIRONMENT = "KEY_CURR_ENVIRONMENT_V2";
