@@ -37,6 +37,14 @@ public class CustomNetConfig {
     }
 
     private static class RunEnvironment {
+        // Host
+        static final String[] SXW_HOST = {
+                "api2.sxw.cn",      // 生产环境
+                "api2.pre.sxw.cn",  // 预发布环境域名
+                "api2.test.sxw.cn", // 测试环境域名
+                "api2.dev.sxw.cn"   // 开发环境域名
+        };
+
         // api
         static final String[] SXW_BASE_APIS = {
                 "http://api2.sxw.cn",      // 生产环境
@@ -59,6 +67,13 @@ public class CustomNetConfig {
                 SXW_BASE_APIS[2].concat("/update/"),// 测试环境域名
                 SXW_BASE_APIS[3].concat("/update/"),// 开发环境域名
         };
+    }
+
+    /**
+     * @return Host
+     */
+    public static String getHost() {
+        return RunEnvironment.SXW_HOST[currEnvironment];
     }
 
     /**
