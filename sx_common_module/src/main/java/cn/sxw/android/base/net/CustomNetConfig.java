@@ -1,11 +1,16 @@
 package cn.sxw.android.base.net;
 
+import cn.sxw.android.base.okhttp.HttpManager;
+import cn.sxw.android.base.utils.LogUtil;
+
 /**
  * Created by ZengCS on 2017/8/3.
  * E-mail:zcs@sxw.cn
  * Add:成都市天府软件园E3-3F
  */
 public class CustomNetConfig {
+    public static final String KEY_CURR_ENVIRONMENT = "KEY_CURR_ENVIRONMENT_V2";
+
     private static String[] ENVIRONMENT_NAMES = {"生产环境", "预发布环境", "测试环境", "开发环境"};
 
     public static final int ENVIRONMENT_RELEASE = 0;// 生产环境
@@ -15,6 +20,13 @@ public class CustomNetConfig {
 
     // 当前环境，默认生产环境
     public static int currEnvironment = ENVIRONMENT_RELEASE;
+
+    public static void updateEnvironment(int newEnvironment) {
+        currEnvironment = newEnvironment;
+        LogUtil.d("更新服务器类型为：" + getCurrServerTypeName());
+        LogUtil.d("目标HOST-->" + getHost());
+        HttpManager.getInstance().setHost(getHost());
+    }
 
     public static boolean isReleaseVersion() {
         return currEnvironment <= ENVIRONMENT_RELEASE_PRE;
