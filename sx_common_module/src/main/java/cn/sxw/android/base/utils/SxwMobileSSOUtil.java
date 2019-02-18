@@ -23,8 +23,12 @@ import cn.sxw.android.base.okhttp.response.LoginResponse;
  * 生学教育单点登录工具类
  */
 public class SxwMobileSSOUtil {
-    private static final String FILE_PATH = "sxw/app/common/auth/";
-    private static final String FILE_NAME = "account.data";
+    // private static final String FILE_PATH = "sxw/app/common/auth/";
+    private static final String FILE_PATH = "sxw".concat(File.separator)
+            .concat("app").concat(File.separator)
+            .concat("common").concat(File.separator)
+            .concat("auth").concat(File.separator);
+    private static final String FILE_NAME = "account_v3.data";
     private static final String TAG = "SxwMobileSSOUtil";
     private static SSODetailBean mSSODetailBean;
 
@@ -35,7 +39,8 @@ public class SxwMobileSSOUtil {
      */
     public static String getSSOInfo() {
         try {
-            String dest = readSdcardFile(getSDCardPath() + FILE_PATH + FILE_NAME);
+            // String dest = readSdcardFile(getSDCardPath() + FILE_PATH + FILE_NAME);
+            String dest = readSdcardFile(getSDCardPath().concat(FILE_PATH).concat(FILE_NAME));
             return AESUtils.Decrypt(dest);
         } catch (Exception e) {
             e.printStackTrace();
