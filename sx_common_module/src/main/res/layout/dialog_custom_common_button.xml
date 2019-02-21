@@ -43,7 +43,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="@string/txt_ok"
-            android:textColor="@color/mGreen"
+            android:textColor="@color/colorPrimary"
             android:textSize="28px" />
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>
