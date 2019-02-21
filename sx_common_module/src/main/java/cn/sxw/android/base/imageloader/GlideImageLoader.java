@@ -72,7 +72,11 @@ public class GlideImageLoader implements ImageLoader {
                     public boolean onException(Exception e, String s,
                                                Target<GlideDrawable> target, boolean b) {
                         if (listener != null) {
-                            listener.loadImageFail(e.getMessage());
+                            if (e != null) {
+                                listener.loadImageFail(e.getMessage());
+                            } else {
+                                listener.loadImageFail("图片加载失败，" + s);
+                            }
                         }
                         return false;
                     }
