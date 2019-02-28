@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.List;
@@ -317,7 +318,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                         mHandler.post(() -> callback.onFail(null, HttpCode.JSON_ERROR, "数据格式不正确!"));
                     }
                 }
-            } catch (SocketTimeoutException e) {
+            } catch (SocketTimeoutException | ConnectException e) {
                 e.printStackTrace();
                 if (canCallback(activity, callback)) {
                     mHandler.post(() -> callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "接口访问超时！"));
