@@ -88,9 +88,10 @@ public class ActivityStackManger {
      * 结束指定的Activity
      */
     public boolean finishActivity(Activity activity) {
-        if (null != activity && !activity.isFinishing()) {
+        if (null != activity) {
             mActivityStack.remove(activity);
-            activity.finish();
+            if (!activity.isFinishing())
+                activity.finish();
             return true;
         }
         return false;
@@ -101,11 +102,7 @@ public class ActivityStackManger {
      */
     public boolean finishActivity(Class<? extends Activity> actCls) {
         Activity activity = findActivityByClass(actCls);
-        if (null != activity && !activity.isFinishing()) {
-            activity.finish();
-            return true;
-        }
-        return false;
+        return finishActivity(activity);
     }
 
     /**
@@ -116,7 +113,7 @@ public class ActivityStackManger {
         Iterator<Activity> itr = mActivityStack.iterator();
         while (itr.hasNext()) {
             tempActivity = itr.next();
-            if (null != tempActivity && tempActivity.getClass().getName().equals(actCls.getName()) && !tempActivity.isFinishing()) {
+            if (null != tempActivity && tempActivity.getClass().getName().equals(actCls.getName())) {
                 break;
             }
             tempActivity = null;
