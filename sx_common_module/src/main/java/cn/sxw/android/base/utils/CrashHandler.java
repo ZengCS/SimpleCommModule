@@ -1,9 +1,5 @@
 package cn.sxw.android.base.utils;
 
-/**
- * Created by Alex.Tang on 2017-05-10.
- */
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -19,12 +15,14 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Created by Alex.Tang on 2017-05-10.
+ */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private static final String PATH = Environment.getExternalStorageDirectory().getPath() +
-            "/sxw/launcher/log/";
+    private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/sxw/launcher/log/";
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名
@@ -124,6 +122,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         PackageManager pm = mContext.getPackageManager();
         PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager
                 .GET_ACTIVITIES);
+        pw.print("PackageName：");
+        pw.print("【" + mContext.getPackageName() + "】");
         pw.print("App Version: ");
         pw.print(pi.versionName);
         pw.print('_');

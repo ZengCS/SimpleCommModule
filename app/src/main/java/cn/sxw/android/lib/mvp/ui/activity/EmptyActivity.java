@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cn.sxw.android.base.adapter.CommonRecyclerAdapter;
+import cn.sxw.android.base.app.ActivityStackManger;
 import cn.sxw.android.base.bean.BlankBean;
 import cn.sxw.android.base.di.component.AppComponent;
 import cn.sxw.android.base.dialog.CustomDialogHelper;
@@ -173,7 +174,7 @@ public class EmptyActivity extends BaseActivityAdv<EmptyPresenter> implements IE
      */
     @Override
     public void killMyself() {
-        mApplication.getAppComponent().appManager().killActivity(EmptyActivity_.class);
+        ActivityStackManger.getInstance().removeActivity(this);
     }
 
     @Override

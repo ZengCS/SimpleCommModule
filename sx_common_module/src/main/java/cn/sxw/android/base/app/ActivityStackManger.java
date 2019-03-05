@@ -148,6 +148,34 @@ public class ActivityStackManger {
     }
 
     /**
+     * 指定的activity实例是否存活
+     *
+     * @param activity
+     * @return
+     */
+    public boolean activityInstanceIsLive(Activity activity) {
+        if (mActivityStack == null) {
+            LogUtil.w("mActivityStack == null when activityInstanceIsLive");
+            return false;
+        }
+        return mActivityStack.contains(activity);
+    }
+
+    /**
+     * 指定的activity实例是否存活
+     *
+     * @param actCls
+     * @return
+     */
+    public boolean activityInstanceIsLive(Class<? extends Activity> actCls) {
+        if (mActivityStack == null) {
+            LogUtil.w("mActivityStack == null when activityInstanceIsLive");
+            return false;
+        }
+        return mActivityStack.contains(findActivityByClass(actCls));
+    }
+
+    /**
      * 退出应用程序
      */
     public void exitApp() {

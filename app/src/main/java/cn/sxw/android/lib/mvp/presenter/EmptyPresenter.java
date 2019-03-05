@@ -15,11 +15,11 @@ import cn.sxw.android.base.bean.BlankBean;
 import cn.sxw.android.base.bean.LoginInfoBean;
 import cn.sxw.android.base.bean.user.UserInfoResponse;
 import cn.sxw.android.base.di.scope.PerActivity;
-import cn.sxw.android.base.integration.AppManager;
 import cn.sxw.android.base.mvp.BasePresenter;
 import cn.sxw.android.base.okhttp.HttpCallback;
 import cn.sxw.android.base.okhttp.HttpCode;
 import cn.sxw.android.base.okhttp.request.LoginRequest;
+import cn.sxw.android.base.okhttp.request.UserInfoRequest;
 import cn.sxw.android.base.okhttp.response.LoginResponse;
 import cn.sxw.android.base.utils.AESUtils;
 import cn.sxw.android.base.utils.JTextUtils;
@@ -27,20 +27,17 @@ import cn.sxw.android.lib.mvp.model.empty.IEmptyModel;
 import cn.sxw.android.lib.mvp.model.request.TestListRequest;
 import cn.sxw.android.lib.mvp.model.request.TestObjRequest;
 import cn.sxw.android.lib.mvp.model.request.TestStringRequest;
-import cn.sxw.android.base.okhttp.request.UserInfoRequest;
 import cn.sxw.android.lib.mvp.view.IEmptyView;
 
 @PerActivity
 public class EmptyPresenter extends BasePresenter<IEmptyModel, IEmptyView> {
-    private AppManager mAppManager;
     private Application mApplication;
     private int requestTimes = 0;
 
     @Inject
-    public EmptyPresenter(IEmptyModel model, IEmptyView view, AppManager appManager, Application application) {
+    public EmptyPresenter(IEmptyModel model, IEmptyView view, Application application) {
         super(model, view);
         this.mApplication = application;
-        this.mAppManager = appManager;
     }
 
     @Override
