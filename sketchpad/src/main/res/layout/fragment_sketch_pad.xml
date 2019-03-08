@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/id_sketch_root_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,8 +13,8 @@
             android:id="@+id/id_iv_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true" />
 
         <com.zcs.android.lib.sketch.view.CustomSketchViewAdv
             android:id="@+id/id_custom_sketch"
@@ -27,21 +27,21 @@
             android:id="@+id/id_container_input_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.zhy.autolayout.AutoLinearLayout
                 android:id="@+id/id_container_input_drag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="120px"
-                android:layout_marginRight="120px"
                 android:layout_marginTop="0dp"
+                android:layout_marginRight="120px"
+                android:layout_marginBottom="0dp"
                 android:background="@drawable/bg_drag"
                 android:minWidth="180px"
                 android:orientation="vertical"
@@ -55,6 +55,7 @@
                     android:layout_gravity="right"
                     android:background="?android:selectableItemBackground"
                     android:clickable="true"
+                    android:focusable="true"
                     app:layout_auto_basewidth="height" />
 
                 <TextView
@@ -71,15 +72,16 @@
                     android:layout_height="45px"
                     android:background="?android:selectableItemBackground"
                     android:clickable="true"
+                    android:focusable="true"
                     app:layout_auto_basewidth="height" />
-            </LinearLayout>
+            </com.zhy.autolayout.AutoLinearLayout>
         </com.zcs.android.lib.sketch.view.VDHLayout>
 
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
 
     <!--输入框-->
-    <LinearLayout
+    <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/id_container_draw_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,20 +109,20 @@
             android:textSize="28px" />
 
         <include layout="@layout/dialog_custom_common_button" />
-    </LinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
 
     <!--遥控器-->
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/id_container_tool_pan"
         android:layout_width="match_parent"
         android:layout_height="234px"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         app:layout_auto_basewidth="height">
 
         <!--遥控器-->
-        <RelativeLayout
+        <com.zhy.autolayout.AutoRelativeLayout
             android:id="@+id/id_container_tool_menus"
             android:layout_width="wrap_content"
             android:layout_height="72px"
@@ -131,7 +133,7 @@
             app:layout_auto_basewidth="height">
 
             <!--光标-->
-            <RelativeLayout
+            <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/id_container_cursor"
                 android:layout_width="120px"
                 android:layout_height="match_parent">
@@ -142,16 +144,16 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/bg_circle_green_dark"
                     app:layout_auto_basewidth="height" />
-            </RelativeLayout>
+            </com.zhy.autolayout.AutoRelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/id_rv_tool_options"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
-        </RelativeLayout>
+        </com.zhy.autolayout.AutoRelativeLayout>
 
         <!--具体的工具-->
-        <LinearLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/id_container_tool_inner"
             android:layout_width="wrap_content"
             android:layout_height="200px"
@@ -168,10 +170,10 @@
                 android:layout_width="1200px"
                 android:layout_height="match_parent"
                 android:padding="0dp" />
-        </LinearLayout>
-    </RelativeLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
-    <LinearLayout
+    <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/id_view_edit_pic_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -180,10 +182,10 @@
         android:background="@drawable/bg_circle_red"
         android:elevation="3dp"
         android:gravity="center"
-        android:paddingBottom="6px"
         android:paddingLeft="24px"
-        android:paddingRight="24px"
         android:paddingTop="6px"
+        android:paddingRight="24px"
+        android:paddingBottom="6px"
         android:visibility="gone">
 
         <TextView
@@ -202,5 +204,5 @@
             android:padding="12px"
             android:text="@string/txt_no_tips_again"
             android:textColor="@color/colorBlue" />
-    </LinearLayout>
-</RelativeLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -52,7 +52,8 @@ public class SketchPresenter extends BasePresenter {
             return false;
         }
 
-        boolean success = BitmapUtil.saveBitmap(bitmap, filePath);
+        // boolean success = BitmapUtil.saveBitmap(bitmap, filePath);
+        boolean success = BitmapUtil.saveBitmap(bitmap, filePath, 500);
         if (!success) {
             mRootView.showToast("图片保存失败!");
         }

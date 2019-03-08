@@ -6,9 +6,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 
-public class VDHLayout extends LinearLayout {
+import com.zhy.autolayout.AutoLinearLayout;
+
+public class VDHLayout extends AutoLinearLayout {
     private ViewDragHelper mDragger;
 
     public VDHLayout(Context context, AttributeSet attrs) {

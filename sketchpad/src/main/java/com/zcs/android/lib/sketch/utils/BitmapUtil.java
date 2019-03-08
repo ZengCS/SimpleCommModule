@@ -61,13 +61,13 @@ public class BitmapUtil {
         float scale_h = (float) opts.outHeight / (float) ScreenUtils.getScreenHeight(context);
         float scale_w = (float) opts.outWidth / (float) ScreenUtils.getScreenWidth(context);
         float scale = scale_h > scale_w ? scale_w : scale_h;
-        if (scale < 1) {
+        if (scale <= 1) {
             scale = 1f;
-        } else if (scale < 2) {
+        } else if (scale <= 2) {
             scale = 2f;
-        } else if (scale < 4) {
+        } else if (scale <= 4) {
             scale = 4f;
-        } else if (scale < 8) {
+        } else if (scale <= 8) {
             scale = 8f;
         } else {
             scale = 16f;
@@ -190,6 +190,16 @@ public class BitmapUtil {
      * @param filePath 图片保存路径
      */
     public static boolean saveBitmap(Bitmap bitmap, String filePath) {
+        return saveBitmap(bitmap, filePath, 200);
+    }
+
+    /**
+     * 保存Bitmap到SDCard
+     *
+     * @param bitmap
+     * @param filePath 图片保存路径
+     */
+    public static boolean saveBitmap(Bitmap bitmap, String filePath, int maxSize) {
         boolean success;
         File file = new File(filePath);
         if (file.exists()) {
@@ -199,18 +209,14 @@ public class BitmapUtil {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
-            out.flush();
-            out.close();
-            success = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            success = false;
-        }
+        // 压缩图片
+        File destFile = XtImageUtils.compressImage(new File(filePath), bitmap, maxSize);
+        bitmap.recycle();
+        // 图片压缩完成
+        success = destFile != null && destFile.exists() && destFile.length() > 0;
         return success;
     }
+
 
     /**
      * 保存Bitmap到SDCard

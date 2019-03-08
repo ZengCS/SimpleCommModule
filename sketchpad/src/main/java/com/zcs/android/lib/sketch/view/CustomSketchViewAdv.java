@@ -695,7 +695,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
                 mStokeBrushPen.setSketchDrawCallback(this);
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 boolean isLongPressed = isLongPressed(mLastDownX, mLastDownY, eventX, eventY, mLastDownTime, System.currentTimeMillis(), 500);
-                Log.d(TAG, "isLongPressed======" + isLongPressed);
+                // Log.d(TAG, "isLongPressed======" + isLongPressed);
                 if (isLongPressed) {
                     float[] downPoint = new float[]{downX * drawDensity, downY * drawDensity};//还原点倍数
                     // 第一步，判断是否是当前图片
@@ -2122,7 +2122,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
     }
 
     @Override
-    public void setBackgroundByPath(String path) {
+    public void setBackgroundByPath(String path, float scale) {
         if (SketchConfig.TAG_CLEAR_CELL_BG.equals(path)) {
             Log.d(TAG, "setBackgroundByPath: 清空背景");
             if (mBgBitmap != null && !mBgBitmap.isRecycled()) {
@@ -2133,12 +2133,17 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
             }
             return;
         }
-        Bitmap sampleBM = getSampleBitMap(path);
+        Bitmap sampleBM = getSampleBitMap(path, scale);
         if (sampleBM != null) {
             setBackgroundBitmap(sampleBM);
         } else {
             Toast.makeText(mContext, "图片文件路径有误！", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void setBackgroundByPath(String path) {
+        setBackgroundByPath(path, 0.5f);// 默认缩放至1/2
     }
 
     private List<PhotoRecord> photoRecordList = new ArrayList<>();
@@ -2193,20 +2198,24 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         return newRecord;
     }
 
-    public Bitmap getSampleBitMap(String path) {
+    public Bitmap getSampleBitMap(String path, float scale) {
         Bitmap sampleBM;
         if (path.contains(Environment.getExternalStorageDirectory().toString())) {
-            sampleBM = getSDCardPhoto(path);
+            sampleBM = getSDCardPhoto(path, scale);
         } else {
             sampleBM = BitmapUtil.getBitmapFromAssets(mContext, path);
         }
         return sampleBM;
     }
 
-    public Bitmap getSDCardPhoto(String path) {
+    public Bitmap getSampleBitMap(String path) {
+        return getSampleBitMap(path, 0.5f);
+    }
+
+    public Bitmap getSDCardPhoto(String path, float scale) {
         File file = new File(path);
         if (file.exists()) {
-            return BitmapUtil.decodeSampleBitMapFromFile(mContext, path, 0.5f);
+            return BitmapUtil.decodeSampleBitMapFromFile(mContext, path, scale);
         } else {
             return null;
         }

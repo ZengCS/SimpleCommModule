@@ -38,6 +38,8 @@ public interface IBaseSketchView {
 
     void setBackgroundByPath(String path);
 
+    void setBackgroundByPath(String path, float scale);
+
     /**
      * 用户添加的图片，通过此方式添加的图片不会被清空
      * url 和 bitmap任一有值即可,如果两者都有值,取bitmap

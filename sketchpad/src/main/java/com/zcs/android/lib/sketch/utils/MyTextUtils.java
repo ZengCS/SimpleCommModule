@@ -265,4 +265,17 @@ public class MyTextUtils {
             e.printStackTrace();
         }
     }
+
+    public static boolean isPicUrl(String url) {
+        boolean isPic = false;
+        // 2016年11月10日10:39:22 remove ".GIF",".gif" type
+        String[] picTypes = {".jpg", ".jpeg", ".png", ".bmp", ".webp",".JPG", ".JPEG", ".PNG", ".BMP",".WEBP"};
+        for (String type : picTypes) {
+            if (url.endsWith(type)) {
+                isPic = true;
+                break;
+            }
+        }
+        return isPic;
+    }
 }
