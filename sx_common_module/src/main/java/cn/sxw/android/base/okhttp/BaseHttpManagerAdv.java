@@ -271,6 +271,12 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                             }
                         }
                     } else {
+                        if (!response.contains("code")) {
+                            if (canCallback(activity, callback)) {
+                                mHandler.post(() -> callback.onResult(req, (V) response));
+                            }
+                            return;
+                        }
                         int code = baseResponse.getCode();
                         if (code == HttpCode.TOKEN_HAVE_EXPIRED// token过期
                                 || code == HttpCode.TOKEN_NOT_FOUND// token未找到
