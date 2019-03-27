@@ -61,6 +61,14 @@ public class BaseHttpManagerAdv implements OkApiHelper {
     // 公用Handler
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
+    private OkHttpClient httpClient = new OkHttpClient.Builder()
+            .connectTimeout(15_000, TimeUnit.MILLISECONDS)
+            .readTimeout(15_000, TimeUnit.MILLISECONDS)
+            // .writeTimeout(15_000, TimeUnit.MILLISECONDS)
+            // 禁用缓存
+            // .cache(new Cache(BaseApplication.getContext().getCacheDir(), 10 * 1024 * 1024))
+            .build();
+
     // 单例控制
     public static BaseHttpManagerAdv getInstance() {
         if (sInstance == null) {
@@ -286,7 +294,11 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                         if (onResultCallback != null)
                             onResultCallback.onError(req, baseResponse.getMessage());
                         if (canCallback(activity, callback)) {
-                            mHandler.post(() -> callback.onFail(req, code, baseResponse.getMessage()));
+                            if (code == HttpCode.OK) {
+                                mHandler.post(() -> callback.onResult(req, (V) response));
+                            } else {
+                                mHandler.post(() -> callback.onFail(req, code, baseResponse.getMessage()));
+                            }
                         }
                     }
                 } else if (response.contains("403") || response.contains("Forbidden")) {
@@ -358,14 +370,6 @@ public class BaseHttpManagerAdv implements OkApiHelper {
             }
         }).start();
     }
-
-    private OkHttpClient httpClient = new OkHttpClient.Builder()
-            .connectTimeout(15000, TimeUnit.MILLISECONDS)
-            .readTimeout(15000, TimeUnit.MILLISECONDS)
-            // .writeTimeout(15000, TimeUnit.MILLISECONDS)
-            // 禁用缓存
-            // .cache(new Cache(BaseApplication.getContext().getCacheDir(), 10 * 1024 * 1024))
-            .build();
 
     private String execute(String url, Map<String, String> headMap, String jsonString, int methodType) throws IOException {
         LogUtil.methodStartHttp("发送Http请求");
