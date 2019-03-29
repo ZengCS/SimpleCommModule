@@ -36,6 +36,9 @@ public abstract class BaseRequest {
     // 将Activity设置为弱引用,解决内存泄漏问题
     @JSONField(serialize = false)
     private WeakReference<Activity> activityWeakReference;
+    // 2019年3月29日
+    @JSONField(serialize = false)
+    private boolean responseAllWhenError = false;// 当发生异常时,返回所有信息
 
     protected abstract <T, V> HttpCallback<T, V> getHttpCallback();
 
@@ -147,5 +150,13 @@ public abstract class BaseRequest {
 
     public void setAllowAutoLogin(boolean allowAutoLogin) {
         this.allowAutoLogin = allowAutoLogin;
+    }
+
+    public boolean isResponseAllWhenError() {
+        return responseAllWhenError;
+    }
+
+    public void setResponseAllWhenError(boolean responseAllWhenError) {
+        this.responseAllWhenError = responseAllWhenError;
     }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import cn.sxw.android.base.ui.BaseApplication;
+
 /**
  * Created by Alex.Tang on 2017-07-11.
  */
@@ -35,7 +37,11 @@ public class NetworkUtil {
      * 3G : mConnectivityManager.TYPE_MOBILE mobile 0 WIFI:
      * mConnectivityManager.TYPE_WIFI wifi 1
      */
-    public static boolean isConnected(Context context) {
+    public static boolean isConnected() {
+        Context context = BaseApplication.getContext();
+        if (context == null)
+            return false;
+
         String service = Context.CONNECTIVITY_SERVICE;
         ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(service);
         if (mConnectivityManager == null)

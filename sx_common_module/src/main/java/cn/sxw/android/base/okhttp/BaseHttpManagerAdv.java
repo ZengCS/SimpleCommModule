@@ -228,7 +228,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
         Map<String, String> headMap = req.getHeadMap();
         HttpCallback<BaseRequest, V> callback = req.getHttpCallback();
 
-        if (!NetworkUtil.isConnected(activity)) {
+        if (!NetworkUtil.isConnected()) {
             if (canCallback(activity, callback)) {
                 mHandler.post(() -> callback.onFail(null, HttpCode.NETWORK_ERROR, "请检查网络是否连接"));
             }
@@ -271,11 +271,20 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                             }
                         }
                     } else {
-                        if (!response.contains("code")) {
+                        // 2019年3月29日17:28:41 适用于一些非正常格式的JSON返回值
+                        if (req.isResponseAllWhenError()) {
                             if (canCallback(activity, callback)) {
-                                mHandler.post(() -> callback.onResult(req, (V) response));
+                                try {
+                                    String typeName = req.getTypeReference().getType().toString();
+                                    // 因为这里response是String类型的,如果泛型不是String的话,这里要Crash
+                                    if (!TextUtils.isEmpty(typeName) && typeName.contains("java.lang.String")) {
+                                        mHandler.post(() -> callback.onResult(req, (V) response));
+                                        return;
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
-                            return;
                         }
                         int code = baseResponse.getCode();
                         if (code == HttpCode.TOKEN_HAVE_EXPIRED// token过期
@@ -300,11 +309,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                         if (onResultCallback != null)
                             onResultCallback.onError(req, baseResponse.getMessage());
                         if (canCallback(activity, callback)) {
-                            if (code == HttpCode.OK) {
-                                mHandler.post(() -> callback.onResult(req, (V) response));
-                            } else {
-                                mHandler.post(() -> callback.onFail(req, code, baseResponse.getMessage()));
-                            }
+                            mHandler.post(() -> callback.onFail(req, code, baseResponse.getMessage()));
                         }
                     }
                 } else if (response.contains("403") || response.contains("Forbidden")) {
@@ -513,7 +518,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
     }
 
     public boolean downloadFile(Activity activity, String req, File outFile, HttpFileCallBack callback) {
-        if (!NetworkUtil.isConnected(activity)) {
+        if (!NetworkUtil.isConnected()) {
             if (canCallback(activity, callback)) {
                 mHandler.post(() -> callback.onFail(null, HttpCode.NETWORK_ERROR, "请检查网络是否连接"));
             }
