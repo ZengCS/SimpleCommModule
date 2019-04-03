@@ -123,17 +123,18 @@ public class ActivityStackManger {
 
     /**
      * finish指定的Activity之上的所有Activity
+     *
+     * @param actCls        目标Activity
+     * @param isIncludeSelf 是否关闭当前位于栈顶的Activity
+     * @return
      */
     public boolean finishToActivity(Class<? extends Activity> actCls, boolean isIncludeSelf) {
         List<Activity> buf = new ArrayList<Activity>();
         int size = mActivityStack.size();
-        Activity activity = null;
+        Activity activity;
         for (int i = size - 1; i >= 0; i--) {
             activity = mActivityStack.get(i);
             if (activity.getClass().isAssignableFrom(actCls)) {
-                if (isIncludeSelf) {
-                    buf.add(activity);
-                }
                 for (Activity a : buf) {
                     a.finish();
                 }
