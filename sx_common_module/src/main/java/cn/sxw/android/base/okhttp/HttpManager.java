@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.sxw.android.base.net.CustomNetConfig;
+
 /**
  * HttpManager
  *
@@ -51,10 +53,15 @@ public class HttpManager implements OkApiHelper {
     }
 
     public String getHost() {
+        if (TextUtils.isEmpty(host)) {// 因为异常情况导致host消失，这里从配置中重新获取
+            host = CustomNetConfig.getHost();
+        }
         return host;
     }
 
     public String getScheme() {
+        if (TextUtils.isEmpty(scheme))
+            scheme = "http";
         return scheme;
     }
 
