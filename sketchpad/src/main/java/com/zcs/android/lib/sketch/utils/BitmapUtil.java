@@ -7,9 +7,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.WindowManager;
 
 import java.io.File;
@@ -319,16 +321,22 @@ public class BitmapUtil {
         BitmapFactory.decodeFile(filePath, options);
         //再用屏幕一半高宽、缩小后的高宽对比，取小值进行缩放
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        int reqWidth = wm.getDefaultDisplay().getWidth();
-        int reqHeight = wm.getDefaultDisplay().getWidth();
-        int scaleWidth = (int) (options.outWidth * sampleScale);
-        int scaleHeight = (int) (options.outHeight * sampleScale);
-        reqWidth = Math.min(reqWidth, scaleWidth);
-        reqHeight = Math.min(reqHeight, scaleHeight);
-        options = sampleBitmapOptions(context, options, reqWidth, reqHeight);
-        Bitmap bm = BitmapFactory.decodeFile(filePath, options);
-        Log.e("xxx", bm.getByteCount() + "");
-        return bm;
+        if (wm != null) {
+            Display defaultDisplay = wm.getDefaultDisplay();
+            Point outSize = new Point();
+            defaultDisplay.getSize(outSize);
+            int reqWidth = outSize.x;
+            int reqHeight = outSize.y;
+            int scaleWidth = (int) (options.outWidth * sampleScale);
+            int scaleHeight = (int) (options.outHeight * sampleScale);
+            reqWidth = Math.min(reqWidth, scaleWidth);
+            reqHeight = Math.min(reqHeight, scaleHeight);
+            options = sampleBitmapOptions(context, options, reqWidth, reqHeight);
+            Bitmap bm = BitmapFactory.decodeFile(filePath, options);
+            Log.e("xxx", bm.getByteCount() + "");
+            return bm;
+        }
+        return null;
     }
 
     public static Bitmap decodeSampleBitMapFromResource(Context context, int resId, int reqWidth, int reqHeight) {
