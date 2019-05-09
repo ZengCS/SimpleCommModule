@@ -17,6 +17,8 @@ public class AutoLayoutConfig {
 
     private static final String KEY_DESIGN_WIDTH = "design_width";
     private static final String KEY_DESIGN_HEIGHT = "design_height";
+    private static final String KEY_DESIGN_WIDTH_FOR_PHONE = "design_width_phone";
+    private static final String KEY_DESIGN_HEIGHT_FOR_PHONE = "design_height_phone";
 
     private int mScreenWidth;
     private int mScreenHeight;
@@ -26,6 +28,7 @@ public class AutoLayoutConfig {
 
     private boolean useDeviceSize = false;
     private boolean useLandscape = false;
+    private boolean forPhoneUsage = false;// 给手机用的
 
 
     private AutoLayoutConfig() {
@@ -50,6 +53,17 @@ public class AutoLayoutConfig {
         return this;
     }
 
+    public AutoLayoutConfig usePortrait() {
+        L.e("usePortrait");
+        useLandscape = false;
+        return this;
+    }
+
+    public AutoLayoutConfig forPhoneUsage() {
+        L.e("forPhoneUsage");
+        forPhoneUsage = true;
+        return this;
+    }
 
     public static AutoLayoutConfig getInstance() {
         return sInstance;
@@ -74,7 +88,11 @@ public class AutoLayoutConfig {
 
 
     public void init(Context context) {
-        getMetaData(context);
+        if (forPhoneUsage) {
+            getPhoneMetaData(context);
+        } else {
+            getMetaData(context);
+        }
 
         int[] screenSize = ScreenUtils.getScreenSize(context, useDeviceSize);
         int size1 = screenSize[0];
@@ -89,6 +107,23 @@ public class AutoLayoutConfig {
             mScreenHeight = Math.max(size1, size2);
         }
         L.e(" screenWidth =" + mScreenWidth + " ,screenHeight = " + mScreenHeight);
+    }
+
+    private void getPhoneMetaData(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        ApplicationInfo applicationInfo;
+        try {
+            applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            if (applicationInfo != null && applicationInfo.metaData != null) {
+                mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH_FOR_PHONE);
+                mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT_FOR_PHONE);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(
+                    "you must set " + KEY_DESIGN_WIDTH_FOR_PHONE + " and " + KEY_DESIGN_HEIGHT_FOR_PHONE + "  in your manifest file.", e);
+        }
+
+        L.e(" designWidth =" + mDesignWidth + " , designHeight = " + mDesignHeight);
     }
 
     private void getMetaData(Context context) {
@@ -108,19 +143,6 @@ public class AutoLayoutConfig {
                     mDesignWidth = Math.min(size1, size2);
                     mDesignHeight = Math.max(size1, size2);
                 }
-//                try {
-//                    int orientation = context.getResources().getConfiguration().orientation;
-//                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {// 横屏
-//                        mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
-//                        mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
-//                    } else {// 竖屏
-//                        mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
-//                        mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
-//                    }
-//                } catch (Exception e) {
-//                    mDesignWidth = (int) applicationInfo.metaData.get(KEY_DESIGN_WIDTH);
-//                    mDesignHeight = (int) applicationInfo.metaData.get(KEY_DESIGN_HEIGHT);
-//                }
             }
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(
