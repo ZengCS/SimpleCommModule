@@ -9,7 +9,6 @@
         android:id="@+id/ic_zcv_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:duration_max="60000"
         app:iconMargin="20dp"
         app:iconRight="@drawable/ic_record"
         app:iconSize="30dp"

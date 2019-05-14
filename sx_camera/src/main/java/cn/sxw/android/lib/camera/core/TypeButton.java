@@ -7,8 +7,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.View;
 
-import cn.sxw.android.lib.camera.util.CustomColors;
-
 public class TypeButton extends View {
     public static final int TYPE_CANCEL = 0x001;
     public static final int TYPE_CONFIRM = 0x002;
@@ -57,11 +55,11 @@ public class TypeButton extends View {
         //如果类型为取消，则绘制内部为返回箭头
         if (button_type == TYPE_CANCEL) {
             mPaint.setAntiAlias(true);
-            mPaint.setColor(CustomColors.OUTSIDE_COLOR);
+            mPaint.setColor(CameraConfig.OUTSIDE_COLOR);
             mPaint.setStyle(Paint.Style.FILL);
             canvas.drawCircle(center_X, center_Y, button_radius, mPaint);
 
-            mPaint.setColor(CustomColors.CANCEL_COLOR);
+            mPaint.setColor(CameraConfig.CANCEL_COLOR);
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(strokeWidth);
 
@@ -83,12 +81,12 @@ public class TypeButton extends View {
         //如果类型为确认，则绘制绿色勾
         if (button_type == TYPE_CONFIRM) {
             mPaint.setAntiAlias(true);
-            mPaint.setColor(CustomColors.OUTSIDE_COLOR);
+            mPaint.setColor(CameraConfig.OUTSIDE_COLOR);
             mPaint.setStyle(Paint.Style.FILL);
             canvas.drawCircle(center_X, center_Y, button_radius, mPaint);
             mPaint.setAntiAlias(true);
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setColor(CustomColors.PROGRESS_COLOR);
+            mPaint.setColor(CameraConfig.PROGRESS_COLOR);
             mPaint.setStrokeWidth(strokeWidth);
 
             path.moveTo(center_X - button_size / 6f, center_Y);

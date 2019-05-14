@@ -126,7 +126,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         iconSrc = a.getResourceId(R.styleable.ZCameraView_iconSrc, R.drawable.ic_camera);
         iconLeft = a.getResourceId(R.styleable.ZCameraView_iconLeft, 0);
         iconRight = a.getResourceId(R.styleable.ZCameraView_iconRight, 0);
-        duration = a.getInteger(R.styleable.ZCameraView_duration_max, 10 * 1000);       //没设置默认为60s
+        duration = a.getInteger(R.styleable.ZCameraView_duration_max, CameraConfig.MAX_RECORD_DURATION);       //没设置默认为60s
         a.recycle();
         initData();
         initView();

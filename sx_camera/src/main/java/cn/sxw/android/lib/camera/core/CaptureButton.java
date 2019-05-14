@@ -15,7 +15,7 @@ import android.view.View;
 import cn.sxw.android.lib.camera.listener.CaptureListener;
 import cn.sxw.android.lib.camera.listener.RecordTimeListener;
 import cn.sxw.android.lib.camera.util.CheckPermission;
-import cn.sxw.android.lib.camera.util.CustomColors;
+import cn.sxw.android.lib.camera.util.LogUtil;
 
 import static cn.sxw.android.lib.camera.core.ZCameraView.BUTTON_STATE_BOTH;
 import static cn.sxw.android.lib.camera.core.ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
@@ -53,12 +53,8 @@ public class CaptureButton extends View {
     private float button_inside_radius;     //内圆半径
     private int button_size;                //按钮大小
 
-    private float progress;         //录制视频的进度
     private int duration;           //录制视频最大时间长度
-    private int min_duration;       //最短录制时间限制
-    private int mRecordedTime;      //记录当前录制的时间
-
-    private RectF rectF;
+    private long mRecordedTime;      //记录当前录制的时间
 
     private LongPressRunnable longPressRunnable;    //长按后处理的逻辑Runnable
     private CaptureListener captureListener;        //按钮回调接口
@@ -84,18 +80,16 @@ public class CaptureButton extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
 
-        progress = 0;
         longPressRunnable = new LongPressRunnable();
 
         state = STATE_IDLE;                //初始化为空闲状态
         button_state = BUTTON_STATE_BOTH;  //初始化按钮为可录制可拍照
-        duration = 60 * 1000;              //默认最长录制时间为1分钟
-        min_duration = 1_000;              //默认最短录制时间为1s
+        duration = CameraConfig.MAX_RECORD_DURATION;//默认最长录制时间为1分钟
 
         center_X = (button_size + outside_add_size * 2) / 2f;
         center_Y = (button_size + outside_add_size * 2) / 2f;
 
-        rectF = new RectF(
+        RectF rectF = new RectF(
                 center_X - (button_radius + outside_add_size - strokeWidth / 2),
                 center_Y - (button_radius + outside_add_size - strokeWidth / 2),
                 center_X + (button_radius + outside_add_size - strokeWidth / 2),
@@ -127,10 +121,10 @@ public class CaptureButton extends View {
         super.onDraw(canvas);
         mPaint.setStyle(Paint.Style.FILL);
 
-        mPaint.setColor(CustomColors.OUTSIDE_COLOR); //外圆（半透明灰色）
+        mPaint.setColor(CameraConfig.OUTSIDE_COLOR); //外圆（半透明灰色）
         canvas.drawCircle(center_X, center_Y, button_outside_radius, mPaint);
 
-        mPaint.setColor(mAction == ACTION_PHOTO ? CustomColors.INSIDE_COLOR : CustomColors.INSIDE_RECORD_COLOR);  //内圆（拍照:白色,视频:红色）
+        mPaint.setColor(mAction == ACTION_PHOTO ? CameraConfig.INSIDE_COLOR : CameraConfig.INSIDE_RECORD_COLOR);  //内圆（拍照:白色,视频:红色）
         if (mAction == ACTION_RECORD_FINISH) {
             float rectSize = button_size * 0.25f;
             @SuppressLint("DrawAllocation")
@@ -143,7 +137,7 @@ public class CaptureButton extends View {
 
         //如果状态为录制状态，则绘制录制进度条
 //        if (state == STATE_RECORDER_ING) {
-//            mPaint.setColor(CustomColors.PROGRESS_COLOR);
+//            mPaint.setColor(CameraConfig.PROGRESS_COLOR);
 //            mPaint.setStyle(Paint.Style.STROKE);
 //            mPaint.setStrokeWidth(strokeWidth);
 //            canvas.drawArc(rectF, -90, progress, false, mPaint);
@@ -210,7 +204,7 @@ public class CaptureButton extends View {
     //录制结束
     private void recordEnd() {
         if (captureListener != null) {
-            if (mRecordedTime < min_duration)
+            if (mRecordedTime < CameraConfig.MIN_RECORD_DURATION)
                 captureListener.recordShort(mRecordedTime);//回调录制时间过短
             else
                 captureListener.recordEnd(mRecordedTime);  //回调录制结束
@@ -222,7 +216,6 @@ public class CaptureButton extends View {
     private void resetRecordAnim() {
         state = STATE_BAN;
 
-        progress = 0;       //重制进度
         invalidate();
         // 还原按钮初始状态动画
         startRecordAnimation(
@@ -291,8 +284,7 @@ public class CaptureButton extends View {
 
     //更新进度条
     private void updateProgress(long millisUntilFinished) {
-        mRecordedTime = (int) (duration - millisUntilFinished);
-        progress = 360f - millisUntilFinished / (float) duration * 360f;
+        mRecordedTime = duration - millisUntilFinished;
         if (recordTimeListener != null)
             recordTimeListener.onTimeChanged(mRecordedTime);
         // invalidate();
@@ -306,6 +298,7 @@ public class CaptureButton extends View {
 
         @Override
         public void onTick(long millisUntilFinished) {
+            LogUtil.d("onTick: millisUntilFinished = " + millisUntilFinished);
             updateProgress(millisUntilFinished);
         }
 
@@ -351,12 +344,7 @@ public class CaptureButton extends View {
     //设置最长录制时间
     public void setDuration(int duration) {
         this.duration = duration;
-        timer = new RecordCountDownTimer(duration, duration / 360);    //录制定时器
-    }
-
-    //设置最短录制时间
-    public void setMinDuration(int duration) {
-        this.min_duration = duration;
+        timer = new RecordCountDownTimer(duration, 1000);    //录制定时器
     }
 
     //设置回调接口

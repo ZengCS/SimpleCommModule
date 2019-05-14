@@ -19,6 +19,7 @@ import cn.sxw.android.lib.camera.R;
 import cn.sxw.android.lib.camera.listener.CaptureListener;
 import cn.sxw.android.lib.camera.listener.ClickListener;
 import cn.sxw.android.lib.camera.listener.TypeListener;
+import cn.sxw.android.lib.camera.util.CommonUtils;
 
 public class CaptureLayout extends FrameLayout {
 
@@ -106,8 +107,8 @@ public class CaptureLayout extends FrameLayout {
         btn_confirm.setVisibility(VISIBLE);
         btn_cancel.setClickable(false);
         btn_confirm.setClickable(false);
-        ObjectAnimator animator_cancel = ObjectAnimator.ofFloat(btn_cancel, "translationX", layout_width / 4, 0);
-        ObjectAnimator animator_confirm = ObjectAnimator.ofFloat(btn_confirm, "translationX", -layout_width / 4, 0);
+        ObjectAnimator animator_cancel = ObjectAnimator.ofFloat(btn_cancel, "translationX", layout_width / 4f, 0);
+        ObjectAnimator animator_confirm = ObjectAnimator.ofFloat(btn_confirm, "translationX", -layout_width / 4f, 0);
 
         AnimatorSet set = new AnimatorSet();
         set.playTogether(animator_cancel, animator_confirm);
@@ -139,6 +140,9 @@ public class CaptureLayout extends FrameLayout {
                     break;
                 case CaptureButton.ACTION_RECORD:// 录视频
                     mCaptureBtn.startRecord();
+                    // 录制过程中，不允许切换和退出
+                    iv_custom_right.setVisibility(GONE);
+                    btn_return.setVisibility(GONE);
                     break;
                 case CaptureButton.ACTION_RECORD_FINISH:// 停止录视频
                     mCaptureBtn.stopRecord();
@@ -146,7 +150,7 @@ public class CaptureLayout extends FrameLayout {
             }
         });
 
-        mCaptureBtn.addRecordTimeListener(time -> showTime(true, timeToString(time)));
+        mCaptureBtn.addRecordTimeListener(time -> showTime(true, CommonUtils.timeToString4Timer(time)));
 
         mCaptureBtn.setCaptureListener(new CaptureListener() {
             @Override
@@ -340,6 +344,11 @@ public class CaptureLayout extends FrameLayout {
 
     public void setButtonFeatures(int state) {
         mCaptureBtn.setButtonFeatures(state);
+        if (state == ZCameraView.BUTTON_STATE_BOTH) {
+            iv_custom_right.setVisibility(VISIBLE);
+        } else {
+            iv_custom_right.setVisibility(INVISIBLE);
+        }
     }
 
     public void setTip(String tip) {
