@@ -2,20 +2,33 @@ package cn.sxw.android.lib.camera.util;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.text.TextUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import cn.sxw.android.lib.camera.core.CameraApp;
+
 public class FileUtil {
     private static final File parentPath = Environment.getExternalStorageDirectory();
     private static String storagePath = "";
-    private static String DST_FOLDER_NAME = "JCameraPic";
+    private static String DST_FOLDER_NAME = "ZCameraPic";
 
     private static String initPath() {
-        if (storagePath.equals("")) {
-            storagePath = parentPath.getAbsolutePath() + File.separator + DST_FOLDER_NAME;
+        if (TextUtils.isEmpty(storagePath)) {
+            if (CameraApp.getApp() != null) {
+                File externalCacheDir = CameraApp.getApp().getExternalCacheDir();
+                if (externalCacheDir != null) {
+                    storagePath = externalCacheDir.getAbsolutePath()
+                            .concat(File.separator)
+                            .concat(DST_FOLDER_NAME);
+                }
+            }
+            if (TextUtils.isEmpty(storagePath)) {
+                storagePath = parentPath.getAbsolutePath().concat(File.separator).concat(DST_FOLDER_NAME);
+            }
             File f = new File(storagePath);
             if (!f.exists()) {
                 f.mkdir();

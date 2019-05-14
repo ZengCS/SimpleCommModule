@@ -43,7 +43,7 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         mCameraView = findViewById(R.id.ic_zcv_camera);
 
         //设置视频保存路径
-        mCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
+        mCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "ZCamera");
         mCameraView.setFeatures(ZCameraView.BUTTON_STATE_BOTH);
         mCameraView.setTip("轻触拍照");
         mCameraView.setMediaQuality(ZCameraView.MEDIA_QUALITY_MIDDLE);
@@ -62,12 +62,12 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
             }
         });
         //ZCameraView监听
-        mCameraView.setJCameraListener(new ZCameraListener() {
+        mCameraView.setZCameraListener(new ZCameraListener() {
             @Override
             public void captureSuccess(Bitmap bitmap) {
                 //获取图片bitmap
                 Log.i("ZCameraView", "bitmap = " + bitmap.getWidth());
-                String path = FileUtil.saveBitmap("JCamera", bitmap);
+                String path = FileUtil.saveBitmap("ZCamera", bitmap);
                 LogUtil.d("图片保存成功:" + path);
                 onPhotoResult(path);
             }

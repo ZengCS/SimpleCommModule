@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -44,6 +45,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     // Camera状态机
     private CameraMachine mCameraMachine;
+    private boolean hasFlashLight, hasFrontCamera;
 
     // 闪关灯状态
     private static final int TYPE_FLASH_AUTO = 0x021;
@@ -131,6 +133,10 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         duration = a.getInteger(R.styleable.ZCameraView_duration_max, CameraConfig.MAX_RECORD_DURATION);       //没设置默认为60s
         a.recycle();
         initData();
+
+        hasFlashLight = mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+        hasFrontCamera = mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT);
+
         initView();
     }
 
@@ -165,24 +171,34 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mSwitchCamera = view.findViewById(R.id.image_switch);
         mSwitchCamera.setImageResource(iconSrc);
         mFlashLamp = view.findViewById(R.id.image_flash);
-        setFlashRes();
-        mFlashLamp.setOnClickListener(v -> {
-            mTypeFlash++;
-            if (mTypeFlash > 0x023)
-                mTypeFlash = TYPE_FLASH_AUTO;
+        if (hasFlashLight) {
             setFlashRes();
-        });
+            mFlashLamp.setOnClickListener(v -> {
+                mTypeFlash++;
+                if (mTypeFlash > 0x023)
+                    mTypeFlash = TYPE_FLASH_AUTO;
+                setFlashRes();
+            });
+        } else {// 你的设备没有闪光灯
+            mFlashLamp.setVisibility(INVISIBLE);
+        }
+
         mCaptureLayout = view.findViewById(R.id.capture_layout);
         mCaptureLayout.setDuration(duration);
         mCaptureLayout.setIconSrc(iconLeft, iconRight);
         mFocusView = view.findViewById(R.id.id_focus_view);
         mVideoView.getHolder().addCallback(this);
-        //切换摄像头
-        mSwitchCamera.setOnClickListener(v -> {
-            mCameraMachine.switchCamera(mVideoView.getHolder(), screenProp);
-            // 每次切换摄像头后，刷新对焦
-            autoFocusDelay();
-        });
+        if (hasFrontCamera) {
+            //切换摄像头
+            mSwitchCamera.setOnClickListener(v -> {
+                mCameraMachine.switchCamera(mVideoView.getHolder(), screenProp);
+                // 每次切换摄像头后，刷新对焦
+                autoFocusDelay();
+            });
+        } else {
+            mSwitchCamera.setVisibility(INVISIBLE);
+        }
+
         //拍照 录像
         mCaptureLayout.setCaptureListener(new CaptureListener() {
             @Override
@@ -202,8 +218,8 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
             @Override
             public void recordShort(final long time) {
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
-                mSwitchCamera.setVisibility(VISIBLE);
-                mFlashLamp.setVisibility(VISIBLE);
+                mSwitchCamera.setVisibility(hasFrontCamera ? VISIBLE : INVISIBLE);
+                mFlashLamp.setVisibility(hasFlashLight ? VISIBLE : INVISIBLE);
                 postDelayed(() -> mCameraMachine.stopRecord(true, time), 1500 - time);
             }
 
@@ -387,7 +403,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         CameraInterface.getInstance().setSaveVideoPath(path);
     }
 
-    public void setJCameraListener(ZCameraListener cameraListener) {
+    public void setZCameraListener(ZCameraListener cameraListener) {
         this.zCameraListener = cameraListener;
     }
 
@@ -428,8 +444,8 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
                 mVideoView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
                 break;
         }
-        mSwitchCamera.setVisibility(VISIBLE);
-        mFlashLamp.setVisibility(VISIBLE);
+        mSwitchCamera.setVisibility(hasFrontCamera ? VISIBLE : INVISIBLE);
+        mFlashLamp.setVisibility(hasFlashLight ? VISIBLE : INVISIBLE);
         mCaptureLayout.resetCaptureLayout();
     }
 
