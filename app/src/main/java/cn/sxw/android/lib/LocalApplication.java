@@ -5,6 +5,7 @@ import com.zhy.autolayout.config.AutoLayoutConfig;
 import cn.sxw.android.base.net.bean.LocalTokenCache;
 import cn.sxw.android.base.okhttp.HttpManager;
 import cn.sxw.android.base.ui.BaseApplication;
+import cn.sxw.android.lib.camera.core.CameraApp;
 
 /**
  * Created by ZengCS on 2019/1/8.
@@ -16,6 +17,7 @@ public class LocalApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        CameraApp.init(this);
 
         // 初始化HttpManager
         // For test http://www.mocky.io/v2/5c35b8e63000009f0021b4a3

@@ -29,4 +29,11 @@
         android:onClick="openSketchActivity"
         android:text="画板" />
 
+    <Button
+        android:id="@+id/id_btn_z_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openZCamera"
+        android:text="自定义相机" />
+
 </LinearLayout>

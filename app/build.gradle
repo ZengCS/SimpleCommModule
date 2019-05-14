@@ -32,6 +32,7 @@ dependencies {
     implementation var.constraintLayout
 
     implementation project(':sx_common_module')
+    implementation project(':sx_camera')
 
     // Dagger2 & AndroidAnnotations
     annotationProcessor var.dagger_compiler

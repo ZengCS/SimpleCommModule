@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import cn.sxw.android.lib.mvp.ui.activity.EmptyActivity_;
+import cn.sxw.android.lib.mvp.ui.activity.ZCameraActivity;
 import cn.sxw.android.lib.ui.PermissionActivity;
 import cn.sxw.android.lib.ui.SketchPadActivity;
 import cn.sxw.android.lib.ui.base.CustomBaseActivity;
@@ -15,6 +16,11 @@ public class MainActivity extends CustomBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void openZCamera(View view){
+        Intent intent = new Intent(this, ZCameraActivity.class);
+        startActivity(intent);
     }
 
     public void openPermissionActivity(View view) {

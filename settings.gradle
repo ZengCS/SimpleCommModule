@@ -1,1 +1,1 @@
-include ':app', ':autolayout', ':sx_common_module', ':sketchpad'
+include ':app', ':autolayout', ':sx_common_module', ':sketchpad', ':sx_camera'
