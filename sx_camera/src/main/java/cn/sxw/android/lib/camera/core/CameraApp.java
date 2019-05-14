@@ -13,10 +13,15 @@ public class CameraApp {
     private static SoftReference<Context> ctx;
 
     public static void init(Context context) {
-        ctx = new SoftReference<>(context);
+        if (context == null)
+            ctx = null;
+        else
+            ctx = new SoftReference<>(context);
     }
 
     public static Context getApp() {
+        if (ctx == null)
+            return null;
         return ctx.get();
     }
 }
