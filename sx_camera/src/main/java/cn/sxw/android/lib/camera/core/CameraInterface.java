@@ -364,9 +364,8 @@ public class CameraInterface implements Camera.PreviewCallback {
         }
 //
         Log.i("ZCamera", angle + " = " + cameraAngle + " = " + nowAngle);
-        mCamera.takePicture(null, null, new Camera.PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] data, Camera camera) {
+        try {
+            mCamera.takePicture(null, null, (data, camera) -> {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 Matrix matrix = new Matrix();
                 if (SELECTED_CAMERA == CAMERA_POST_POSITION) {
@@ -384,8 +383,10 @@ public class CameraInterface implements Camera.PreviewCallback {
                         callback.captureResult(bitmap, false);
                     }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //启动录像

@@ -30,5 +30,8 @@ dependencies {
 
     implementation rootProject.ext.var.appcompat_v7
     implementation rootProject.ext.var.design
-    implementation var.eventBus
+
+    // permission 3.1.0
+    implementation var.permissionsDispatcher
+    annotationProcessor var.permissionsDispatcherProcessor
 }

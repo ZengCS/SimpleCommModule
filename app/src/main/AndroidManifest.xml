@@ -37,7 +37,7 @@
         <activity android:name=".ui.PermissionActivity" />
         <activity android:name=".mvp.ui.activity.EmptyActivity_" />
         <activity
-            android:name=".mvp.ui.activity.ZCameraActivity"
+            android:name=".mvp.ui.activity.CameraDemoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SketchPadActivity"

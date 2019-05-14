@@ -1,5 +1,7 @@
 package cn.sxw.android.lib.camera.core;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -550,6 +552,12 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         animSet.play(scaleX).with(scaleY).before(alpha);
         animSet.setDuration(400);
         animSet.start();
+        animSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mFocusView.setVisibility(INVISIBLE);
+            }
+        });
         return true;
     }
 
