@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.io.File;
@@ -130,6 +131,8 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
             int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
             decorView.setSystemUiVisibility(option);
         }
+        // 设置常亮
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -138,6 +141,12 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         if (isGranted && mCameraView != null) {
             mCameraView.onResume();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        requestFullScreen();
     }
 
     @Override

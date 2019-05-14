@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.sxw.android.lib.camera" />
+    package="cn.sxw.android.lib.camera">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <application />
+</manifest>
