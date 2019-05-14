@@ -29,15 +29,14 @@ class PreviewState implements State {
 
 
     @Override
-    public void foucs(float x, float y, CameraInterface.FocusCallback callback) {
-        LogUtil.i("preview state foucs");
+    public void focus(float x, float y, CameraInterface.FocusCallback callback) {
         if (machine.getView().handlerFocus(x, y)) {
             CameraInterface.getInstance().handleFocus(machine.getContext(), x, y, callback);
         }
     }
 
     @Override
-    public void swtich(SurfaceHolder holder, float screenProp) {
+    public void switchCamera(SurfaceHolder holder, float screenProp) {
         CameraInterface.getInstance().switchCamera(holder, screenProp);
     }
 
@@ -79,8 +78,8 @@ class PreviewState implements State {
     }
 
     @Override
-    public void cancle(SurfaceHolder holder, float screenProp) {
-        LogUtil.i("浏览状态下,没有 cancle 事件");
+    public void cancel(SurfaceHolder holder, float screenProp) {
+        LogUtil.i("浏览状态下,没有 cancel 事件");
     }
 
     @Override

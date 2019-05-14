@@ -621,7 +621,7 @@ public class CameraInterface implements Camera.PreviewCallback {
                 }
             });
         } catch (Exception e) {
-            Log.e(TAG, "autoFocus failer");
+            Log.e(TAG, "autoFocus failed");
         }
     }
 

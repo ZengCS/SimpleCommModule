@@ -177,7 +177,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mVideoView.getHolder().addCallback(this);
         //切换摄像头
         mSwitchCamera.setOnClickListener(v -> {
-            mCameraMachine.swtich(mVideoView.getHolder(), screenProp);
+            mCameraMachine.switchCamera(mVideoView.getHolder(), screenProp);
             // 每次切换摄像头后，刷新对焦
             autoFocusDelay();
         });
@@ -227,7 +227,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mCaptureLayout.setTypeListener(new TypeListener() {
             @Override
             public void cancel() {
-                mCameraMachine.cancle(mVideoView.getHolder(), screenProp);
+                mCameraMachine.cancel(mVideoView.getHolder(), screenProp);
             }
 
             @Override
@@ -361,7 +361,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     //对焦框指示器动画
     private void setFocusViewWidthAnimation(float x, float y) {
-        mCameraMachine.foucs(x, y, () -> {
+        mCameraMachine.focus(x, y, () -> {
             mFocusView.setVisibility(INVISIBLE);
             SensorController.getInstance().unlockFocus();
         });

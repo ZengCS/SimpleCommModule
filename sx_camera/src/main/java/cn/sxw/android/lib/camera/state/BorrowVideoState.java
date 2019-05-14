@@ -27,13 +27,13 @@ public class BorrowVideoState implements State {
     }
 
     @Override
-    public void foucs(float x, float y, CameraInterface.FocusCallback callback) {
+    public void focus(float x, float y, CameraInterface.FocusCallback callback) {
 
     }
 
 
     @Override
-    public void swtich(SurfaceHolder holder, float screenProp) {
+    public void switchCamera(SurfaceHolder holder, float screenProp) {
 
     }
 
@@ -58,7 +58,7 @@ public class BorrowVideoState implements State {
     }
 
     @Override
-    public void cancle(SurfaceHolder holder, float screenProp) {
+    public void cancel(SurfaceHolder holder, float screenProp) {
         machine.getView().resetState(ZCameraView.TYPE_VIDEO);
         machine.setState(machine.getPreviewState());
     }
