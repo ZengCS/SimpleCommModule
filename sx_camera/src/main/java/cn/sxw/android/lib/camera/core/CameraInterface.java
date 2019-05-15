@@ -607,7 +607,7 @@ public class CameraInterface implements Camera.PreviewCallback {
                 if (mParams.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
                     mParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
                 } else {
-                    mParams.setFocusMode(Camera.Parameters.FLASH_MODE_AUTO);
+                    mParams.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 }
             }
             // ***********************************************

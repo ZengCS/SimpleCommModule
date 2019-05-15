@@ -9,6 +9,7 @@ import cn.sxw.android.base.okhttp.ApiConfig;
 import cn.sxw.android.base.okhttp.BaseRequest;
 import cn.sxw.android.base.okhttp.HttpCallback;
 import cn.sxw.android.base.okhttp.response.LoginResponse;
+import cn.sxw.android.base.utils.MyTextUtils;
 
 /**
  * Created by ZengCS on 2019/1/9.
@@ -61,6 +62,11 @@ public class LoginRequest extends BaseRequest {
     }
 
     public void setAccount(String account) {
+        if (MyTextUtils.isPhoneNumber(account)) {
+            setAccountType(0);
+        } else {
+            setAccountType(1);
+        }
         this.account = account;
     }
 

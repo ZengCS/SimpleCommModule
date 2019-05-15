@@ -11,9 +11,7 @@ import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -492,30 +490,26 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     public void playVideo(Bitmap firstFrame, final String url) {
         videoUrl = url;
         ZCameraView.this.firstFrame = firstFrame;
-        new Thread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void run() {
-                try {
-                    if (mMediaPlayer == null) {
-                        mMediaPlayer = new MediaPlayer();
-                    } else {
-                        mMediaPlayer.reset();
-                    }
-                    mMediaPlayer.setDataSource(url);
-                    mMediaPlayer.setSurface(mVideoView.getHolder().getSurface());
-                    mMediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mMediaPlayer.setOnVideoSizeChangedListener((mp, width, height) -> {
-                        // 更新updateVideoViewSize
-                        updateVideoViewSize(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
-                    });
-                    mMediaPlayer.setOnPreparedListener(mp -> mMediaPlayer.start());
-                    mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            try {
+                if (mMediaPlayer == null) {
+                    mMediaPlayer = new MediaPlayer();
+                } else {
+                    mMediaPlayer.reset();
                 }
+                mMediaPlayer.setDataSource(url);
+                mMediaPlayer.setSurface(mVideoView.getHolder().getSurface());
+                mMediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mMediaPlayer.setOnVideoSizeChangedListener((mp, width, height) -> {
+                    // 更新updateVideoViewSize
+                    updateVideoViewSize(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
+                });
+                mMediaPlayer.setOnPreparedListener(mp -> mMediaPlayer.start());
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }).start();
     }
