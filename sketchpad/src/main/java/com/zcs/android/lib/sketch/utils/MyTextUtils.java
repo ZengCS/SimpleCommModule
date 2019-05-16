@@ -153,7 +153,7 @@ public class MyTextUtils {
         if (isEmpty(str)) {
             return false;
         }
-        String strRegex = "[1][34578]\\d{9}";
+        String strRegex = "[1][0123456789]\\d{9}";
         boolean result = str.matches(strRegex);
         return result;
     }
