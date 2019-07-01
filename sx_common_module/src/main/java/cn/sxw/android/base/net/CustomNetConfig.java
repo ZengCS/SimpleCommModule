@@ -51,18 +51,18 @@ public class CustomNetConfig {
     private static class RunEnvironment {
         // Host
         static final String[] SXW_HOST = {
-                "api2.sxw.cn",      // 生产环境
-                "api2.pre.sxw.cn",  // 预发布环境域名
-                "api2.test.sxw.cn", // 测试环境域名
-                "api2.dev.sxw.cn"   // 开发环境域名
+                "api.sxw.cn",      // 生产环境
+                "api.pre.sxw.cn",  // 预发布环境域名
+                "apio.test.sxw.cn", // 测试环境域名
+                "api.dev.sxw.cn"   // 开发环境域名
         };
 
         // api
         static final String[] SXW_BASE_APIS = {
-                "http://api2.sxw.cn",      // 生产环境
-                "http://api2.pre.sxw.cn",  // 预发布环境域名
-                "http://api2.test.sxw.cn", // 测试环境域名
-                "http://api2.dev.sxw.cn"   // 开发环境域名
+                "http://api.sxw.cn",      // 生产环境
+                "http://api.pre.sxw.cn",  // 预发布环境域名
+                "http://apio.test.sxw.cn", // 测试环境域名
+                "http://api.dev.sxw.cn"   // 开发环境域名
         };
 
         static final String[] MDM_APIS = {
