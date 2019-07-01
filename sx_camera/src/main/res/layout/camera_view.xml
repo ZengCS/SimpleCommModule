@@ -33,15 +33,16 @@
             android:layout_height="wrap_content"
             android:background="?android:selectableItemBackground"
             android:padding="16dp"
-            android:src="@drawable/ic_flash_on" />
+            android:src="@drawable/ic_flash_on"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/image_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130px"
+            android:layout_height="130px"
+            android:padding="30px"
             android:background="?android:selectableItemBackground"
-            android:padding="16dp"
-            android:src="@drawable/ic_camera" />
+            android:src="@drawable/ic_live_camera" />
 
     </LinearLayout>
 

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -169,17 +168,17 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mSwitchCamera = view.findViewById(R.id.image_switch);
         mSwitchCamera.setImageResource(iconSrc);
         mFlashLamp = view.findViewById(R.id.image_flash);
-        if (hasFlashLight) {
-            setFlashRes();
-            mFlashLamp.setOnClickListener(v -> {
-                mTypeFlash++;
-                if (mTypeFlash > 0x023)
-                    mTypeFlash = TYPE_FLASH_AUTO;
-                setFlashRes();
-            });
-        } else {// 你的设备没有闪光灯
-            mFlashLamp.setVisibility(INVISIBLE);
-        }
+//        if (hasFlashLight) {
+//            setFlashRes();
+//            mFlashLamp.setOnClickListener(v -> {
+//                mTypeFlash++;
+//                if (mTypeFlash > 0x023)
+//                    mTypeFlash = TYPE_FLASH_AUTO;
+//                setFlashRes();
+//            });
+//        } else {// 你的设备没有闪光灯
+//            mFlashLamp.setVisibility(INVISIBLE);
+//        }
 
         mCaptureLayout = view.findViewById(R.id.capture_layout);
         mCaptureLayout.setDuration(duration);
@@ -202,14 +201,14 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
             @Override
             public void takePictures() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-                mFlashLamp.setVisibility(INVISIBLE);
+                // mFlashLamp.setVisibility(INVISIBLE);
                 mCameraMachine.capture();
             }
 
             @Override
             public void recordStart() {
                 mSwitchCamera.setVisibility(INVISIBLE);
-                mFlashLamp.setVisibility(INVISIBLE);
+                // mFlashLamp.setVisibility(INVISIBLE);
                 mCameraMachine.record(mVideoView.getHolder().getSurface(), screenProp);
             }
 
@@ -217,7 +216,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
             public void recordShort(final long time) {
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
                 mSwitchCamera.setVisibility(hasFrontCamera ? VISIBLE : INVISIBLE);
-                mFlashLamp.setVisibility(hasFlashLight ? VISIBLE : INVISIBLE);
+                // mFlashLamp.setVisibility(hasFlashLight ? VISIBLE : INVISIBLE);
                 postDelayed(() -> mCameraMachine.stopRecord(true, time), 1500 - time);
             }
 
@@ -443,7 +442,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
                 break;
         }
         mSwitchCamera.setVisibility(hasFrontCamera ? VISIBLE : INVISIBLE);
-        mFlashLamp.setVisibility(hasFlashLight ? VISIBLE : INVISIBLE);
+        // mFlashLamp.setVisibility(hasFlashLight ? VISIBLE : INVISIBLE);
         mCaptureLayout.resetCaptureLayout();
     }
 
@@ -575,20 +574,20 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         this.leftClickListener = clickListener;
     }
 
-    private void setFlashRes() {
-        switch (mTypeFlash) {
-            case TYPE_FLASH_AUTO:
-                mFlashLamp.setImageResource(R.drawable.ic_flash_auto);
-                mCameraMachine.flash(Camera.Parameters.FLASH_MODE_AUTO);
-                break;
-            case TYPE_FLASH_ON:
-                mFlashLamp.setImageResource(R.drawable.ic_flash_on);
-                mCameraMachine.flash(Camera.Parameters.FLASH_MODE_ON);
-                break;
-            case TYPE_FLASH_OFF:
-                mFlashLamp.setImageResource(R.drawable.ic_flash_off);
-                mCameraMachine.flash(Camera.Parameters.FLASH_MODE_OFF);
-                break;
-        }
-    }
+//    private void setFlashRes() {
+//        switch (mTypeFlash) {
+//            case TYPE_FLASH_AUTO:
+//                mFlashLamp.setImageResource(R.drawable.ic_flash_auto);
+//                mCameraMachine.flash(Camera.Parameters.FLASH_MODE_AUTO);
+//                break;
+//            case TYPE_FLASH_ON:
+//                mFlashLamp.setImageResource(R.drawable.ic_flash_on);
+//                mCameraMachine.flash(Camera.Parameters.FLASH_MODE_ON);
+//                break;
+//            case TYPE_FLASH_OFF:
+//                mFlashLamp.setImageResource(R.drawable.ic_flash_off);
+//                mCameraMachine.flash(Camera.Parameters.FLASH_MODE_OFF);
+//                break;
+//        }
+//    }
 }

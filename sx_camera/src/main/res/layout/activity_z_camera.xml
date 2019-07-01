@@ -11,5 +11,5 @@
         app:iconMargin="20dp"
         app:iconRight="@drawable/ic_record"
         app:iconSize="30dp"
-        app:iconSrc="@drawable/ic_camera" />
+        app:iconSrc="@drawable/ic_live_camera" />
 </LinearLayout>
