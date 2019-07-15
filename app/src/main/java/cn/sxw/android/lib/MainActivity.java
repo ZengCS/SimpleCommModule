@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import cn.sxw.android.base.dialog.CustomDialogHelper;
 import cn.sxw.android.lib.camera.ui.ZCameraActivity;
 import cn.sxw.android.lib.mvp.ui.activity.EmptyActivity_;
 import cn.sxw.android.lib.mvp.ui.activity.CameraDemoActivity;
@@ -56,5 +57,21 @@ public class MainActivity extends CustomBaseActivity {
     public void openSketchActivity(View view) {
         Intent intent = new Intent(this, SketchPadActivity.class);
         startActivity(intent);
+    }
+
+    public void openZDialog(View view){
+
+        String msg = "哈哈哈哈啊哈哈哈\n哈哈哈哈啊哈哈哈\n哈哈哈哈啊哈哈哈\n哈哈哈哈啊哈哈哈";
+        CustomDialogHelper.DialogParam dialogParam = new CustomDialogHelper.DialogParam("作业内容",msg);
+        dialogParam.setPositiveBtnText("我知道了");
+        CustomDialogHelper.showCustomMessageDialog(this, dialogParam, new CustomDialogHelper.NativeDialogCallback() {
+            @Override
+            public void onConfirm() {
+
+            }
+
+            @Override
+            public void onCancel() {}
+        });
     }
 }

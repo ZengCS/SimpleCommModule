@@ -15,16 +15,26 @@
         <include layout="@layout/dialog_custom_common_title" />
 
         <!--具体显示内容-->
-        <TextView
-            android:id="@+id/id_tv_dialog_content"
-            android:layout_width="match_parent"
+        <ScrollView
+            android:id="@+id/id_scrollview_content"
+            android:layout_width="660px"
             android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:minLines="2"
-            android:padding="40px"
-            android:text="@string/app_name"
-            android:textColor="@color/mGray"
-            android:textSize="26px" />
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/id_tv_dialog_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:minLines="2"
+                    android:padding="40px"
+                    android:text="@string/app_name"
+                    android:textColor="@color/mGray"
+                    android:textSize="26px" />
+            </LinearLayout>
+        </ScrollView>
 
         <!--底部按钮-->
         <include layout="@layout/dialog_custom_common_button_single" />
