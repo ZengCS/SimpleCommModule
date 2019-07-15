@@ -336,7 +336,14 @@ public class CustomDialogHelper {
         Paint paint = new Paint();
         paint.setTextSize(textView.getTextSize());
         int lines = 0;
+        int index = 0;//指定字符的长度
+        index = message.indexOf('\n');
+        while(index!=-1) {
+            lines++;
+            index = message.indexOf('\n',index+1);
+        }
         String[] splits = message.split("\n");
+        lines -= splits.length;
         for (String text : splits){
             float len = paint.measureText(text);
 
@@ -344,6 +351,7 @@ public class CustomDialogHelper {
         }
         return (int) (lines * (textView.getLineHeight() + textView.getLineSpacingExtra()));
     }
+
 
     public static class DialogParam {
         public static final int SIZE_NORMAL = 0;// 正常

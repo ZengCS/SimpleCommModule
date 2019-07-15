@@ -61,7 +61,7 @@ public class MainActivity extends CustomBaseActivity {
 
     public void openZDialog(View view){
 
-        String msg = "哈哈哈哈啊哈哈哈\n哈哈哈哈啊哈哈哈\n哈哈哈哈啊哈哈哈\n哈哈哈哈啊哈哈哈";
+        String msg = "大法官师大法官师大法官大法官师大法官师大法官个dfg 热图个dfg\n大法官大法官大法官\n\n大法官有金龟换酒过很久过很久光辉结核杆菌过很久\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n99";
         CustomDialogHelper.DialogParam dialogParam = new CustomDialogHelper.DialogParam("作业内容",msg);
         dialogParam.setPositiveBtnText("我知道了");
         CustomDialogHelper.showCustomMessageDialog(this, dialogParam, new CustomDialogHelper.NativeDialogCallback() {
