@@ -333,7 +333,10 @@ public class BitmapUtil {
             reqHeight = Math.min(reqHeight, scaleHeight);
             options = sampleBitmapOptions(context, options, reqWidth, reqHeight);
             Bitmap bm = BitmapFactory.decodeFile(filePath, options);
-            Log.e("xxx", bm.getByteCount() + "");
+            if (bm != null)
+                Log.e("xxx", bm.getByteCount() + "");
+            else
+                Log.e("xxx", "bitmap is null");
             return bm;
         }
         return null;
@@ -345,7 +348,10 @@ public class BitmapUtil {
         BitmapFactory.decodeResource(context.getResources(), resId, options);
         options = sampleBitmapOptions(context, options, reqWidth, reqHeight);
         Bitmap bm = BitmapFactory.decodeResource(context.getResources(), resId, options);
-        Log.e("xxx", bm.getByteCount() + "");
+        if (bm != null)
+            Log.e("xxx", bm.getByteCount() + "");
+        else
+            Log.e("xxx", "bitmap is null");
         return bm;
     }
 
