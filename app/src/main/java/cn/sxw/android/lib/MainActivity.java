@@ -3,7 +3,10 @@ package cn.sxw.android.lib;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import cn.sxw.android.lib.camera.ui.ZCameraActivity;
 import cn.sxw.android.lib.mvp.ui.activity.EmptyActivity_;
@@ -14,11 +17,14 @@ import cn.sxw.android.lib.ui.base.CustomBaseActivity;
 
 public class MainActivity extends CustomBaseActivity {
     public static final int REQUEST_CODE_CAMERA = 0x001;
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mImageView = findViewById(R.id.id_iv_photo_result);
     }
 
     @Override
@@ -34,6 +40,7 @@ public class MainActivity extends CustomBaseActivity {
                 typeName = "视频";
             }
             Toast.makeText(this, "filePath = [" + typeName + "]" + filePath, Toast.LENGTH_SHORT).show();
+            Glide.with(this).load(filePath).into(mImageView);
         }
     }
 

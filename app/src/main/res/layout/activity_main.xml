@@ -36,4 +36,8 @@
         android:onClick="openZCamera"
         android:text="自定义相机" />
 
+    <ImageView
+        android:id="@+id/id_iv_photo_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
