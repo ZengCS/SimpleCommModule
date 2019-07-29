@@ -1,14 +1,20 @@
 package cn.sxw.android.base.dialog;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.zhy.autolayout.AutoFrameLayout;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import cn.sxw.android.R;
 
@@ -262,6 +268,8 @@ public class CustomDialogHelper {
             // 设置标题
             TextView tvTitle = customView.findViewById(R.id.id_tv_dialog_title);
             tvTitle.setText(dialogParam.getTitle());
+
+            ScrollView scrollView = customView.findViewById(R.id.id_scrollview_content);
             // 设置内容
             TextView tvContent = customView.findViewById(R.id.id_tv_dialog_content);
             if (dialogParam.getAdvMessage() != null) {
@@ -269,6 +277,23 @@ public class CustomDialogHelper {
             } else {
                 tvContent.setText(dialogParam.getMessage());
             }
+            ViewGroup.LayoutParams params = scrollView.getLayoutParams();
+            int maxHeight = AutoUtils.getPercentHeightSize(300);
+            if(params != null && params.width > 0){
+                int contentH = getContentHeight(tvContent,params.width,tvContent.getText().toString());
+                if(contentH > maxHeight){
+                    params.height = maxHeight;
+                }else {
+                    params.height = AutoFrameLayout.LayoutParams.WRAP_CONTENT;
+                }
+            }else {
+                if(params == null){
+                    params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                }
+                params.height = maxHeight;
+            }
+            scrollView.setLayoutParams(params);
+
             // 设置确认按钮
             TextView btnConfirm = customView.findViewById(R.id.id_btn_dialog_confirm);
             btnConfirm.setText(dialogParam.getPositiveBtnText());
@@ -296,6 +321,37 @@ public class CustomDialogHelper {
         });
         return dialog;
     }
+
+    /**
+     * 获取文字高度
+     * @param textView
+     * @param width
+     * @param message
+     * @return
+     */
+    private static int getContentHeight(@NonNull TextView textView,int width,String message){
+        if(TextUtils.isEmpty(message)){
+            return 0;
+        }
+        Paint paint = new Paint();
+        paint.setTextSize(textView.getTextSize());
+        int lines = 0;
+        int index = 0;//指定字符的长度
+        index = message.indexOf('\n');
+        while(index!=-1) {
+            lines++;
+            index = message.indexOf('\n',index+1);
+        }
+        String[] splits = message.split("\n");
+        lines -= splits.length;
+        for (String text : splits){
+            float len = paint.measureText(text);
+
+            lines += len / width + 1;
+        }
+        return (int) (lines * (textView.getLineHeight() + textView.getLineSpacingExtra()));
+    }
+
 
     public static class DialogParam {
         public static final int SIZE_NORMAL = 0;// 正常

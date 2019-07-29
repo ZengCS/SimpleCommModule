@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import cn.sxw.android.base.dialog.CustomDialogHelper;
 import cn.sxw.android.lib.camera.ui.ZCameraActivity;
 import cn.sxw.android.lib.mvp.ui.activity.EmptyActivity_;
 import cn.sxw.android.lib.mvp.ui.activity.CameraDemoActivity;
@@ -63,5 +64,21 @@ public class MainActivity extends CustomBaseActivity {
     public void openSketchActivity(View view) {
         Intent intent = new Intent(this, SketchPadActivity.class);
         startActivity(intent);
+    }
+
+    public void openZDialog(View view){
+
+        String msg = "大法官师大法官师大法官大法官师大法官师大法官个dfg 热图个dfg\n大法官大法官大法官\n\n大法官有金龟换酒过很久过很久光辉结核杆菌过很久\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n99";
+        CustomDialogHelper.DialogParam dialogParam = new CustomDialogHelper.DialogParam("作业内容",msg);
+        dialogParam.setPositiveBtnText("我知道了");
+        CustomDialogHelper.showCustomMessageDialog(this, dialogParam, new CustomDialogHelper.NativeDialogCallback() {
+            @Override
+            public void onConfirm() {
+
+            }
+
+            @Override
+            public void onCancel() {}
+        });
     }
 }

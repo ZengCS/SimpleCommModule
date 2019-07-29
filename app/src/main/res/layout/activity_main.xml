@@ -35,6 +35,12 @@
         android:layout_height="wrap_content"
         android:onClick="openZCamera"
         android:text="自定义相机" />
+    <Button
+        android:id="@+id/id_btn_z_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openZDialog"
+        android:text="自定义弹窗" />
 
     <ImageView
         android:id="@+id/id_iv_photo_result"
