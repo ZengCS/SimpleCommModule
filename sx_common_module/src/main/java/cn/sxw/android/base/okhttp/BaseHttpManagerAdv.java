@@ -169,7 +169,8 @@ public class BaseHttpManagerAdv implements OkApiHelper {
 
         LoginRequest loginRequest = new LoginRequest(lastRequest.getActivity());
         LoginInfoBean loginInfoBean = SxwMobileSSOUtil.getLoginInfoBean();
-        if (loginInfoBean == null) {
+        // 本地未缓存账号密码或主动设置了禁用自动登录
+        if (loginInfoBean == null || !HttpManager.getInstance().isEnableAutoReLogin()) {
             // 告知重新登录
             LogUtil.methodStepHttp("告知重新登录");
             EventBus.getDefault().post(new ReLoginEvent());

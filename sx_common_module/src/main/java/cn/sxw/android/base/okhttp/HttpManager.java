@@ -2,10 +2,15 @@ package cn.sxw.android.base.okhttp;
 
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.net.CustomNetConfig;
+import cn.sxw.android.base.ui.BaseApplication;
+import cn.sxw.android.base.utils.LogUtil;
 
 /**
  * HttpManager
@@ -22,6 +27,15 @@ public class HttpManager implements OkApiHelper {
     private String scheme = "http";
     // 用于刷新Token
     private String refreshToken;
+    private boolean enableAutoReLogin = true;// 默认需要自动登录
+
+    public boolean isEnableAutoReLogin() {
+        return enableAutoReLogin;
+    }
+
+    public void setEnableAutoReLogin(boolean enableAutoReLogin) {
+        this.enableAutoReLogin = enableAutoReLogin;
+    }
 
     public static HttpManager getInstance() {
         if (sHttpManager == null) {
@@ -36,8 +50,18 @@ public class HttpManager implements OkApiHelper {
 
     public HttpManager setTokenHeader(String token) {
         globalHeaderMap.clear();
+        // 2019年7月31日 添加全局header
+        globalHeaderMap.put("Content-Type", "application/json");
+        globalHeaderMap.put("versionName", RequestParmUtil.getVersionName(BaseApplication.getContext()));
+        globalHeaderMap.put("versionCode", "" + RequestParmUtil.getVersionCode(BaseApplication.getContext()));
+        globalHeaderMap.put("macAddress", RequestParmUtil.getLocalMacAddressFromIp());
+        globalHeaderMap.put("appType", RequestParmUtil.getAppType());
+        globalHeaderMap.put("operatingSystem", "android");
         if (!TextUtils.isEmpty(token)) {
             globalHeaderMap.put("TOKEN", token);
+        }
+        if (BuildConfig.DEBUG) {
+            LogUtil.methodStepHttp("globalHeaderMap = " + JSON.toJSONString(globalHeaderMap));
         }
         return sHttpManager;
     }
