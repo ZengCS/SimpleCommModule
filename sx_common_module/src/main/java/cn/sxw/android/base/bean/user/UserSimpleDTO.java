@@ -23,6 +23,7 @@ public class UserSimpleDTO implements Serializable {
      * regionId : 12
      * name : 何柯
      * teaching :
+     * sxwNumber : 80028
      * cityId : 1
      */
 
@@ -39,6 +40,7 @@ public class UserSimpleDTO implements Serializable {
     private String name;
     private String teaching;
     private String cityId;
+    private String sxwNumber;
 
     public String getStudentRoll() {
         return studentRoll;
@@ -142,5 +144,13 @@ public class UserSimpleDTO implements Serializable {
 
     public void setCityId(String cityId) {
         this.cityId = cityId;
+    }
+
+    public String getSxwNumber() {
+        return sxwNumber;
+    }
+
+    public void setSxwNumber(String sxwNumber) {
+        this.sxwNumber = sxwNumber;
     }
 }
