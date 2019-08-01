@@ -106,6 +106,8 @@ public class UserProfileActivity extends BaseActivityAdv {
             case "PARENT":
                 sb.append("---->【默认孩子-姓名】：");
                 sb.append(SAccountUtil.getDefaultChildName());
+                sb.append("\n---->【默认孩子-ID】：");
+                sb.append(SAccountUtil.getDefaultChildId());
                 sb.append("\n\n---->【全部孩子姓名列表】：");
                 sb.append(JSON.toJSONString(SAccountUtil.getChildNameList()));
                 sb.append("\n\n---->【孩子列表】：");

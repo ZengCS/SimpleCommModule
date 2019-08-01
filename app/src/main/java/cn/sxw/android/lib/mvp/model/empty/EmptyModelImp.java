@@ -34,20 +34,8 @@ public class EmptyModelImp extends BaseModel implements IEmptyModel {
 
     @Override
     public void cacheLoginInfo(LoginInfoBean loginInfoBean, LoginResponse loginResponse, UserInfoResponse userInfoResponse) {
-        // 1.同步Token缓存
-        SAccountUtil.syncTokenInfo(loginResponse);
-        // 2.把登录信息缓存到SP中,可通过SAccountUtil读取
-        SAccountUtil.saveLoginInfo(userInfoResponse);
-        // 3.************** 保存单点登录信息 **************
-        SSODetailBean ssoDetailBean = new SSODetailBean();
-        // 添加Token对象
-        ssoDetailBean.setTokenBean(loginResponse);
-        // 添加用户详细信息
-        ssoDetailBean.setUserInfoResponse(userInfoResponse);
-        // 添加账号密码缓存
-        ssoDetailBean.setLoginInfo(loginInfoBean);
         // 保存到文件
-        boolean success = SxwMobileSSOUtil.saveOSSInfo(ssoDetailBean);
+        boolean success = SAccountUtil.cacheFullUserInfo(loginInfoBean, loginResponse, userInfoResponse);
         if (success) {
             LogUtil.d("保存单点登录信息成功");
             if (BuildConfig.DEBUG) {

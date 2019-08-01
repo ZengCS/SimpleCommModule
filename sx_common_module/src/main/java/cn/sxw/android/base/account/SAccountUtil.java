@@ -6,6 +6,8 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.List;
 
+import cn.sxw.android.base.bean.LoginInfoBean;
+import cn.sxw.android.base.bean.SSODetailBean;
 import cn.sxw.android.base.bean.user.AreaDTO;
 import cn.sxw.android.base.bean.user.ChildDTO;
 import cn.sxw.android.base.bean.user.ClassComplexDTO;
@@ -22,6 +24,7 @@ import cn.sxw.android.base.okhttp.HttpManager;
 import cn.sxw.android.base.okhttp.response.LoginResponse;
 import cn.sxw.android.base.utils.JListKit;
 import cn.sxw.android.base.utils.LogUtil;
+import cn.sxw.android.base.utils.SxwMobileSSOUtil;
 
 /**
  * 学生登录信息管理工具
@@ -594,6 +597,7 @@ public class SAccountUtil {
         }
         return null;
     }
+    // ***************************** 孩子相关
 
     /**
      * 获取孩子列表
@@ -661,6 +665,17 @@ public class SAccountUtil {
         UserSimpleDTO defaultChildUserSimpleDTO = getDefaultChildUserSimpleDTO();
         if (defaultChildUserSimpleDTO != null) {
             return defaultChildUserSimpleDTO.getName();
+        }
+        return "";
+    }
+
+    /**
+     * 获取默认小孩ID
+     */
+    public static String getDefaultChildId() {
+        UserSimpleDTO defaultChildUserSimpleDTO = getDefaultChildUserSimpleDTO();
+        if (defaultChildUserSimpleDTO != null) {
+            return defaultChildUserSimpleDTO.getId();
         }
         return "";
     }
@@ -806,5 +821,30 @@ public class SAccountUtil {
 
     public static void clearVersionInfo() {
         SharedPreferencesUtil.setParam("CHECK_VERSION_RESULT", "");
+    }
+
+
+    /**
+     * 保存完整的登录新
+     *
+     * @param loginInfoBean    账号密码
+     * @param loginResponse    登录成功的token对象
+     * @param userInfoResponse 用户完整信息
+     */
+    public static boolean cacheFullUserInfo(LoginInfoBean loginInfoBean, LoginResponse loginResponse, UserInfoResponse userInfoResponse) {
+        // 1.同步Token缓存
+        syncTokenInfo(loginResponse);
+        // 2.把登录信息缓存到SP中,可通过SAccountUtil读取
+        saveLoginInfo(userInfoResponse);
+        // 3.************** 保存单点登录信息 **************
+        SSODetailBean ssoDetailBean = new SSODetailBean();
+        // 添加Token对象
+        ssoDetailBean.setTokenBean(loginResponse);
+        // 添加用户详细信息
+        ssoDetailBean.setUserInfoResponse(userInfoResponse);
+        // 添加账号密码缓存
+        ssoDetailBean.setLoginInfo(loginInfoBean);
+        // 保存到文件
+        return SxwMobileSSOUtil.saveOSSInfo(ssoDetailBean);
     }
 }
