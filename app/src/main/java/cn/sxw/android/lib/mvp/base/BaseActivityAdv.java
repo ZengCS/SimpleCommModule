@@ -71,12 +71,12 @@ public abstract class BaseActivityAdv<P extends IPresenter> extends BaseActivity
 
     @Override
     public void launchActivity(Intent intent) {
-
+        startActivity(intent);
     }
 
     @Override
     public void launchActivity(Class clz) {
-
+        launchActivity(new Intent(this,clz));
     }
 
     @Override

@@ -4,7 +4,10 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 
+import java.util.List;
+
 import cn.sxw.android.base.bean.user.AreaDTO;
+import cn.sxw.android.base.bean.user.ChildDTO;
 import cn.sxw.android.base.bean.user.ClassComplexDTO;
 import cn.sxw.android.base.bean.user.ClassSimpleDTO;
 import cn.sxw.android.base.bean.user.CourseComplexDTO;
@@ -17,6 +20,7 @@ import cn.sxw.android.base.cache.SharedPreferencesUtil;
 import cn.sxw.android.base.net.bean.LocalTokenCache;
 import cn.sxw.android.base.okhttp.HttpManager;
 import cn.sxw.android.base.okhttp.response.LoginResponse;
+import cn.sxw.android.base.utils.JListKit;
 import cn.sxw.android.base.utils.LogUtil;
 
 /**
@@ -33,10 +37,11 @@ public class SAccountUtil {
     /**
      * 缓存登录信息
      *
-     * @param userInfoResponse
+     * @param newInfo
      */
-    public static void saveLoginInfo(UserInfoResponse userInfoResponse) {
-        String accountJson = JSON.toJSONString(userInfoResponse);
+    public static void saveLoginInfo(UserInfoResponse newInfo) {
+        userInfoResponse = newInfo;
+        String accountJson = JSON.toJSONString(newInfo);
         SharedPreferencesUtil.setParam(AccountKeys.IS_LOGIN, true);
         SharedPreferencesUtil.setParam(AccountKeys.ACCOUNT_INFO, accountJson);
         isUpdated = true;
@@ -87,24 +92,69 @@ public class SAccountUtil {
     }
 
     // ------------------------------ 公用方法 ------------------------------
+    // **************** UserSimpleDTO 1 ****************
+    public static String getUserType() {
+        getLoginedAccount();
+        if (userInfoResponse != null) {
+            UserSimpleDTO userSimpleDTO = userInfoResponse.getUserSimpleDTO();
+            if (userSimpleDTO != null)
+                return userSimpleDTO.getUserType();
+        }
+        return "";
+    }
 
     /**
      * 获取学生姓名
      */
     public static String getStudentName() {
+        return getName();
+    }
+
+    public static String getTeacherName() {
+        return getName();
+    }
+
+    public static String getParentName() {
+        return getName();
+    }
+
+    /**
+     * 获取用户姓名
+     */
+    public static String getName() {
         getLoginedAccount();
         if (userInfoResponse != null) {
             UserSimpleDTO userSimpleDTO = userInfoResponse.getUserSimpleDTO();
             if (userSimpleDTO != null)
                 return userSimpleDTO.getName();
         }
-        return "学生姓名-未知";
+        return "未知";
+    }
+
+    /**
+     * 获取生学号
+     */
+    public static String getSxwNumber() {
+        getLoginedAccount();
+        if (userInfoResponse != null) {
+            UserSimpleDTO userSimpleDTO = userInfoResponse.getUserSimpleDTO();
+            if (userSimpleDTO != null)
+                return userSimpleDTO.getSxwNumber();
+        }
+        return "";
     }
 
     /**
      * 获取头像地址
      */
     public static String getPortraitPath() {
+        return getPortraitUrl();
+    }
+
+    /**
+     * 获取头像地址
+     */
+    public static String getPortraitUrl() {
         getLoginedAccount();
         if (userInfoResponse != null) {
             UserSimpleDTO userSimpleDTO = userInfoResponse.getUserSimpleDTO();
@@ -169,7 +219,20 @@ public class SAccountUtil {
     }
 
     /**
-     * 获取区域ID
+     * 获取省份ID
+     */
+    public static String getProvinceId() {
+        getLoginedAccount();
+        if (userInfoResponse != null) {
+            UserSimpleDTO userSimpleDTO = userInfoResponse.getUserSimpleDTO();
+            if (userSimpleDTO != null)
+                return userSimpleDTO.getProvinceId();
+        }
+        return "000000";
+    }
+
+    /**
+     * 获取城市ID
      */
     public static String getCityId() {
         getLoginedAccount();
@@ -206,6 +269,9 @@ public class SAccountUtil {
         }
         return "";
     }
+    // **************** UserSimpleDTO 2 ****************
+
+    // **************** AreaDTO 1 ****************
 
     /**
      * 获取学校名称
@@ -219,32 +285,30 @@ public class SAccountUtil {
         }
         return "学校-未知";
     }
+    // **************** AreaDTO 2 ****************
 
-    /**
-     * 获取学段ID
-     */
-    public static String getPeriodId() {
-        getLoginedAccount();
-        if (userInfoResponse != null) {
-            GradeComplexDTO gradeComplexDTO = getGradeComplexDTO(null);
-            if (gradeComplexDTO != null)
-                return gradeComplexDTO.getPeriodId();
-        }
-        return "";
-    }
+
+    // **************** GradeComplexDTO 1 ****************
 
     /**
      * 获取学段名称
      */
     public static String getPeriodName() {
-        getLoginedAccount();
-        if (userInfoResponse != null) {
-            GradeComplexDTO gradeComplexDTO = getGradeComplexDTO(null);
-            if (gradeComplexDTO != null)
-                return gradeComplexDTO.getPeriodName();
+        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        if (gradeComplexDTO != null) {
+            return gradeComplexDTO.getPeriodName();
         }
-        return "学段-未知";
+        return "";
     }
+
+    public static String getPeriodId() {
+        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        if (gradeComplexDTO != null) {
+            return gradeComplexDTO.getPeriodId();
+        }
+        return "";
+    }
+    // **************** GradeComplexDTO 2 ****************
 
     /**
      * 获取学段名称
@@ -257,19 +321,6 @@ public class SAccountUtil {
                 return gradeComplexDTO.getPeriodName();
         }
         return "学段-未知";
-    }
-
-    /**
-     * 获取年级ID
-     */
-    public static String getGradeId() {
-        getLoginedAccount();
-        if (userInfoResponse != null) {
-            GradeComplexDTO gradeComplexDTO = getGradeComplexDTO(null);
-            if (gradeComplexDTO != null)
-                return gradeComplexDTO.getGradeId();
-        }
-        return "";
     }
 
     public static String getGradeIdByClassId(String classId) {
@@ -286,13 +337,49 @@ public class SAccountUtil {
      * 获取年级名称
      */
     public static String getGradeName() {
+        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        if (gradeComplexDTO != null) {
+            return gradeComplexDTO.getGradeName();
+        }
+        return "";
+    }
+
+    public static String getGradeId() {
+        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        if (gradeComplexDTO != null) {
+            return gradeComplexDTO.getGradeId();
+        }
+        return "";
+    }
+
+    private static GradeComplexDTO getGradeComplexDTO() {
         getLoginedAccount();
         if (userInfoResponse != null) {
-            GradeComplexDTO gradeComplexDTO = getGradeComplexDTO(null);
-            if (gradeComplexDTO != null)
-                return gradeComplexDTO.getGradeName();
+            ClassComplexDTO classComplexDTO = userInfoResponse.getClassComplexDTO();
+            if (classComplexDTO != null) {
+                return classComplexDTO.getGradeComplexDTO();
+            }
         }
-        return "学段-未知";
+        return null;
+    }
+
+    /**
+     * 获取年级名称
+     */
+    public static String getGradeLevelName() {
+        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        if (gradeComplexDTO != null) {
+            return gradeComplexDTO.getGradeLevelName();
+        }
+        return "";
+    }
+
+    public static String getGradeLevelId() {
+        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        if (gradeComplexDTO != null) {
+            return gradeComplexDTO.getGradeLevelId();
+        }
+        return "";
     }
 
     /**
@@ -351,14 +438,16 @@ public class SAccountUtil {
     /**
      * 获取科目ID
      */
-    public static String getSubjectId() {
-        getLoginedAccount();
-        if (userInfoResponse != null) {
-            SubjectSimpleDTO subjectSimpleDTO = getSubjectSimpleDTO(null);
-            if (subjectSimpleDTO != null)
-                return subjectSimpleDTO.getId();
+    public static List<SubjectSimpleDTO> getSubjectList() {
+        List<CourseComplexDTO> courseComplexDTOList = getCourseComplexDTOList();
+        if (JListKit.isNotEmpty(courseComplexDTOList)) {
+            List<SubjectSimpleDTO> subjectSimpleDTOList = JListKit.newArrayList();
+            for (CourseComplexDTO dto : courseComplexDTOList) {
+                subjectSimpleDTOList.add(dto.getSubjectSimpleDTO());
+            }
+            return subjectSimpleDTOList;
         }
-        return "";
+        return null;
     }
 
     /**
@@ -386,6 +475,15 @@ public class SAccountUtil {
         }
         return "科目-未知";
     }
+
+    /**
+     * 获取科目名称
+     */
+    public static List<String> getSubjectNameList() {
+        List<CourseComplexDTO> courseComplexDTOList = getCourseComplexDTOList();
+        return null;
+    }
+
 
     /**
      * 获取科目名称
@@ -424,7 +522,64 @@ public class SAccountUtil {
     }
 
     /**
-     * 获取班级列表
+     * 获取班级列表-针对教师
+     */
+    public static List<ClassComplexDTO> getClassList() {
+        List<CourseComplexDTO> list = getCourseComplexDTOList();
+        if (JListKit.isNotEmpty(list)) {
+            List<ClassComplexDTO> classList = JListKit.newArrayList();
+            for (CourseComplexDTO dto : list) {
+                List<ClassComplexDTO> classComplexDTOS = dto.getClassComplexDTOS();
+                if (JListKit.isNotEmpty(classComplexDTOS))
+                    classList.addAll(classComplexDTOS);
+            }
+            return classList;
+        }
+        return null;
+    }
+
+    public static List<TermComplexDTO> getTermList() {
+        List<CourseComplexDTO> list = getCourseComplexDTOList();
+        if (JListKit.isNotEmpty(list)) {
+            List<TermComplexDTO> termList = JListKit.newArrayList();
+            for (CourseComplexDTO dto : list) {
+                TermComplexDTO termComplexDTO = dto.getTermComplexDTO();
+                if (termComplexDTO != null)
+                    termList.add(termComplexDTO);
+            }
+            return termList;
+        }
+        return null;
+    }
+
+    /**
+     * 获取班级名称列表
+     */
+    public static List<String> getClassNameList() {
+        List<ClassComplexDTO> classList = getClassList();
+        if (JListKit.isNotEmpty(classList)) {
+            List<String> nameList = JListKit.newArrayList();
+            for (ClassComplexDTO dto : classList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null) {
+                    nameList.add(classSimpleDTO.getName());
+                }
+            }
+            return nameList;
+        }
+        return null;
+    }
+
+    public static List<CourseComplexDTO> getCourseComplexDTOList() {
+        getLoginedAccount();
+        if (userInfoResponse != null) {
+            return userInfoResponse.getCourseComplexDTOS();
+        }
+        return null;
+    }
+
+    /**
+     * 获取班级信息
      */
     public static ClassSimpleDTO getClassSimpleDTO() {
         getLoginedAccount();
@@ -436,6 +591,88 @@ public class SAccountUtil {
                 LogUtil.e(e);
                 return null;
             }
+        }
+        return null;
+    }
+
+    /**
+     * 获取孩子列表
+     */
+    public static List<ChildDTO> getChildList() {
+        getLoginedAccount();
+        if (userInfoResponse != null) {
+            return userInfoResponse.getChildDTOs();
+        }
+        return null;
+    }
+
+    public static List<UserSimpleDTO> getChildUserSimpleList() {
+        List<ChildDTO> childList = getChildList();
+        if (JListKit.isNotEmpty(childList)) {
+            List<UserSimpleDTO> childUserList = JListKit.newArrayList();
+            for (ChildDTO dto : childList) {
+                UserInfoResponse userInfoDTO = dto.getUserInfoDTO();
+                if (userInfoDTO != null) {
+                    UserSimpleDTO userSimpleDTO = userInfoDTO.getUserSimpleDTO();
+                    if (userSimpleDTO != null) {
+                        childUserList.add(userSimpleDTO);
+                    }
+                }
+            }
+            return childUserList;
+        }
+        return null;
+    }
+
+    /**
+     * 获取默认小孩
+     */
+    private static ChildDTO getDefaultChild() {
+        List<ChildDTO> childList = getChildList();
+        if (JListKit.isNotEmpty(childList)) {
+            for (ChildDTO dto : childList) {
+                if (dto.isDefaultChild()) {
+                    return dto;
+                }
+            }
+            return childList.get(0);// 如果没有设置默认孩子，这里返回第一个
+        }
+        return null;
+    }
+
+    /**
+     * 获取默认小孩的用户信息
+     */
+    public static UserSimpleDTO getDefaultChildUserSimpleDTO() {
+        ChildDTO defaultChild = getDefaultChild();
+        if (defaultChild != null) {
+            UserInfoResponse userInfoDTO = defaultChild.getUserInfoDTO();
+            if (userInfoDTO != null) {
+                return userInfoDTO.getUserSimpleDTO();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获取默认小孩的名字
+     */
+    public static String getDefaultChildName() {
+        UserSimpleDTO defaultChildUserSimpleDTO = getDefaultChildUserSimpleDTO();
+        if (defaultChildUserSimpleDTO != null) {
+            return defaultChildUserSimpleDTO.getName();
+        }
+        return "";
+    }
+
+    public static List<String> getChildNameList() {
+        List<UserSimpleDTO> childUserSimpleList = getChildUserSimpleList();
+        if (JListKit.isNotEmpty(childUserSimpleList)) {
+            List<String> nameList = JListKit.newArrayList();
+            for (UserSimpleDTO dto : childUserSimpleList) {
+                nameList.add(dto.getName());
+            }
+            return nameList;
         }
         return null;
     }
@@ -454,7 +691,6 @@ public class SAccountUtil {
                     }
                 }
             }
-
         } catch (Exception e) {
             return null;
         }

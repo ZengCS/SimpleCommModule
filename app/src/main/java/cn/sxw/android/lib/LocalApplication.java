@@ -21,7 +21,7 @@ public class LocalApplication extends BaseApplication {
 
         // 初始化HttpManager
         // For test http://www.mocky.io/v2/5c35b8e63000009f0021b4a3
-        String host = "api2.dev.sxw.cn";
+        String host = "api2.test.sxw.cn";
 
         HttpManager.getInstance()
                 .setTokenHeader(LocalTokenCache.getLocalCacheToken())
@@ -29,6 +29,8 @@ public class LocalApplication extends BaseApplication {
                 .setScheme("http")// 默认是http，如果使用https时，必须设置
                 .setHost(host);// 这里不要写 http://
         // 手机使用-竖屏
-        AutoLayoutConfig.getInstance().forPhoneUsage().usePortrait();
+        // AutoLayoutConfig.getInstance().forPhoneUsage().usePortrait();
+        // 手机使用-横屏
+        AutoLayoutConfig.getInstance().forPhoneUsage().useLandscape();
     }
 }

@@ -24,8 +24,8 @@ public class UserInfoRequest extends BaseRequest {
     /**
      * @param activity
      */
-    public UserInfoRequest(Activity activity) {
-        super(activity, ApiConfig.API_FIND_USER_INFO);
+    public UserInfoRequest(Activity activity, int userType) {
+        super(activity, String.format(ApiConfig.API_FIND_USER_INFO, userType));
     }
 
     @Override

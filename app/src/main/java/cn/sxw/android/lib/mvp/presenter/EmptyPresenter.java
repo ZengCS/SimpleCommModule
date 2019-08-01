@@ -195,8 +195,9 @@ public class EmptyPresenter extends BasePresenter<IEmptyModel, IEmptyView> {
         }).get();
     }
 
-    public void login(String account, String pwd) {
+    public void login(String account, String pwd, int userType) {
         LoginRequest loginRequest = new LoginRequest(mRootView.getActivity());
+        loginRequest.setUserType(String.valueOf(userType));
         loginRequest.setAccount(account);
         try {
             loginRequest.setPassword(AESUtils.Encrypt(pwd));
@@ -214,7 +215,7 @@ public class EmptyPresenter extends BasePresenter<IEmptyModel, IEmptyView> {
                 // TODO 登录成功后，读取用户详细信息
                 LoginInfoBean loginInfoBean = new LoginInfoBean(account, pwd);
                 SAccountUtil.syncTokenInfo(loginResponse);
-                findUserInfo(loginInfoBean, loginResponse);
+                findUserInfo(loginInfoBean, loginResponse, userType);
             }
 
             @Override
@@ -231,8 +232,8 @@ public class EmptyPresenter extends BasePresenter<IEmptyModel, IEmptyView> {
     /**
      * 获取用户详细信息
      */
-    private void findUserInfo(LoginInfoBean loginInfoBean, LoginResponse loginResponse) {
-        UserInfoRequest request = new UserInfoRequest(mRootView.getActivity());
+    private void findUserInfo(LoginInfoBean loginInfoBean, LoginResponse loginResponse, int userType) {
+        UserInfoRequest request = new UserInfoRequest(mRootView.getActivity(), userType);
         request.setHttpCallback(new HttpCallback<UserInfoRequest, UserInfoResponse>() {
             @Override
             public void onStart() {
@@ -244,7 +245,7 @@ public class EmptyPresenter extends BasePresenter<IEmptyModel, IEmptyView> {
                 mModel.cacheLoginInfo(loginInfoBean, loginResponse, userInfoResponse);
                 // mModel.cacheLoginInfo(account, pwd, loginResponse);
                 // 告知登录成功
-                mRootView.getTipsTextView().setText("登陆成功：" + JSON.toJSONString(loginResponse));
+                mRootView.getTipsTextView().setText(String.format("登录成功：%s", JSON.toJSONString(loginResponse)));
                 mRootView.onLoginResult(true, "");
             }
 

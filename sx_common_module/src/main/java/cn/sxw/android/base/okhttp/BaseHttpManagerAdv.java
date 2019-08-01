@@ -420,7 +420,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
         // ********* Log打印Header参数 *********
         LogUtil.methodStepHttp("↓↓↓↓↓↓ HEADERS ↓↓↓↓↓↓");
         for (String key : headMap.keySet()) {
-            if ("token".equalsIgnoreCase(key) && url.contains("api/auth/login")) {
+            if ("token".equalsIgnoreCase(key) && url.contains(ApiConfig.API_LOGIN)) {
                 LogUtil.methodStepHttp("当前是登录，无需TOKEN");
                 continue;
             }

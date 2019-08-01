@@ -70,6 +70,8 @@ public class EmptyActivity extends BaseActivityAdv<EmptyPresenter> implements IE
             R.id.id_btn_error_json,
             R.id.id_btn_bad_gateway,
             R.id.id_btn_login,
+            R.id.id_btn_login_t,
+            R.id.id_btn_login_p,
             R.id.id_btn_token_expired,
             R.id.id_btn_not_found,
     })
@@ -79,8 +81,13 @@ public class EmptyActivity extends BaseActivityAdv<EmptyPresenter> implements IE
                 mPresenter.getStringByOkhttp("http://www.mocky.io/v2/5c3eeb293500002d003e9a63");
                 break;
             case R.id.id_btn_login:
-                // EmptyActivityPermissionsDispatcher.onLoginWithPermissionCheck(EmptyActivity.this);
-                onLogin();
+                onLogin(1);
+                break;
+            case R.id.id_btn_login_t:
+                onLogin(2);
+                break;
+            case R.id.id_btn_login_p:
+                onLogin(3);
                 break;
             case R.id.id_btn_get_bean:
                 mPresenter.getObjectByOkhttp("http://www.mocky.io/v2/5c35b8e63000009f0021b4a3");
@@ -212,6 +219,7 @@ public class EmptyActivity extends BaseActivityAdv<EmptyPresenter> implements IE
         if (success) {
             showToast("登录成功。");
             // TODO 进入指定页面
+            launchActivity(UserProfileActivity_.class);
         } else {
             showToast("登录失败，" + msg);
         }
@@ -248,8 +256,20 @@ public class EmptyActivity extends BaseActivityAdv<EmptyPresenter> implements IE
     }
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void onLogin() {
-        mPresenter.login("510101201703290022", "111111");
+    void onLogin(int userType) {// 用户组类型(0=普通,1=学生,2=老师,3=家长,5=管理员,6=租户管理员)多个类型，请使用逗号分隔,如[2,5]
+        switch (userType) {
+            case 1:// 学生
+                mPresenter.login("510101201703290022", "111111", userType);
+                break;
+            case 2:// 教师
+                mPresenter.login("511101201703290014", "a123456", userType);
+                break;
+            case 3:// 家长
+                // mPresenter.login("17000000003", "123456", userType);
+                // mPresenter.login("18800078945", "123456", userType);
+                mPresenter.login("15630000123", "123456", userType);
+                break;
+        }
     }
 
 //    @Override

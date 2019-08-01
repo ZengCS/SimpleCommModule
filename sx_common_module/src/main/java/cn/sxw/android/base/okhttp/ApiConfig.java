@@ -20,5 +20,5 @@ public class ApiConfig {
     /**
      * 查找用户信息
      */
-    public static final String API_FIND_USER_INFO = "/platform/api/user/get_user_info/1";
+    public static final String API_FIND_USER_INFO = "platform/api/user/get_user_info/v3/%s";
 }

@@ -33,7 +33,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="110px"
+            android:layout_height="200px"
             android:background="#DDD"
             android:elevation="3dp">
 
@@ -63,7 +63,19 @@
                     android:id="@+id/id_btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="模拟登陆" />
+                    android:text="模拟学生登陆" />
+
+                <Button
+                    android:id="@+id/id_btn_login_t"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="模拟教师登陆" />
+
+                <Button
+                    android:id="@+id/id_btn_login_p"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="模拟家长登陆" />
 
                 <Button
                     android:id="@+id/id_btn_token_expired"
@@ -73,61 +85,67 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="10px">
+                android:layout_weight="1">
 
-                <Button
-                    android:id="@+id/id_btn_get_bean"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="加载单个Bean" />
+                    android:orientation="vertical"
+                    android:padding="10px">
 
-                <Button
-                    android:id="@+id/id_btn_get_boolean"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="加载Boolean" />
+                    <Button
+                        android:id="@+id/id_btn_get_bean"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="加载单个Bean" />
 
-                <Button
-                    android:id="@+id/id_btn_get_string"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="加载String" />
+                    <Button
+                        android:id="@+id/id_btn_get_boolean"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="加载Boolean" />
 
-                <Button
-                    android:id="@+id/id_btn_get_integer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="加载Integer" />
+                    <Button
+                        android:id="@+id/id_btn_get_string"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="加载String" />
 
-                <Button
-                    android:id="@+id/id_btn_failed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="模拟失败" />
+                    <Button
+                        android:id="@+id/id_btn_get_integer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="加载Integer" />
 
-                <Button
-                    android:id="@+id/id_btn_error_json"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="模拟JSON错误" />
+                    <Button
+                        android:id="@+id/id_btn_failed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="模拟失败" />
 
-                <Button
-                    android:id="@+id/id_btn_not_found"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="模拟404" />
+                    <Button
+                        android:id="@+id/id_btn_error_json"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="模拟JSON错误" />
 
-                <Button
-                    android:id="@+id/id_btn_bad_gateway"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="自定义接口地址" />
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/id_btn_not_found"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="模拟404" />
+
+                    <Button
+                        android:id="@+id/id_btn_bad_gateway"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="自定义接口地址" />
+                </LinearLayout>
+
+            </ScrollView>
         </LinearLayout>
     </LinearLayout>
 
