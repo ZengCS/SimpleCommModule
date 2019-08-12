@@ -109,15 +109,16 @@ public class AutoUtils {
     }
 
     public static int getPercentHeightSizeBigger(int val) {
-        int screenHeight = AutoLayoutConfig.getInstance().getScreenHeight();
-        int designHeight = AutoLayoutConfig.getInstance().getDesignHeight();
-
-        int res = val * screenHeight;
-        if (res % designHeight == 0) {
-            return res / designHeight;
-        } else {
-            return res / designHeight + 1;
-        }
+        return getPercentWidthSizeBigger(val);
+//        int screenHeight = AutoLayoutConfig.getInstance().getScreenHeight();
+//        int designHeight = AutoLayoutConfig.getInstance().getDesignHeight();
+//
+//        int res = val * screenHeight;
+//        if (res % designHeight == 0) {
+//            return res / designHeight;
+//        } else {
+//            return res / designHeight + 1;
+//        }
     }
 
     public static int getPercentHeightSize(int val) {
