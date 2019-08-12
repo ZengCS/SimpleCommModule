@@ -3,6 +3,7 @@ package cn.sxw.android.base.okhttp;
 import android.text.TextUtils;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import okhttp3.HttpUrl;
 
@@ -19,9 +20,9 @@ public class HttpUrlEncode {
      * @param paramMap 请求参数
      * @return
      */
-    public static String encode(String scheme, String host, String api, ConcurrentHashMap<String, String> paramMap) {
+    public static String encode(String scheme, String host, String api, ConcurrentMap<String, String> paramMap) {
         if (!TextUtils.isEmpty(api) && api.startsWith("/"))
-            api = api.substring(1, api.length());
+            api = api.substring(1);
 
         HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
                 .scheme(scheme)
@@ -47,21 +48,21 @@ public class HttpUrlEncode {
             String scheme, host, api;
             if (url.startsWith("http:")) {
                 scheme = "http";
-                url = url.substring("http://".length(), url.length());
+                url = url.substring("http://".length());
                 int index = url.indexOf("/");
                 if (index < 0)
                     index = url.length();
                 host = url.substring(0, index);
-                api = url.substring(index, url.length());
+                api = url.substring(index);
                 return encode(scheme, host, api, paramMap);
             } else if (url.startsWith("https:")) {
                 scheme = "https";
-                url = url.substring("https://".length(), url.length());
+                url = url.substring("https://".length());
                 int index = url.indexOf("/");
                 if (index < 0)
                     index = url.length();
                 host = url.substring(0, index);
-                api = url.substring(index, url.length());
+                api = url.substring(index);
                 return encode(scheme, host, api, paramMap);
             } else {
                 return "";

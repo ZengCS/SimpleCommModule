@@ -9,6 +9,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by ZengCS on 2019/1/9.
@@ -20,7 +21,7 @@ public abstract class BaseRequest {
     @JSONField(serialize = false)
     private String api = "";// api路径,不带host
     @JSONField(serialize = false)
-    private ConcurrentHashMap<String, String> paramMap;// query 参数列表
+    private ConcurrentMap<String, String> paramMap;// query 参数列表
     @JSONField(serialize = false)
     private HashMap<String, String> headMap;// Http Header 参数列表
     @JSONField(serialize = false)
