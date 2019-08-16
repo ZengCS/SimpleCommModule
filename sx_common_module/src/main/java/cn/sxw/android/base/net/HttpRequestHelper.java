@@ -288,7 +288,7 @@ public class HttpRequestHelper implements ApiHelper {
         }
 
         if (ex instanceof SocketTimeoutException) {
-            LogUtil.w("访问接口超时");
+            LogUtil.e("[SocketTimeoutException]访问接口超时");
             callback.onRequestFailed(context.getResources().getString(R.string.server_timeout));
         } else if (!TextUtils.isEmpty(exMessage)) {
             if (exMessage.equals("Not Found")) {

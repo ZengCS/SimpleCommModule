@@ -335,7 +335,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                     }
                 } else if (response.contains("504") || response.contains("Gateway Timeout")) {
                     if (canCallback(activity, callback)) {
-                        mHandler.post(() -> callback.onFail(null, HttpCode.BAD_GATEWAY, "访问接口超时!"));
+                        mHandler.post(() -> callback.onFail(null, HttpCode.BAD_GATEWAY, "连接超时，请重试!"));
                     }
                 } else {
                     if (canCallback(activity, callback)) {
@@ -345,7 +345,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
             } catch (SocketTimeoutException | ConnectException e) {
                 e.printStackTrace();
                 if (canCallback(activity, callback)) {
-                    mHandler.post(() -> callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "接口访问超时！"));
+                    mHandler.post(() -> callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "连接超时，请重试!"));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
