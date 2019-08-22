@@ -74,6 +74,13 @@ public class SystemUtil {
     }
 
     /**
+     * 设备是否是华为C3系列
+     */
+    public static boolean isHwC3() {
+        return "BZA-W00".equals(getSystemModel());
+    }
+
+    /**
      * 设备是否是华为T3系列
      */
     public static boolean isHwT3() {
