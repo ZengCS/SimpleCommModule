@@ -34,6 +34,8 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     private ZCameraView mCameraView;
     private boolean isGranted = false;
 
+    private @ZCameraView.ButtonState int mButtonState = ZCameraView.BUTTON_STATE_BOTH;
+
     // ************************************ RuntimePermissions ************************************
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA})
     void openCamera() {
@@ -42,9 +44,13 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
 
         mCameraView = findViewById(R.id.ic_zcv_camera);
 
+        if(getIntent() != null){
+            mButtonState = getIntent().getIntExtra("button_state",ZCameraView.BUTTON_STATE_BOTH);
+        }
+
         //设置视频保存路径
         mCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "ZCamera");
-        mCameraView.setFeatures(ZCameraView.BUTTON_STATE_BOTH);
+        mCameraView.setFeatures(mButtonState);
         mCameraView.setTip("轻触拍照");
         mCameraView.setMediaQuality(ZCameraView.MEDIA_QUALITY_MIDDLE);
         // 设置错误监听
