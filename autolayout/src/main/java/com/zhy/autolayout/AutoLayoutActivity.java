@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
-;
-
 /**
  * Created by zhy on 15/11/19.
  */
@@ -14,7 +12,6 @@ public class AutoLayoutActivity extends AppCompatActivity {
     private static final String LAYOUT_LINEARLAYOUT = "LinearLayout";
     private static final String LAYOUT_FRAMELAYOUT = "FrameLayout";
     private static final String LAYOUT_RELATIVELAYOUT = "RelativeLayout";
-
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
@@ -35,6 +32,4 @@ public class AutoLayoutActivity extends AppCompatActivity {
 
         return super.onCreateView(name, context, attrs);
     }
-
-
 }
