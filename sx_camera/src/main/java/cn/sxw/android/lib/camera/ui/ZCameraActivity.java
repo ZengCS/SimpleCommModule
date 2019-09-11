@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import cn.sxw.android.lib.camera.R;
+import cn.sxw.android.lib.camera.core.CameraConfig;
 import cn.sxw.android.lib.camera.core.ZCameraView;
 import cn.sxw.android.lib.camera.listener.CameraResultListener;
 import cn.sxw.android.lib.camera.listener.ErrorListener;
@@ -34,6 +35,17 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     private ZCameraView mCameraView;
     private boolean isGranted = false;
 
+    /**
+     * 设置按钮组合，默认拍照+视频
+     */
+    protected int btnFeatureType() {
+        return ZCameraView.BUTTON_STATE_BOTH;
+    }
+
+    protected long recordMaxTimeMillis() {
+        return CameraConfig.MAX_RECORD_DURATION;
+    }
+
     // ************************************ RuntimePermissions ************************************
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA})
     void openCamera() {
@@ -44,8 +56,8 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
 
         //设置视频保存路径
         mCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "ZCamera");
-        mCameraView.setFeatures(ZCameraView.BUTTON_STATE_BOTH);
-        mCameraView.setTip("轻触拍照");
+        mCameraView.setFeatures(btnFeatureType());
+        mCameraView.setDuration(recordMaxTimeMillis());// ms
         mCameraView.setMediaQuality(ZCameraView.MEDIA_QUALITY_MIDDLE);
         // 设置错误监听
         mCameraView.setErrorListener(new ErrorListener() {

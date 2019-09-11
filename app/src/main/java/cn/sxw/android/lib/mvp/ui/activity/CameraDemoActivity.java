@@ -6,9 +6,22 @@ import android.os.Bundle;
 
 import cn.sxw.android.base.dialog.CustomDialogHelper;
 import cn.sxw.android.lib.R;
+import cn.sxw.android.lib.camera.core.ZCameraView;
 import cn.sxw.android.lib.camera.ui.ZCameraActivity;
 
 public class CameraDemoActivity extends ZCameraActivity {
+    @Override
+    protected int btnFeatureType() {
+        // return ZCameraView.BUTTON_STATE_BOTH;
+        // return ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
+        return ZCameraView.BUTTON_STATE_ONLY_RECORDER;
+    }
+
+    @Override
+    protected long recordMaxTimeMillis() {
+        return 30_000;// 30 秒
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

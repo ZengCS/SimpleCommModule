@@ -138,6 +138,17 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     }
 
     /**
+     * @param dms 单位:ms
+     */
+    public void setDuration(long dms) {
+        if (dms <= 0 || dms > CameraConfig.MAX_RECORD_DURATION) {
+            dms = CameraConfig.MAX_RECORD_DURATION;
+        }
+        this.duration = (int) dms;
+        mCaptureLayout.setDuration(this.duration);
+    }
+
+    /**
      * 获取相机焦点
      */
     private void requestCameraFocus() {
@@ -414,7 +425,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     //设置CaptureButton功能（拍照和录像）
     public void setFeatures(int state) {
-        this.mCaptureLayout.setButtonFeatures(state);
+        new Handler().postDelayed(() -> ZCameraView.this.mCaptureLayout.setButtonFeatures(state), 200);
     }
 
     //设置录制质量

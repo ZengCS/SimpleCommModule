@@ -287,7 +287,7 @@ public class CaptureButton extends View {
         mRecordedTime = duration - millisUntilFinished;
         if (recordTimeListener != null)
             recordTimeListener.onTimeChanged(mRecordedTime);
-        // invalidate();
+        invalidate();
     }
 
     //录制视频计时器
@@ -342,9 +342,10 @@ public class CaptureButton extends View {
      **************************************************/
 
     //设置最长录制时间
-    public void setDuration(int duration) {
-        this.duration = duration;
-        timer = new RecordCountDownTimer(duration, 1000);    //录制定时器
+    public void setDuration(int d) {
+        this.duration = (int) (d * 1.007f);
+        LogUtil.d("onTick: millisUntilFinished, this.duration = " + this.duration);
+        timer = new RecordCountDownTimer(this.duration, 1000);    //录制定时器
     }
 
     //设置回调接口

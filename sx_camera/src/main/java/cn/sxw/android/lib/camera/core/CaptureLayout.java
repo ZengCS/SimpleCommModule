@@ -317,8 +317,13 @@ public class CaptureLayout extends FrameLayout {
             mCustomBtnLeft.setVisibility(VISIBLE);
         else
             mReturnBtn.setVisibility(VISIBLE);
-        if (this.iconRight != 0)
-            mCustomBtnRight.setVisibility(VISIBLE);
+        if (this.iconRight != 0) {
+            if (mFeatureState == ZCameraView.BUTTON_STATE_BOTH) {
+                mCustomBtnRight.setVisibility(VISIBLE);
+            } else {
+                mCustomBtnRight.setVisibility(INVISIBLE);
+            }
+        }
     }
 
 
@@ -342,12 +347,20 @@ public class CaptureLayout extends FrameLayout {
         mCaptureBtn.setDuration(duration);
     }
 
+    private int mFeatureState;
+
     public void setButtonFeatures(int state) {
+        mFeatureState = state;
         mCaptureBtn.setButtonFeatures(state);
+        setTip("轻触拍照");
         if (state == ZCameraView.BUTTON_STATE_BOTH) {
             mCustomBtnRight.setVisibility(VISIBLE);
         } else {
             mCustomBtnRight.setVisibility(INVISIBLE);
+            if (state == ZCameraView.BUTTON_STATE_ONLY_RECORDER) {
+                setTip("轻触录视频");
+                mCaptureBtn.switchAction();
+            }
         }
     }
 
