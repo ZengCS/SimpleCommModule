@@ -56,8 +56,8 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
 
         //设置视频保存路径
         mCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "ZCamera");
-        mCameraView.setFeatures(ZCameraView.BUTTON_STATE_BOTH);
-        mCameraView.setTip("轻触拍照");
+        mCameraView.setFeatures(btnFeatureType());
+        mCameraView.setDuration(recordMaxTimeMillis());
         mCameraView.setMediaQuality(ZCameraView.MEDIA_QUALITY_MIDDLE);
         // 设置错误监听
         mCameraView.setErrorListener(new ErrorListener() {
