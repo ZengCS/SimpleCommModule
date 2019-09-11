@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -24,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import cn.sxw.android.lib.camera.R;
 import cn.sxw.android.lib.camera.listener.CaptureListener;
@@ -70,6 +73,9 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     public static final int BUTTON_STATE_ONLY_RECORDER = 0x102;     // 只能录像
     public static final int BUTTON_STATE_BOTH = 0x103;              // 两者都可以
 
+    @IntDef({BUTTON_STATE_ONLY_CAPTURE,BUTTON_STATE_ONLY_RECORDER,BUTTON_STATE_BOTH})
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface ButtonState{}
 
     // 回调监听
     private ZCameraListener zCameraListener;
