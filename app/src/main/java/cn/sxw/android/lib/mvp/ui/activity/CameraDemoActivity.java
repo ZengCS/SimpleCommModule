@@ -11,14 +11,14 @@ import cn.sxw.android.lib.camera.ui.ZCameraActivity;
 
 public class CameraDemoActivity extends ZCameraActivity {
     @Override
-    protected int btnFeatureType() {
+    protected int configFeatureType() {
         // return ZCameraView.BUTTON_STATE_BOTH;
         // return ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
         return ZCameraView.BUTTON_STATE_ONLY_RECORDER;
     }
 
     @Override
-    protected long recordMaxTimeMillis() {
+    protected long configMaxRecordTimeMillis() {
         return 30_000;// 30 秒
     }
 

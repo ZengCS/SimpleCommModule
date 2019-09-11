@@ -38,11 +38,11 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     /**
      * 设置按钮组合，默认拍照+视频
      */
-    protected int btnFeatureType() {
+    protected int configFeatureType() {
         return ZCameraView.BUTTON_STATE_BOTH;
     }
 
-    protected long recordMaxTimeMillis() {
+    protected long configMaxRecordTimeMillis() {
         return CameraConfig.MAX_RECORD_DURATION;
     }
 
@@ -56,8 +56,8 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
 
         //设置视频保存路径
         mCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "ZCamera");
-        mCameraView.setFeatures(btnFeatureType());
-        mCameraView.setDuration(recordMaxTimeMillis());
+        mCameraView.setFeatures(configFeatureType());
+        mCameraView.setDuration(configMaxRecordTimeMillis());
         mCameraView.setMediaQuality(ZCameraView.MEDIA_QUALITY_MIDDLE);
         // 设置错误监听
         mCameraView.setErrorListener(new ErrorListener() {
