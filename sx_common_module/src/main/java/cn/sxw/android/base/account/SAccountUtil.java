@@ -173,11 +173,9 @@ public class SAccountUtil {
     public static String getUserId() {
         getLoginedAccount();
         if (userInfoResponse != null) {
-            if (userInfoResponse != null) {
-                UserSimpleDTO userSimpleDTO = userInfoResponse.getUserSimpleDTO();
-                if (userSimpleDTO != null)
-                    return userSimpleDTO.getId();
-            }
+            UserSimpleDTO userSimpleDTO = userInfoResponse.getUserSimpleDTO();
+            if (userSimpleDTO != null)
+                return userSimpleDTO.getId();
         }
         return "";
     }

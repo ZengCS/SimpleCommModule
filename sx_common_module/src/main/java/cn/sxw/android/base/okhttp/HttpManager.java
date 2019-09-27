@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.sxw.android.BuildConfig;
+import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.net.CustomNetConfig;
 import cn.sxw.android.base.ui.BaseApplication;
 import cn.sxw.android.base.utils.LogUtil;
@@ -57,6 +58,11 @@ public class HttpManager implements OkApiHelper {
         globalHeaderMap.put("macAddress", RequestParmUtil.getLocalMacAddressFromIp());
         globalHeaderMap.put("appType", RequestParmUtil.getAppType());
         globalHeaderMap.put("operatingSystem", "android");
+        // 2019年9月27日 补充全局header
+        globalHeaderMap.put("sxid", SAccountUtil.getUserId());
+        globalHeaderMap.put("pid", RequestParmUtil.getPid(BaseApplication.getContext()));
+        //globalHeaderMap.put("mid","");
+
         if (!TextUtils.isEmpty(token)) {
             globalHeaderMap.put("TOKEN", token);
         }

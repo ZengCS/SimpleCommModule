@@ -39,6 +39,20 @@ public class RequestParmUtil {
         return "";
     }
 
+    public static String getPid(Context context) {
+        try {
+            String pkg = context.getPackageName();
+            if (pkg.contains("sxt")) {
+                return "生学堂";
+            } else {
+                return "课堂";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     /**
      * 获取当前版本号
      *
