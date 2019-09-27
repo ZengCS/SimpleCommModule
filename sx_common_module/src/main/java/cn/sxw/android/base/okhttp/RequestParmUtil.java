@@ -43,9 +43,9 @@ public class RequestParmUtil {
         try {
             String pkg = context.getPackageName();
             if (pkg.contains("sxt")) {
-                return "生学堂";
+                return "SXT";
             } else {
-                return "课堂";
+                return "KT";
             }
         } catch (Exception e) {
             e.printStackTrace();
