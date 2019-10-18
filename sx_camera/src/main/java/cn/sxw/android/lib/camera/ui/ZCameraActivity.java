@@ -25,9 +25,8 @@ import cn.sxw.android.lib.camera.util.LogUtil;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.RuntimePermissions;
 
-@RuntimePermissions
+//@RuntimePermissions
 public abstract class ZCameraActivity extends AppCompatActivity implements CameraResultListener {
     public static final int TYPE_PICTURE = 0;
     public static final int TYPE_VIDEO = 1;
@@ -40,6 +39,14 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
      */
     protected int configFeatureType() {
         return ZCameraView.BUTTON_STATE_BOTH;
+    }
+
+    /**
+     * 是否仅启动拍照功能
+     * @return
+     */
+    protected boolean isOnlyCameraCapture(){
+        return configFeatureType() == ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
     }
 
     protected long configMaxRecordTimeMillis() {
