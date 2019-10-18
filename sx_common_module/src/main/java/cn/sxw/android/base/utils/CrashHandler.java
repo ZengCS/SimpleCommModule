@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Process;
+import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Alex.Tang on 2017-05-10.
@@ -22,8 +25,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/sxw/launcher/log/";
-    private static final String FILE_NAME = "crash";
+    private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/sxw/app/kt3/student/log/crash/";
+    private static final String FILE_NAME = "crash_";
 
     //log文件的后缀名
     private static final String FILE_NAME_SUFFIX = ".trace";
@@ -51,6 +54,26 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         Thread.setDefaultUncaughtExceptionHandler(this);
         //获取Context，方便内部使用
         mContext = context.getApplicationContext();
+    }
+
+    private String createCrashDir() {
+        try {
+            File dir = new File(PATH + mContext.getPackageName());
+            if (!dir.exists()) {
+                boolean mkdirs = dir.mkdirs();
+                if (mkdirs) {
+                    return dir.getAbsolutePath();
+                } else {
+                    Log.e(TAG, "创建Crash目录失败");
+                    return "";
+                }
+            } else {
+                return dir.getAbsolutePath();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "创建Crash目录失败", e);
+            return "";
+        }
     }
 
     /**
@@ -90,14 +113,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             }
         }
 
-        File dir = new File(PATH);
-        if (!dir.exists()) {
-            dir.mkdirs();
+        String dirPath = createCrashDir();
+        if (TextUtils.isEmpty(dirPath)) {
+            return;
         }
         long current = System.currentTimeMillis();
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(current));
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(current));
         //以当前时间创建log文件
-        File file = new File(PATH + FILE_NAME + time + FILE_NAME_SUFFIX);
+        File file = new File(dirPath + File.separatorChar + FILE_NAME + time + FILE_NAME_SUFFIX);
 
         try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
@@ -123,7 +146,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager
                 .GET_ACTIVITIES);
         pw.print("PackageName：");
-        pw.print("【" + mContext.getPackageName() + "】");
+        pw.println("【" + mContext.getPackageName() + "】");
         pw.print("App Version: ");
         pw.print(pi.versionName);
         pw.print('_');
