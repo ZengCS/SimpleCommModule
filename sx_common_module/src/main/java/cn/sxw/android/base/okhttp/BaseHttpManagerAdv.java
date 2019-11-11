@@ -24,6 +24,7 @@ import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import cn.sxw.android.base.account.SAccountUtil;
@@ -415,8 +416,10 @@ public class BaseHttpManagerAdv implements OkApiHelper {
         if (headMap == null)
             headMap = new HashMap<>();
         // 设置全局Request-ID
-        String requestId = System.nanoTime() + "" + (int) (Math.random() * 9000 + 1000);
-        headMap.put("Request-Id", requestId);
+        // String requestId = System.nanoTime() + "" + (int) (Math.random() * 9000 + 1000);
+        // headMap.put("Request-Id", requestId);
+        String requestId = UUID.randomUUID().toString();
+        headMap.put("Trace-Id", requestId);
         // ********* Log打印Header参数 *********
         LogUtil.methodStepHttp("↓↓↓↓↓↓ HEADERS ↓↓↓↓↓↓");
         for (String key : headMap.keySet()) {

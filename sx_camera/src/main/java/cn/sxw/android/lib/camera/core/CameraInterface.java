@@ -176,6 +176,16 @@ public class CameraInterface implements Camera.PreviewCallback {
         }
     }
 
+    private int mPhoneRotation = 0;
+
+    public void setPhoneRotation(int phoneRotation) {
+        if (isRecorder) {
+            return;
+        }
+        Log.d(TAG, "setPhoneRotation() called with: phoneRotation = [" + phoneRotation + "]");
+        this.mPhoneRotation = phoneRotation;
+    }
+
 
     public interface CameraOpenOverCallback {
         void cameraHasOpened();
@@ -396,7 +406,9 @@ public class CameraInterface implements Camera.PreviewCallback {
     //启动录像
     public void startRecord(Surface surface, float screenProp, ErrorCallback callback) {
         mCamera.setPreviewCallback(null);
-        final int nowAngle = (angle + 90) % 360;
+        // final int nowAngle = (angle + 90) % 360;
+        // final int nowAngle = (mPhoneRotation + 90) % 360;
+        nowAngle = (mPhoneRotation + 90) % 360;
         //获取第一帧图片
         Camera.Parameters parameters = mCamera.getParameters();
         int width = parameters.getPreviewSize().width;
@@ -410,6 +422,7 @@ public class CameraInterface implements Camera.PreviewCallback {
         if (SELECTED_CAMERA == CAMERA_POST_POSITION) {
             matrix.setRotate(nowAngle);
         } else if (SELECTED_CAMERA == CAMERA_FRONT_POSITION) {
+            nowAngle = 270;
             matrix.setRotate(270);
         }
         videoFirstFrame = createBitmap(videoFirstFrame, 0, 0, videoFirstFrame.getWidth(), videoFirstFrame
@@ -488,7 +501,6 @@ public class CameraInterface implements Camera.PreviewCallback {
         } else {
             mediaRecorder.setOrientationHint(nowAngle);
         }
-
 
         if (DeviceUtil.isHuaWeiRongyao()) {
             mediaRecorder.setVideoEncodingBitRate(4 * 100000);

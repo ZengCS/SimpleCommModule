@@ -20,6 +20,7 @@ import org.xutils.x;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -148,9 +149,13 @@ public class HttpRequestHelper implements ApiHelper {
 
     private void setTokenHeader(RequestParams params) {
         // 在网络请求时 增加一个head ：字段为Request-Id 值为 用户id+当前时间  类型为long型啊
-        String requestId = System.nanoTime() + "" + (int) (Math.random() * 90 + 10);
-        params.setHeader("Request-Id", requestId);
-        LogUtil.methodStep("----Request-Id = " + requestId);
+//        String requestId = System.nanoTime() + "" + (int) (Math.random() * 90 + 10);
+//        params.setHeader("Request-Id", requestId);
+
+        String requestId = UUID.randomUUID().toString();
+        params.setHeader("Trace-Id", requestId);
+
+        LogUtil.methodStep("----Trace-Id = " + requestId);
         if (!TextUtils.isEmpty(token)) {
             params.setHeader("TOKEN", token);
         } else {

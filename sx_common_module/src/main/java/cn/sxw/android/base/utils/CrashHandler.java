@@ -18,6 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
+
 /**
  * Created by Alex.Tang on 2017-05-10.
  */
@@ -82,6 +85,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
+        try {
+            Sentry.getContext().recordBreadcrumb(new BreadcrumbBuilder().setMessage("UncaughtExceptionHandler").build());
+            Sentry.capture(ex);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             //导出异常信息到SD卡中
             dumpExceptionToSDCard(ex);

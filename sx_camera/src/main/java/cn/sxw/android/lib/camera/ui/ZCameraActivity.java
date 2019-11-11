@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import java.io.File;
 
 import cn.sxw.android.lib.camera.R;
 import cn.sxw.android.lib.camera.core.CameraConfig;
+import cn.sxw.android.lib.camera.core.CameraInterface;
 import cn.sxw.android.lib.camera.core.ZCameraView;
 import cn.sxw.android.lib.camera.listener.CameraResultListener;
 import cn.sxw.android.lib.camera.listener.ErrorListener;
@@ -33,6 +35,42 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
 
     private ZCameraView mCameraView;
     private boolean isGranted = false;
+
+    private OrientationEventListener orientationEventListener;
+
+    private int mRotation = 0;
+
+    private void rotationUIListener() {
+        orientationEventListener = new OrientationEventListener(this) {
+            @Override
+            public void onOrientationChanged(int rotation) {
+                // 0,90,180,270
+                int angle = rotation / 45;
+                switch (angle) {
+                    case 0:
+                    case 7:
+                    case 8:
+                        mRotation = 0;
+                        break;
+                    case 1:
+                    case 2:
+                        mRotation = 90;
+                        break;
+                    case 3:
+                    case 4:
+                        mRotation = 180;
+                        break;
+                    case 5:
+                    case 6:
+                        mRotation = 270;
+                        break;
+                }
+                CameraInterface.getInstance().setPhoneRotation(mRotation);
+                // JLogUtil.d("onOrientationChanged called with rotation = " + rotation + " --> " + mRotation);
+            }
+        };
+        orientationEventListener.enable();
+    }
 
     /**
      * 设置按钮组合，默认拍照+视频
@@ -133,6 +171,7 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
 
         // 申请权限
         ZCameraActivityPermissionsDispatcher.openCameraWithPermissionCheck(this);
+        rotationUIListener();
     }
 
     private void requestFullScreen() {
@@ -180,5 +219,18 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         super.onStop();
         if (mCameraView != null)
             mCameraView.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (orientationEventListener != null) {
+                orientationEventListener.disable();
+                orientationEventListener = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
