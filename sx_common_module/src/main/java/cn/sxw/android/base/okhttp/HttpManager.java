@@ -10,6 +10,7 @@ import java.util.Map;
 import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.net.CustomNetConfig;
+import cn.sxw.android.base.net.bean.LocalTokenCache;
 import cn.sxw.android.base.ui.BaseApplication;
 import cn.sxw.android.base.utils.LogUtil;
 
@@ -21,6 +22,7 @@ import cn.sxw.android.base.utils.LogUtil;
  * @date 2018/12/1 21:02
  */
 public class HttpManager implements OkApiHelper {
+    private static final String TAG = "HttpManager";
     private static HttpManager sHttpManager;
     private BaseHttpManagerAdv mHttp;
     private Map<String, String> globalHeaderMap = new HashMap<>();// 全局Header
@@ -43,14 +45,32 @@ public class HttpManager implements OkApiHelper {
             synchronized (HttpManager.class) {
                 if (sHttpManager == null) {
                     sHttpManager = new HttpManager();
+                    LogUtil.d(TAG, "HttpManager.getInstance() new Instance() with " + sHttpManager);
+                    ensureGlobalHeaderMap();
                 }
             }
         }
         return sHttpManager;
     }
 
+    private static void ensureGlobalHeaderMap() {
+        if (sHttpManager.globalHeaderMap == null
+                || sHttpManager.globalHeaderMap.isEmpty()
+                || TextUtils.isEmpty(sHttpManager.getHost())
+                || TextUtils.isEmpty(sHttpManager.getScheme())) {
+            LogUtil.d(TAG, "初始化HttpManager时，发现参数不完整，进行补全");
+            sHttpManager.setTokenHeader(LocalTokenCache.getLocalCacheToken())
+                    .setRefreshToken(LocalTokenCache.getLocalCacheRefreshToken())
+                    .setScheme("http")// 默认是http，如果使用https时，必须设置
+                    .setHost(CustomNetConfig.getHost());// 这里不要写 http://
+        }
+    }
+
     public HttpManager setTokenHeader(String token) {
-        globalHeaderMap.clear();
+        if (globalHeaderMap == null)
+            globalHeaderMap = new HashMap<>();
+        else
+            globalHeaderMap.clear();
         // 2019年7月31日 添加全局header
         globalHeaderMap.put("Content-Type", "application/json");
         globalHeaderMap.put("versionName", RequestParmUtil.getVersionName(BaseApplication.getContext()));
@@ -122,24 +142,28 @@ public class HttpManager implements OkApiHelper {
 
     @Override
     public void sendPost(BaseRequest request) {
+        ensureGlobalHeaderMap();
         request.getHeadMap().putAll(globalHeaderMap);
         mHttp.sendPost(request);
     }
 
     @Override
     public void sendGet(BaseRequest request) {
+        ensureGlobalHeaderMap();
         request.getHeadMap().putAll(globalHeaderMap);
         mHttp.sendGet(request);
     }
 
     @Override
     public void sendPut(BaseRequest request) {
+        ensureGlobalHeaderMap();
         request.getHeadMap().putAll(globalHeaderMap);
         mHttp.sendPut(request);
     }
 
     @Override
     public void sendDelete(BaseRequest request) {
+        ensureGlobalHeaderMap();
         request.getHeadMap().putAll(globalHeaderMap);
         mHttp.sendDelete(request);
     }
