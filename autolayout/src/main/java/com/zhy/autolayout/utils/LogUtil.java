@@ -1,8 +1,6 @@
-package cn.sxw.android.base.utils;
+package com.zhy.autolayout.utils;
 
 import android.util.Log;
-
-import org.apache.log4j.Logger;
 
 /**
  * Created by ZengCS on 2017/9/5.
@@ -18,63 +16,41 @@ public abstract class LogUtil {
 
     protected static final String TAG = "Debug/SXJY";
     protected static final String TAG_HTTP = "Debug/Http";
-    private static Logger log = Logger.getLogger(TAG);
     private static boolean isDebug = false;
-    private static boolean useLog4j = false;
 
     protected abstract void showFloatLog(int type, String tag, String msg);
 
     public static void e(String tag, String msg) {
         if (isDebug)
             Log.e(tag, msg);
-        if (useLog4j)
-            log.error(msg);
     }
 
     public static void e(Throwable e) {
-        if (useLog4j) {
-            log.error("------------------------------------------------------------");
-            log.error(Log.getStackTraceString(e));
-            log.error("------------------------------------------------------------");
-        }
     }
 
     public static void e(String tag, String msg, Throwable e) {
         if (isDebug)
             Log.e(tag, msg, e);
-        if (useLog4j)
-            if (e != null)
-                e(e);
-            else
-                log.error(msg);
     }
 
     public static void w(String tag, String msg) {
         if (isDebug)
             Log.w(tag, msg);
-        if (useLog4j)
-            log.warn(msg);
     }
 
     public static void i(String tag, String msg) {
         if (isDebug)
             Log.i(tag, msg);
-        if (useLog4j)
-            log.info(msg);
     }
 
     public static void d(String tag, String msg) {
         if (isDebug)
             Log.w(tag, msg);
-        if (useLog4j)
-            log.info(msg);
     }
 
     public static void v(String tag, String msg) {
         if (isDebug)
             Log.v(tag, msg);
-        if (useLog4j)
-            log.info(msg);
     }
 
     // 无TAG方法

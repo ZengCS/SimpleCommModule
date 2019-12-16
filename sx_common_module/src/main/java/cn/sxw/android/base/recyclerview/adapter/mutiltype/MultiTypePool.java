@@ -5,10 +5,11 @@ package cn.sxw.android.base.recyclerview.adapter.mutiltype;
  */
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.sxw.android.base.utils.LogUtil;
 
 /**
  * 类型池
@@ -38,7 +39,7 @@ public class MultiTypePool implements TypePool {
         } else {
             int index = mContents.indexOf(clazz);
             mProviders.set(index, provider);
-            Log.w(TAG, "You have registered the " + clazz.getSimpleName() + " type. " +
+            LogUtil.w(TAG, "You have registered the " + clazz.getSimpleName() + " type. " +
                     "It will override the original binder.");
         }
     }
