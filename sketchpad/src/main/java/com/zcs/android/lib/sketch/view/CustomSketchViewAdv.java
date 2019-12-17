@@ -24,7 +24,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -54,6 +53,7 @@ import com.zcs.android.lib.sketch.pen.SteelPen;
 import com.zcs.android.lib.sketch.utils.BitmapUtil;
 import com.zcs.android.lib.sketch.utils.SketchMode;
 import com.zhy.autolayout.utils.AutoUtils;
+import com.zhy.autolayout.utils.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -163,7 +163,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         float scaleFactor = detector.getScaleFactor();
         //设置Matrix缩放参数
         if ((scaleFactor < 1 && len >= photoLen * SCALE_MIN && len >= SCALE_MIN_LEN) || (scaleFactor > 1 && len <= photoLen * SCALE_MAX)) {
-            Log.e(TAG, scaleFactor + "");
+            LogUtil.e(TAG, scaleFactor + "");
             curPhotoRecord.matrix.postScale(scaleFactor, scaleFactor, photoCorners[8], photoCorners[9]);
         }
     }
@@ -417,7 +417,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         float a = (float) Math.sqrt(Math.pow(curX * drawDensity - corners[8], 2) + Math.pow(curY * drawDensity - corners[9], 2));
         //目前上次旋转图标与图片显示中心距离
         float b = (float) Math.sqrt(Math.pow(corners[4] - corners[0], 2) + Math.pow(corners[5] - corners[1], 2)) / 2;
-//        Log.e(TAG, "onRotateAction: a=" + a + ";b=" + b);
+//        LogUtil.e(TAG, "onRotateAction: a=" + a + ";b=" + b);
         //设置Matrix缩放参数
         double photoLen = Math.sqrt(Math.pow(record.photoRectSrc.width(), 2) + Math.pow(record.photoRectSrc.height(), 2));
         if (a >= photoLen / 2 * SCALE_MIN && a >= SCALE_MIN_LEN && a <= photoLen / 2 * SCALE_MAX) {
@@ -695,7 +695,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
                 mStokeBrushPen.setSketchDrawCallback(this);
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 boolean isLongPressed = isLongPressed(mLastDownX, mLastDownY, eventX, eventY, mLastDownTime, System.currentTimeMillis(), 500);
-                // Log.d(TAG, "isLongPressed======" + isLongPressed);
+                // LogUtil.d(TAG, "isLongPressed======" + isLongPressed);
                 if (isLongPressed) {
                     float[] downPoint = new float[]{downX * drawDensity, downY * drawDensity};//还原点倍数
                     // 第一步，判断是否是当前图片
@@ -715,10 +715,10 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
                             inPhotoRect = isInPhotoRect(curPhotoRecord, downPoint);
                         }
                     }
-                    Log.d(TAG, "inPhotoRect======" + inPhotoRect);
+                    LogUtil.d(TAG, "inPhotoRect======" + inPhotoRect);
                     if (inPhotoRect) {
                         EventBus.getDefault().post(new ChangeToolModeEvent("在图片范围内触发长按事件，进入图片编辑模式。"));
-                        Log.d(TAG, "customDrawEvent: 在图片范围内触发长按事件，进入图片编辑模式。");
+                        LogUtil.d(TAG, "customDrawEvent: 在图片范围内触发长按事件，进入图片编辑模式。");
                         isOpenEditPicModeWithLongPress = true;
                         return true;
                     }
@@ -829,24 +829,24 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         float disX, disY;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.i(TAG, "customDragGeometric: ACTION_DOWN");
+                LogUtil.i(TAG, "customDragGeometric: ACTION_DOWN");
                 if (mDashRect == null || !mDashRect.isContain(eventX, eventY)) {
-                    Log.w(TAG, "onTouchEvent: 当前点击的位置不在虚线范围内~");
+                    LogUtil.w(TAG, "onTouchEvent: 当前点击的位置不在虚线范围内~");
 
                     mResizeDirection = mDashRect.getDirection(eventX, eventY);
                     // 根据方向做不同的事情
-                    Log.w(TAG, "customDragGeometric: mResizeDirection = " + mResizeDirection);
+                    LogUtil.w(TAG, "customDragGeometric: mResizeDirection = " + mResizeDirection);
                     if (mResizeDirection == DashRectangle.Direction.OUTSIDE) {
                         int state = 0;
 
                         long timeout = System.currentTimeMillis() - mLastTouchOutsideTime;
-                        Log.d(TAG, "customDragGeometric: mTouchOutsideTimes ==> timeout = " + timeout);
+                        LogUtil.d(TAG, "customDragGeometric: mTouchOutsideTimes ==> timeout = " + timeout);
                         if (timeout < 200) {
                             mTouchOutsideTimes++;
                         } else {
                             mTouchOutsideTimes = 1;
                         }
-                        Log.d(TAG, "customDragGeometric: mTouchOutsideTimes = " + mTouchOutsideTimes);
+                        LogUtil.d(TAG, "customDragGeometric: mTouchOutsideTimes = " + mTouchOutsideTimes);
                         if (mTouchOutsideTimes == 2) {// 双击图形外区域
                             mTouchOutsideTimes = 0;
                             mOperateType = SketchMode.OperateType.OPERATE_DRAW;
@@ -870,19 +870,19 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
                 mDragMoveY = eventY;
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.w(TAG, "customDragGeometric: ====================ACTION_MOVE");
+                LogUtil.w(TAG, "customDragGeometric: ====================ACTION_MOVE");
                 float thisTimeDisX = eventX - mDragMoveX;
                 float thisTimeDisY = eventY - mDragMoveY;
                 if (Math.abs(thisTimeDisX) < MIN_DRAG_DISTANCE && Math.abs(thisTimeDisY) < MIN_DRAG_DISTANCE) {
-                    Log.w(TAG, "customDragGeometric: ==========本次操作的距离太短，不做处理~");
-                    Log.w(TAG, "customDragGeometric: thisTimeDisX = " + thisTimeDisX);
-                    Log.w(TAG, "customDragGeometric: thisTimeDisY = " + thisTimeDisY);
+                    LogUtil.w(TAG, "customDragGeometric: ==========本次操作的距离太短，不做处理~");
+                    LogUtil.w(TAG, "customDragGeometric: thisTimeDisX = " + thisTimeDisX);
+                    LogUtil.w(TAG, "customDragGeometric: thisTimeDisY = " + thisTimeDisY);
                     return 1;
                 }
                 disX = eventX - mDragDownX;
                 disY = eventY - mDragDownY;
-                Log.d(TAG, "customDragGeometric: disX = " + disX);
-                Log.d(TAG, "customDragGeometric: disY = " + disY);
+                LogUtil.d(TAG, "customDragGeometric: disX = " + disX);
+                LogUtil.d(TAG, "customDragGeometric: disY = " + disY);
 
                 // 更新点位信息
                 mDragMoveX = eventX;
@@ -894,9 +894,9 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
                 if (mOperateType == SketchMode.OperateType.OPERATE_DRAG) {// 拖拽图形
                     dragGeometric(disX, disY);
                 } else if (mOperateType == SketchMode.OperateType.OPERATE_RESIZE) {// 改变图形大小
-                    Log.d(TAG, "customDragGeometric: 改变图形大小");
+                    LogUtil.d(TAG, "customDragGeometric: 改变图形大小");
                     int resizeGeometricResult = resizeGeometric(eventX, eventY, thisTimeDisX, thisTimeDisY);
-                    Log.d(TAG, "customDragGeometric: resizeGeometricResult = " + resizeGeometricResult);
+                    LogUtil.d(TAG, "customDragGeometric: resizeGeometricResult = " + resizeGeometricResult);
                     if (resizeGeometricResult == 0) {
                         mOperateType = SketchMode.OperateType.OPERATE_WAIT;
                         return 0;
@@ -905,7 +905,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
                 break;
             case MotionEvent.ACTION_UP:
                 isLastEvent = true;
-                Log.w(TAG, "customDragGeometric: ACTION_UP");
+                LogUtil.w(TAG, "customDragGeometric: ACTION_UP");
                 // 刷新区域范围
                 resetDirtyRect(eventX, eventY);
                 if (mOperateType == SketchMode.OperateType.OPERATE_DRAG) {// 拖拽图形
@@ -921,7 +921,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
      * 改变图形大小
      */
     private int resizeGeometric(float eventX, float eventY, float disX, float disY) {
-        Log.d(TAG, "resizeGeometric() called with: eventX = [" + eventX + "], eventY = [" + eventY + "], disX = [" + disX + "], disY = [" + disY + "]");
+        LogUtil.d(TAG, "resizeGeometric() called with: eventX = [" + eventX + "], eventY = [" + eventY + "], disX = [" + disX + "], disY = [" + disY + "]");
 //        DashRectangle tempDashRect = mDashRect.cloneRect();
 
         switch (mResizeDirection) {
@@ -1224,7 +1224,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         }
         for (PhotoRecord record : photoRecordList) {
             if (record != null) {
-                // Log.d(getClass().getSimpleName(), "drawRecord --> " + record.bitmap.toString());
+                // LogUtil.d(getClass().getSimpleName(), "drawRecord --> " + record.bitmap.toString());
                 canvas.drawBitmap(record.bitmap, record.matrix, null);
             }
         }
@@ -1649,12 +1649,12 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        Log.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
+        LogUtil.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
         super.onSizeChanged(w, h, oldw, oldh);
 
         // 尺寸变化了才重新绘制
         if (w != oldw || h != oldh) {
-            Log.w(TAG, "onSizeChanged: 画布尺寸发生变化，进行重绘。");
+            LogUtil.w(TAG, "onSizeChanged: 画布尺寸发生变化，进行重绘。");
             mHandler.removeMessages(WHAT_MEASURE);
             mHandler.sendEmptyMessageDelayed(WHAT_MEASURE, 50);
         }
@@ -1699,7 +1699,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
      * 设置笔形
      */
     private void setPenType(int penType) {
-        Log.d(TAG, "setPenType() called with: penType = [" + penType + "]");
+        LogUtil.d(TAG, "setPenType() called with: penType = [" + penType + "]");
         mWidth = SketchConfig.PEN_WIDTH_SCALE[penType] * SketchConfig.getCurrLineWidth(mContext);
         switch (penType) {
             case SketchMode.Pen.PENCIL:// 铅笔
@@ -1971,8 +1971,8 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
      */
     @Override
     public void setSketchMode(@NonNull SketchMode sketchMode) {
-        Log.w(TAG, "setSketchMode() called with: getModeType = [" + sketchMode.getModeType() + "]");
-        Log.w(TAG, "setSketchMode() called with: getDrawType = [" + sketchMode.getDrawType() + "]");
+        LogUtil.w(TAG, "setSketchMode() called with: getModeType = [" + sketchMode.getModeType() + "]");
+        LogUtil.w(TAG, "setSketchMode() called with: getDrawType = [" + sketchMode.getDrawType() + "]");
         if (this.mSketchMode != null && this.mSketchMode.getModeType() == SketchMode.Mode.GEOMETRIC) {
             if (this.mSketchMode.getModeType() == sketchMode.getModeType()
                     && this.mSketchMode.getDrawType() == sketchMode.getDrawType()) {
@@ -2124,7 +2124,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
     @Override
     public void setBackgroundByPath(String path, float scale) {
         if (SketchConfig.TAG_CLEAR_CELL_BG.equals(path)) {
-            Log.d(TAG, "setBackgroundByPath: 清空背景");
+            LogUtil.d(TAG, "setBackgroundByPath: 清空背景");
             if (mBgBitmap != null && !mBgBitmap.isRecycled()) {
                 // 回收并且置为null
                 mBgBitmap.recycle();
@@ -2273,8 +2273,8 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
 
     @Override
     public void onDrawSuccess(List<DrawPoint> pointList) {
-        // Log.d(TAG, "onDrawSuccess() called with: pointList = [" + pointList + "]");
-        Log.d(TAG, "onDrawSuccess: SketchConfig.currColor = " + SketchConfig.currColor);
+        // LogUtil.d(TAG, "onDrawSuccess() called with: pointList = [" + pointList + "]");
+        LogUtil.d(TAG, "onDrawSuccess: SketchConfig.currColor = " + SketchConfig.currColor);
         addHistory(new SketchHistory(mSketchMode, SketchConfig.currColor, pointList));
     }
 }

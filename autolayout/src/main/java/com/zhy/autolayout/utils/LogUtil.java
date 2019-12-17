@@ -1,10 +1,6 @@
-package cn.sxw.android.base.utils;
+package com.zhy.autolayout.utils;
 
 import android.util.Log;
-
-import org.apache.log4j.Logger;
-
-import cn.sxw.android.BuildConfig;
 
 /**
  * Created by ZengCS on 2017/9/5.
@@ -12,60 +8,49 @@ import cn.sxw.android.BuildConfig;
  * Add:成都市天府软件园E3-3F
  */
 public abstract class LogUtil {
+    public static final int TYPE_V = 0;
+    public static final int TYPE_I = 1;
+    public static final int TYPE_D = 2;
+    public static final int TYPE_W = 3;
+    public static final int TYPE_E = 4;
+
     protected static final String TAG = "Debug/SXJY";
     protected static final String TAG_HTTP = "Debug/Http";
-    private static Logger log = Logger.getLogger(TAG);
-    public static boolean isDebug = false;// 开发过程中可以通过 LogUtil.isDebug = true;开启日志打印
-    private static boolean useLog4j = true;
+    private static boolean isDebug = false;
 
     protected abstract void showFloatLog(int type, String tag, String msg);
 
     public static void e(String tag, String msg) {
-        Log.e(tag, msg);
-        if (useLog4j)
-            log.error(msg);
+        if (isDebug)
+            Log.e(tag, msg);
     }
 
     public static void e(Throwable e) {
-        log.error("------------------------------------------------------------");
-        log.error(Log.getStackTraceString(e));
-        log.error("------------------------------------------------------------");
     }
 
     public static void e(String tag, String msg, Throwable e) {
-        Log.e(tag, msg, e);
-        if (useLog4j)
-            if (e != null)
-                e(e);
-            else
-                log.error(msg);
+        if (isDebug)
+            Log.e(tag, msg, e);
     }
 
     public static void w(String tag, String msg) {
-        Log.w(tag, msg);
-        if (useLog4j)
-            log.warn(msg);
+        if (isDebug)
+            Log.w(tag, msg);
     }
 
     public static void i(String tag, String msg) {
         if (isDebug)
             Log.i(tag, msg);
-        if (useLog4j)
-            log.info(msg);
     }
 
     public static void d(String tag, String msg) {
         if (isDebug)
             Log.w(tag, msg);
-        if (useLog4j)
-            log.info(msg);
     }
 
     public static void v(String tag, String msg) {
         if (isDebug)
             Log.v(tag, msg);
-        if (useLog4j)
-            log.info(msg);
     }
 
     // 无TAG方法

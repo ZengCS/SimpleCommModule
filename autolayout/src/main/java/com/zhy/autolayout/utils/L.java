@@ -14,6 +14,4 @@ public class L {
             Log.e(TAG, msg);
         }
     }
-
-
 }

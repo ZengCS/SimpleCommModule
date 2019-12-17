@@ -33,7 +33,7 @@ public class CameraParamUtil {
         int i = 0;
         for (Camera.Size s : list) {
             if ((s.width > th) && equalRate(s, rate)) {
-                Log.i(TAG, "MakeSure Preview :w = " + s.width + " h = " + s.height);
+                LogUtil.i(TAG, "MakeSure Preview :w = " + s.width + " h = " + s.height);
                 break;
             }
             i++;
@@ -50,7 +50,7 @@ public class CameraParamUtil {
         int i = 0;
         for (Camera.Size s : list) {
             if ((s.width > th) && equalRate(s, rate)) {
-                Log.i(TAG, "MakeSure Picture :w = " + s.width + " h = " + s.height);
+                LogUtil.i(TAG, "MakeSure Picture :w = " + s.width + " h = " + s.height);
                 break;
             }
             i++;
@@ -85,22 +85,22 @@ public class CameraParamUtil {
     public boolean isSupportedFocusMode(List<String> focusList, String focusMode) {
         for (int i = 0; i < focusList.size(); i++) {
             if (focusMode.equals(focusList.get(i))) {
-                Log.i(TAG, "FocusMode supported " + focusMode);
+                LogUtil.i(TAG, "FocusMode supported " + focusMode);
                 return true;
             }
         }
-        Log.i(TAG, "FocusMode not supported " + focusMode);
+        LogUtil.i(TAG, "FocusMode not supported " + focusMode);
         return false;
     }
 
     public boolean isSupportedPictureFormats(List<Integer> supportedPictureFormats, int jpeg) {
         for (int i = 0; i < supportedPictureFormats.size(); i++) {
             if (jpeg == supportedPictureFormats.get(i)) {
-                Log.i(TAG, "Formats supported " + jpeg);
+                LogUtil.i(TAG, "Formats supported " + jpeg);
                 return true;
             }
         }
-        Log.i(TAG, "Formats not supported " + jpeg);
+        LogUtil.i(TAG, "Formats not supported " + jpeg);
         return false;
     }
 

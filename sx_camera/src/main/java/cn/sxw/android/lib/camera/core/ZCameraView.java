@@ -13,7 +13,6 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -356,7 +355,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
                     setFocusViewWidthAnimation(event.getX(), event.getY());
                 }
                 if (event.getPointerCount() == 2) {
-                    Log.i("ZCamera", "ACTION_DOWN = " + 2);
+                    LogUtil.i("ZCamera", "ACTION_DOWN = " + 2);
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -552,7 +551,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     @Override
     public boolean handlerFocus(float x, float y) {
-        Log.w(TAG, "handlerFocus() called with: x = [" + x + "], y = [" + y + "]");
+        LogUtil.e(TAG, "handlerFocus() called with: x = [" + x + "], y = [" + y + "]");
         if (y > mCaptureLayout.getTop()) {
             return false;
         }
