@@ -37,7 +37,6 @@ import cn.sxw.android.base.okhttp.response.LoginResponse;
 import cn.sxw.android.base.utils.AESUtils;
 import cn.sxw.android.base.utils.JTextUtils;
 import cn.sxw.android.base.utils.LogUtil;
-import cn.sxw.android.base.utils.MD5Util;
 import cn.sxw.android.base.utils.NetworkUtil;
 import cn.sxw.android.base.utils.SxwMobileSSOUtil;
 import okhttp3.Call;
@@ -430,9 +429,6 @@ public class BaseHttpManagerAdv implements OkApiHelper {
             String val = headMap.get(key);
             if (!TextUtils.isEmpty(val)) {
                 requestBuilder.addHeader(key, val);
-                if ("token".equalsIgnoreCase(key)) {
-                    LogUtil.methodStepHttp("TOKEN（MD5） = " + MD5Util.getMd5(val));
-                }
                 LogUtil.methodStepHttp(key + " = " + val);
             }
         }
