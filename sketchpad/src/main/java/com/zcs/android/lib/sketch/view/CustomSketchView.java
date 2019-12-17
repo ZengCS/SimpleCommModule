@@ -151,7 +151,7 @@
 //        float scaleFactor = detector.getScaleFactor();
 //        //设置Matrix缩放参数
 //        if ((scaleFactor < 1 && len >= photoLen * SCALE_MIN && len >= SCALE_MIN_LEN) || (scaleFactor > 1 && len <= photoLen * SCALE_MAX)) {
-//            LogUtil.e(scaleFactor + "", scaleFactor + "");
+//            Log.e(scaleFactor + "", scaleFactor + "");
 //            curPhotoRecord.matrix.postScale(scaleFactor, scaleFactor, photoCorners[8], photoCorners[9]);
 //        }
 //    }
@@ -316,7 +316,7 @@
 ////        } else if (toolType == MotionEvent.TOOL_TYPE_STYLUS){//检测到手写板开始绘画则自动进入绘画模式
 ////            curSketchData.editMode = EDIT_STROKE;
 ////        }
-////        LogUtil.d(getClass().getSimpleName(), "onTouch======" + toolType);
+////        Log.d(getClass().getSimpleName(), "onTouch======" + toolType);
 //        switch (event.getAction() & MotionEvent.ACTION_MASK) {
 //            case MotionEvent.ACTION_POINTER_DOWN:
 //                float downDistance = spacing(event);
@@ -365,7 +365,7 @@
 //        float a = (float) Math.sqrt(Math.pow(curX * drawDensity - corners[8], 2) + Math.pow(curY * drawDensity - corners[9], 2));
 //        //目前上次旋转图标与图片显示中心距离
 //        float b = (float) Math.sqrt(Math.pow(corners[4] - corners[0], 2) + Math.pow(corners[5] - corners[1], 2)) / 2;
-////        LogUtil.e(TAG, "onRotateAction: a=" + a + ";b=" + b);
+////        Log.e(TAG, "onRotateAction: a=" + a + ";b=" + b);
 //        //设置Matrix缩放参数
 //        double photoLen = Math.sqrt(Math.pow(record.photoRectSrc.width(), 2) + Math.pow(record.photoRectSrc.height(), 2));
 //        if (a >= photoLen / 2 * SCALE_MIN && a >= SCALE_MIN_LEN && a <= photoLen / 2 * SCALE_MAX) {
@@ -645,12 +645,12 @@
 //                PRESSURE_FILTER_WEIGHT * mLastPressure +
 //                (1 - PRESSURE_FILTER_WEIGHT * 2) * avgPressure;
 //
-//        LogUtil.d(TAG, "calcLastPressure: --------------------------------");
-//        LogUtil.d(TAG, "calcLastPressure: len = " + (len + 1));
-//        LogUtil.d(TAG, "calcLastPressure: total = " + total);
-//        LogUtil.i(TAG, "calcLastPressure: realPressure = " + realPressure);
-//        LogUtil.w(TAG, "calcLastPressure: avgPressure = " + avgPressure);
-//        LogUtil.e(TAG, "calcLastPressure: mLastPressure = " + mLastPressure);
+//        Log.d(TAG, "calcLastPressure: --------------------------------");
+//        Log.d(TAG, "calcLastPressure: len = " + (len + 1));
+//        Log.d(TAG, "calcLastPressure: total = " + total);
+//        Log.i(TAG, "calcLastPressure: realPressure = " + realPressure);
+//        Log.w(TAG, "calcLastPressure: avgPressure = " + avgPressure);
+//        Log.e(TAG, "calcLastPressure: mLastPressure = " + mLastPressure);
 //    }
 //
 //    /**
@@ -663,24 +663,24 @@
 //        float disX, disY;
 //        switch (event.getAction()) {
 //            case MotionEvent.ACTION_DOWN:
-//                LogUtil.i(TAG, "customDragGeometric: ACTION_DOWN");
+//                Log.i(TAG, "customDragGeometric: ACTION_DOWN");
 //                if (mDashRect == null || !mDashRect.isContain(eventX, eventY)) {
-//                    LogUtil.w(TAG, "onTouchEvent: 当前点击的位置不在虚线范围内~");
+//                    Log.w(TAG, "onTouchEvent: 当前点击的位置不在虚线范围内~");
 //
 //                    mResizeDirection = mDashRect.getDirection(eventX, eventY);
 //                    // 根据方向做不同的事情
-//                    LogUtil.w(TAG, "customDragGeometric: mResizeDirection = " + mResizeDirection);
+//                    Log.w(TAG, "customDragGeometric: mResizeDirection = " + mResizeDirection);
 //                    if (mResizeDirection == DashRectangle.Direction.OUTSIDE) {
 //                        int state = 0;
 //
 //                        long timeout = System.currentTimeMillis() - mLastTouchOutsideTime;
-//                        LogUtil.d(TAG, "customDragGeometric: mTouchOutsideTimes ==> timeout = " + timeout);
+//                        Log.d(TAG, "customDragGeometric: mTouchOutsideTimes ==> timeout = " + timeout);
 //                        if (timeout < 200) {
 //                            mTouchOutsideTimes++;
 //                        } else {
 //                            mTouchOutsideTimes = 1;
 //                        }
-//                        LogUtil.d(TAG, "customDragGeometric: mTouchOutsideTimes = " + mTouchOutsideTimes);
+//                        Log.d(TAG, "customDragGeometric: mTouchOutsideTimes = " + mTouchOutsideTimes);
 //                        if (mTouchOutsideTimes == 2) {// 双击图形外区域
 //                            mTouchOutsideTimes = 0;
 //                            mOperateType = SketchMode.OperateType.OPERATE_DRAW;
@@ -704,19 +704,19 @@
 //                mDragMoveY = eventY;
 //                break;
 //            case MotionEvent.ACTION_MOVE:
-//                LogUtil.w(TAG, "customDragGeometric: ====================ACTION_MOVE");
+//                Log.w(TAG, "customDragGeometric: ====================ACTION_MOVE");
 //                float thisTimeDisX = eventX - mDragMoveX;
 //                float thisTimeDisY = eventY - mDragMoveY;
 //                if (Math.abs(thisTimeDisX) < MIN_DRAG_DISTANCE && Math.abs(thisTimeDisY) < MIN_DRAG_DISTANCE) {
-//                    LogUtil.w(TAG, "customDragGeometric: ==========本次操作的距离太短，不做处理~");
-//                    LogUtil.w(TAG, "customDragGeometric: thisTimeDisX = " + thisTimeDisX);
-//                    LogUtil.w(TAG, "customDragGeometric: thisTimeDisY = " + thisTimeDisY);
+//                    Log.w(TAG, "customDragGeometric: ==========本次操作的距离太短，不做处理~");
+//                    Log.w(TAG, "customDragGeometric: thisTimeDisX = " + thisTimeDisX);
+//                    Log.w(TAG, "customDragGeometric: thisTimeDisY = " + thisTimeDisY);
 //                    return 1;
 //                }
 //                disX = eventX - mDragDownX;
 //                disY = eventY - mDragDownY;
-//                LogUtil.d(TAG, "customDragGeometric: disX = " + disX);
-//                LogUtil.d(TAG, "customDragGeometric: disY = " + disY);
+//                Log.d(TAG, "customDragGeometric: disX = " + disX);
+//                Log.d(TAG, "customDragGeometric: disY = " + disY);
 //
 //                // 更新点位信息
 //                mDragMoveX = eventX;
@@ -728,9 +728,9 @@
 //                if (mOperateType == SketchMode.OperateType.OPERATE_DRAG) {// 拖拽图形
 //                    dragGeometric(disX, disY);
 //                } else if (mOperateType == SketchMode.OperateType.OPERATE_RESIZE) {// 改变图形大小
-//                    LogUtil.d(TAG, "customDragGeometric: 改变图形大小");
+//                    Log.d(TAG, "customDragGeometric: 改变图形大小");
 //                    int resizeGeometricResult = resizeGeometric(eventX, eventY, thisTimeDisX, thisTimeDisY);
-//                    LogUtil.d(TAG, "customDragGeometric: resizeGeometricResult = " + resizeGeometricResult);
+//                    Log.d(TAG, "customDragGeometric: resizeGeometricResult = " + resizeGeometricResult);
 //                    if (resizeGeometricResult == 0) {
 //                        mOperateType = SketchMode.OperateType.OPERATE_WAIT;
 //                        return 0;
@@ -739,7 +739,7 @@
 //                break;
 //            case MotionEvent.ACTION_UP:
 //                isLastEvent = true;
-//                LogUtil.w(TAG, "customDragGeometric: ACTION_UP");
+//                Log.w(TAG, "customDragGeometric: ACTION_UP");
 //                // 刷新区域范围
 //                resetDirtyRect(eventX, eventY);
 //                if (mOperateType == SketchMode.OperateType.OPERATE_DRAG) {// 拖拽图形
@@ -755,7 +755,7 @@
 //     * 改变图形大小
 //     */
 //    private int resizeGeometric(float eventX, float eventY, float disX, float disY) {
-//        LogUtil.d(TAG, "resizeGeometric() called with: eventX = [" + eventX + "], eventY = [" + eventY + "], disX = [" + disX + "], disY = [" + disY + "]");
+//        Log.d(TAG, "resizeGeometric() called with: eventX = [" + eventX + "], eventY = [" + eventY + "], disX = [" + disX + "], disY = [" + disY + "]");
 ////        DashRectangle tempDashRect = mDashRect.cloneRect();
 //
 //        switch (mResizeDirection) {
@@ -1052,7 +1052,7 @@
 //        }
 //        for (PhotoRecord record : photoRecordList) {
 //            if (record != null) {
-//                // LogUtil.d(getClass().getSimpleName(), "drawRecord --> " + record.bitmap.toString());
+//                // Log.d(getClass().getSimpleName(), "drawRecord --> " + record.bitmap.toString());
 //                canvas.drawBitmap(record.bitmap, record.matrix, null);
 //            }
 //        }
@@ -1475,12 +1475,12 @@
 //
 //    @Override
 //    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-//        LogUtil.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
+//        Log.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
 //        super.onSizeChanged(w, h, oldw, oldh);
 //
 //        // 尺寸变化了才重新绘制
 //        if (w != oldw || h != oldh) {
-//            LogUtil.w(TAG, "onSizeChanged: 画布尺寸发生变化，进行重绘。");
+//            Log.w(TAG, "onSizeChanged: 画布尺寸发生变化，进行重绘。");
 //            mHandler.removeMessages(WHAT_MEASURE);
 //            mHandler.sendEmptyMessageDelayed(WHAT_MEASURE, 50);
 //        }

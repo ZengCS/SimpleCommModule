@@ -4,8 +4,6 @@ import android.util.Log;
 
 import org.apache.log4j.Logger;
 
-import cn.sxw.android.BuildConfig;
-
 /**
  * Created by ZengCS on 2017/9/5.
  * E-mail:zcs@sxw.cn

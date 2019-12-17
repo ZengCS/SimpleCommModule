@@ -6,12 +6,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import java.util.Calendar;
 
 import cn.sxw.android.lib.camera.core.CameraApp;
 import cn.sxw.android.lib.camera.listener.IActivityLifeCycle;
-import cn.sxw.android.lib.camera.util.LogUtil;
 
 /**
  * 加速度控制器  用来控制对焦
@@ -105,15 +105,15 @@ public class SensorController implements IActivityLifeCycle, SensorEventListener
                 int px = Math.abs(mX - x);
                 int py = Math.abs(mY - y);
                 int pz = Math.abs(mZ - z);
-                // LogUtil.d(TAG, "pX:" + px + "  pY:" + py + "  pZ:" + pz + "    stamp:" + stamp + "  second:" + second);
+                // Log.d(TAG, "pX:" + px + "  pY:" + py + "  pZ:" + pz + "    stamp:" + stamp + "  second:" + second);
                 double value = Math.sqrt(px * px + py * py + pz * pz);
                 if (value > 1.4) {
                     // 检测手机在移动..
-                    LogUtil.i(TAG, "mobile moving");
+                    Log.i(TAG, "mobile moving");
                     STATUE = STATUS_MOVE;
                 } else {
                     // 检测手机静止..
-                    // LogUtil.i(TAG, "mobile static");
+                    // Log.i(TAG, "mobile static");
                     //上一次状态是move，记录静态时间点
                     if (STATUE == STATUS_MOVE) {
                         lastStaticStamp = stamp;
@@ -128,7 +128,7 @@ public class SensorController implements IActivityLifeCycle, SensorEventListener
                                 if (mCameraFocusListener != null) {
                                     mCameraFocusListener.onFocus();
                                 }
-                                LogUtil.i(TAG, "mobile focusing");
+                                Log.i(TAG, "mobile focusing");
                             }
                         }
                     }
@@ -172,7 +172,7 @@ public class SensorController implements IActivityLifeCycle, SensorEventListener
     public void lockFocus() {
         isFocusing = true;
         focusing--;
-        LogUtil.i(TAG, "lockFocus");
+        Log.i(TAG, "lockFocus");
     }
 
     /**
@@ -181,7 +181,7 @@ public class SensorController implements IActivityLifeCycle, SensorEventListener
     public void unlockFocus() {
         isFocusing = false;
         focusing++;
-        LogUtil.i(TAG, "unlockFocus");
+        Log.i(TAG, "unlockFocus");
     }
 
     public void restFoucs() {

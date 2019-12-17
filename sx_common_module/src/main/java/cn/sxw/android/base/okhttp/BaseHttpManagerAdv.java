@@ -595,10 +595,10 @@ public class BaseHttpManagerAdv implements OkApiHelper {
 //                            bufferedSink = Okio.buffer(sink);
 //                            bufferedSink.writeAll(response.body().source());
 //                            bufferedSink.close();
-//                            LogUtil.i("DOWNLOAD", "download success");
+//                            Log.i("DOWNLOAD", "download success");
 //                        } catch (Exception e) {
 //                            e.printStackTrace();
-//                            LogUtil.i("DOWNLOAD", "download failed");
+//                            Log.i("DOWNLOAD", "download failed");
 //                        } finally {
 //                            if (bufferedSink != null) {
 //                                bufferedSink.close();
