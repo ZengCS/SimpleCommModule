@@ -3,21 +3,12 @@ package cn.sxw.android.base.utils;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AESUtils {
-    private final static String sKey = "JMybKEd6L1cVpw==";
+import cn.sxw.android.BuildConfig;
 
+public class AESUtils {
     // 加密
     public static String Encrypt(String sSrc) throws Exception {
-        if (sKey == null) {
-            System.out.print("Key为空null");
-            return null;
-        }
-        // 判断Key是否为16位
-        if (sKey.length() != 16) {
-            System.out.print("Key长度不是16位");
-            return null;
-        }
-        byte[] raw = sKey.getBytes("utf-8");
+        byte[] raw = BuildConfig.SSO_KEY_V3.getBytes("utf-8");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");//"算法/模式/补码方式"
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
@@ -29,17 +20,7 @@ public class AESUtils {
     // 解密
     public static String Decrypt(String sSrc) throws Exception {
         try {
-            // 判断Key是否正确
-            if (sKey == null) {
-                System.out.print("Key为空null");
-                return null;
-            }
-            // 判断Key是否为16位
-            if (sKey.length() != 16) {
-                System.out.print("Key长度不是16位");
-                return null;
-            }
-            byte[] raw = sKey.getBytes("utf-8");
+            byte[] raw = BuildConfig.SSO_KEY_V3.getBytes("utf-8");
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, skeySpec);

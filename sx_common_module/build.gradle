@@ -10,6 +10,8 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // 自定义字段到BuildConfig中
+        buildConfigField 'String', 'SSO_KEY_V3', "\"JMybKEd6L1cVpw==\""
     }
 
     buildTypes {
