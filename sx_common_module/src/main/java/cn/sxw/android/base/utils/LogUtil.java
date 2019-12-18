@@ -40,7 +40,8 @@ public abstract class LogUtil {
     }
 
     public static void w(String tag, String msg) {
-        Log.w(tag, msg);
+        if (isDebug)
+            Log.w(tag, msg);
         if (useLog4j)
             log.warn(msg);
     }

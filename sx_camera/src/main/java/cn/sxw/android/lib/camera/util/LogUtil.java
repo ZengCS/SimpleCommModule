@@ -2,11 +2,9 @@ package cn.sxw.android.lib.camera.util;
 
 import android.util.Log;
 
-import static cn.sxw.android.lib.camera.BuildConfig.DEBUG;
-
 
 public class LogUtil {
-
+    private static boolean DEBUG = false;
     private static final String DEFAULT_TAG = "ZCamera";
 
     public static void i(String tag, String msg) {
