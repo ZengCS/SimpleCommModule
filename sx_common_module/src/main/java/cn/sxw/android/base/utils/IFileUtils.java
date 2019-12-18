@@ -102,7 +102,7 @@ public class IFileUtils {
     public static boolean unZipFile(String zipPath, String descDir) throws IOException {
         File zipFile = new File(zipPath);
         if (!zipFile.exists()) {
-            System.out.println("压缩文件不存在");
+            // System.out.println("压缩文件不存在");
             return false;
         }
 
@@ -114,6 +114,9 @@ public class IFileUtils {
         for (Enumeration entries = zip.entries(); entries.hasMoreElements(); ) {
             ZipEntry entry = (ZipEntry) entries.nextElement();
             String zipEntryName = entry.getName();
+            if (zipEntryName.contains("../")) {
+                continue;
+            }
             InputStream in = zip.getInputStream(entry);
             String outPath = (descDir + zipEntryName).replaceAll("\\*", "/");
             // 判断路径是否存在,不存在则创建文件路径
@@ -126,7 +129,7 @@ public class IFileUtils {
                 continue;
             }
             //输出文件路径信息
-            System.out.println(outPath);
+            // System.out.println(outPath);
 
             OutputStream out = new FileOutputStream(outPath);
             byte[] buf1 = new byte[1024];
@@ -137,7 +140,7 @@ public class IFileUtils {
             in.close();
             out.close();
         }
-        System.out.println("解压完毕");
+        // System.out.println("解压完毕");
         return true;
     }
 }
