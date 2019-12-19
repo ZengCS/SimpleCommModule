@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.bean.LoginInfoBean;
 import cn.sxw.android.base.event.ReLoginEvent;
@@ -178,7 +179,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
         } else {
             loginRequest.setAccount(loginInfoBean.getAccount());
             try {
-                loginRequest.setPassword(AESUtils.Encrypt(loginInfoBean.getPwd()));
+                loginRequest.setPassword(AESUtils.Encrypt(loginInfoBean.getPwd(), BuildConfig.SSO_KEY_V3));
             } catch (Exception e) {
                 loginRequest.setPassword(loginInfoBean.getPwd());
             }

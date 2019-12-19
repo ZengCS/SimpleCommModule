@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.bean.BlankBean;
 import cn.sxw.android.base.bean.LoginInfoBean;
@@ -200,7 +201,7 @@ public class EmptyPresenter extends BasePresenter<IEmptyModel, IEmptyView> {
         loginRequest.setUserType(String.valueOf(userType));
         loginRequest.setAccount(account);
         try {
-            loginRequest.setPassword(AESUtils.Encrypt(pwd));
+            loginRequest.setPassword(AESUtils.Encrypt(pwd, BuildConfig.SSO_KEY_V3));
         } catch (Exception e) {
             loginRequest.setPassword(pwd);
         }

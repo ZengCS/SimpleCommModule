@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.bean.LoginInfoBean;
 import cn.sxw.android.base.bean.SSODetailBean;
@@ -41,7 +42,7 @@ public class SxwMobileSSOUtil {
         try {
             // String dest = readSdcardFile(getSDCardPath() + FILE_PATH + FILE_NAME);
             String dest = readSdcardFile(getSDCardPath().concat(FILE_PATH).concat(FILE_NAME));
-            return AESUtils.Decrypt(dest);
+            return AESUtils.Decrypt(dest, BuildConfig.SSO_KEY_V3);
         } catch (Exception e) {
             e.printStackTrace();
             LogUtil.e(e);
@@ -136,7 +137,7 @@ public class SxwMobileSSOUtil {
     public static boolean saveOSSInfo(SSODetailBean ssoDetailBean) {
         mSSODetailBean = ssoDetailBean;
         try {
-            String encrypt = AESUtils.Encrypt(JSON.toJSONString(ssoDetailBean));
+            String encrypt = AESUtils.Encrypt(JSON.toJSONString(ssoDetailBean), BuildConfig.SSO_KEY_V3);
             save2SDCard(FILE_PATH, FILE_NAME, encrypt);
             return true;
         } catch (Exception e) {
