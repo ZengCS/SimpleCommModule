@@ -12,5 +12,5 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.autofocus" />
 
-    <application android:allowBackup="false" />
+    <application />
 </manifest>
