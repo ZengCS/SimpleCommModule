@@ -1184,7 +1184,8 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         float wScale = (float) canvas.getWidth() / mBgBitmap.getWidth();
         float hScale = (float) canvas.getHeight() / mBgBitmap.getHeight();
         Matrix mMatrix = new Matrix();
-        mMatrix.postScale(wScale, hScale);
+        float targetScale = Math.min(wScale,hScale);
+        mMatrix.postScale(targetScale, targetScale);
         canvas.drawBitmap(mBgBitmap, mMatrix, null);
     }
 
