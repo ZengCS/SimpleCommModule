@@ -63,19 +63,19 @@
                     android:id="@+id/id_btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="模拟学生登陆" />
+                    android:text="模拟学生登录" />
 
                 <Button
                     android:id="@+id/id_btn_login_t"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="模拟教师登陆" />
+                    android:text="模拟教师登录" />
 
                 <Button
                     android:id="@+id/id_btn_login_p"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="模拟家长登陆" />
+                    android:text="模拟家长登录" />
 
                 <Button
                     android:id="@+id/id_btn_token_expired"

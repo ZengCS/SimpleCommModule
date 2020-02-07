@@ -208,7 +208,7 @@ public class EmptyPresenter extends BasePresenter<IEmptyModel, IEmptyView> {
         loginRequest.setHttpCallback(new HttpCallback<LoginRequest, LoginResponse>() {
             @Override
             public void onStart() {
-                mRootView.showLoading("登陆中...");
+                mRootView.showLoading("登录中...");
             }
 
             @Override
