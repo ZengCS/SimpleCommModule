@@ -3,9 +3,11 @@ apply from: "appconfig.gradle"
 
 buildscript {
     repositories {
+        mavenCentral()
         google()
-        jcenter()
-        
+//        jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
@@ -18,9 +20,12 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         google()
         // jcenter()
-        jcenter() { url 'http://jcenter.bintray.com/' }
+//        jcenter() { url 'http://jcenter.bintray.com/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url "https://jitpack.io" }
         // Glide Maven
         maven {
