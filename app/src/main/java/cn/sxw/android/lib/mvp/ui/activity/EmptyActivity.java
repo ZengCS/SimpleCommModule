@@ -259,7 +259,7 @@ public class EmptyActivity extends BaseActivityAdv<EmptyPresenter> implements IE
     void onLogin(int userType) {// 用户组类型(0=普通,1=学生,2=老师,3=家长,5=管理员,6=租户管理员)多个类型，请使用逗号分隔,如[2,5]
         switch (userType) {
             case 1:// 学生
-                mPresenter.login("510101201703290022", "111111", userType);
+                mPresenter.login("510101201703290037", "111111", userType);
                 break;
             case 2:// 教师
                 mPresenter.login("511101201703290014", "a123456", userType);

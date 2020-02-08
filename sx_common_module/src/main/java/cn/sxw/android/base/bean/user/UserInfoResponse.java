@@ -12,7 +12,10 @@ import java.util.List;
 public class UserInfoResponse implements Serializable {
     private UserSimpleDTO userSimpleDTO;
     private AreaDTO areaDTO;
+    // 普通模式下-只有一个行政班级
     private ClassComplexDTO classComplexDTO;
+    // 走班排课模式下-有多个班级
+    private List<ClassComplexDTO> classComplexDTOS;
     // 当用户是教师时，此列表才有值
     private List<CourseComplexDTO> courseComplexDTOS;
     // 当用户是家长时,此列表才有值
@@ -56,5 +59,13 @@ public class UserInfoResponse implements Serializable {
 
     public void setChildDTOs(List<ChildDTO> childDTOs) {
         this.childDTOs = childDTOs;
+    }
+
+    public List<ClassComplexDTO> getClassComplexDTOS() {
+        return classComplexDTOS;
+    }
+
+    public void setClassComplexDTOS(List<ClassComplexDTO> classComplexDTOS) {
+        this.classComplexDTOS = classComplexDTOS;
     }
 }

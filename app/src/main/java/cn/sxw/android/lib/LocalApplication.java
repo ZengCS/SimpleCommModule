@@ -21,7 +21,7 @@ public class LocalApplication extends BaseApplication {
 
         // 初始化HttpManager
         // For test http://www.mocky.io/v2/5c35b8e63000009f0021b4a3
-        String host = "api2.test.sxw.cn";
+        String host = "apio.test.sxw.cn";
 
         HttpManager.getInstance()
                 .setTokenHeader(LocalTokenCache.getLocalCacheToken())

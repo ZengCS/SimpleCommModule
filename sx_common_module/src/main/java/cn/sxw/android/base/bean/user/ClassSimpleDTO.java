@@ -1,5 +1,7 @@
 package cn.sxw.android.base.bean.user;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,15 @@ public class ClassSimpleDTO implements Serializable {
     private String id;
     private String name;
     private int artOrScience;
+    private int classType;// 1行政班级 2教学班级
+
+    /**
+     * @return 是否是行政班级
+     */
+    @JSONField(serialize = false)
+    public boolean isAdministrationClass() {
+        return classType == 1;
+    }
 
     public int getArtOrScience() {
         return artOrScience;
@@ -39,5 +50,13 @@ public class ClassSimpleDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getClassType() {
+        return classType;
+    }
+
+    public void setClassType(int classType) {
+        this.classType = classType;
     }
 }

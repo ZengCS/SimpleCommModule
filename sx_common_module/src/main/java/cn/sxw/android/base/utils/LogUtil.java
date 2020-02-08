@@ -4,6 +4,8 @@ import android.util.Log;
 
 import org.apache.log4j.Logger;
 
+import cn.sxw.android.BuildConfig;
+
 /**
  * Created by ZengCS on 2017/9/5.
  * E-mail:zcs@sxw.cn
@@ -13,7 +15,7 @@ public abstract class LogUtil {
     protected static final String TAG = "Debug/SXJY";
     protected static final String TAG_HTTP = "Debug/Http";
     private static Logger log = Logger.getLogger(TAG);
-    public static boolean isDebug = false;// 开发过程中可以通过 LogUtil.isDebug = true;开启日志打印
+    public static boolean isDebug = BuildConfig.DEBUG;// 开发过程中可以通过 LogUtil.isDebug = true;开启日志打印
     private static boolean useLog4j = true;
 
     protected abstract void showFloatLog(int type, String tag, String msg);

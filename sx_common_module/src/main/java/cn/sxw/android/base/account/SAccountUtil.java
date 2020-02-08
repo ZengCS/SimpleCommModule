@@ -1,5 +1,6 @@
 package cn.sxw.android.base.account;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -295,7 +296,8 @@ public class SAccountUtil {
      * 获取学段名称
      */
     public static String getPeriodName() {
-        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        // GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        GradeComplexDTO gradeComplexDTO = getAdministrationGradeComplexDTO();
         if (gradeComplexDTO != null) {
             return gradeComplexDTO.getPeriodName();
         }
@@ -303,7 +305,8 @@ public class SAccountUtil {
     }
 
     public static String getPeriodId() {
-        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        // GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        GradeComplexDTO gradeComplexDTO = getAdministrationGradeComplexDTO();
         if (gradeComplexDTO != null) {
             return gradeComplexDTO.getPeriodId();
         }
@@ -338,7 +341,8 @@ public class SAccountUtil {
      * 获取年级名称
      */
     public static String getGradeName() {
-        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        GradeComplexDTO gradeComplexDTO = getAdministrationGradeComplexDTO();
+        // GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
         if (gradeComplexDTO != null) {
             return gradeComplexDTO.getGradeName();
         }
@@ -346,7 +350,8 @@ public class SAccountUtil {
     }
 
     public static String getGradeId() {
-        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        // GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        GradeComplexDTO gradeComplexDTO = getAdministrationGradeComplexDTO();
         if (gradeComplexDTO != null) {
             return gradeComplexDTO.getGradeId();
         }
@@ -368,7 +373,8 @@ public class SAccountUtil {
      * 获取年级名称
      */
     public static String getGradeLevelName() {
-        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        // GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        GradeComplexDTO gradeComplexDTO = getAdministrationGradeComplexDTO();
         if (gradeComplexDTO != null) {
             return gradeComplexDTO.getGradeLevelName();
         }
@@ -376,7 +382,8 @@ public class SAccountUtil {
     }
 
     public static String getGradeLevelId() {
-        GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        // GradeComplexDTO gradeComplexDTO = getGradeComplexDTO();
+        GradeComplexDTO gradeComplexDTO = getAdministrationGradeComplexDTO();
         if (gradeComplexDTO != null) {
             return gradeComplexDTO.getGradeLevelId();
         }
@@ -500,15 +507,191 @@ public class SAccountUtil {
     }
 
     /**
-     * 获取班级名称
+     * 获取班级名称-行政班级
      */
     public static String getClassName() {
         ClassSimpleDTO classSimpleDTO = getClassSimpleDTO();
 
         if (classSimpleDTO == null)
-            return "班级-未知";
+            return getAdministrationClassName();
         else
             return classSimpleDTO.getName();
+    }
+
+    /**
+     * @return 学生的行政班级名称
+     */
+    private static String getAdministrationClassName() {
+        ClassSimpleDTO classSimpleDTO = getAdministrationClassSimpleDTO();
+        if (classSimpleDTO != null)
+            return classSimpleDTO.getName();
+        return "";
+    }
+
+    /**
+     * @return 学生行政班级ID
+     */
+    private static String getAdministrationClassId() {
+        ClassSimpleDTO classSimpleDTO = getAdministrationClassSimpleDTO();
+        if (classSimpleDTO != null)
+            return classSimpleDTO.getId();
+        return "";
+    }
+
+    /**
+     * @return 行政班级详情
+     */
+    public static ClassSimpleDTO getAdministrationClassSimpleDTO() {
+        ClassComplexDTO dto = getAdministrationClassComplexDTO();
+        if (dto != null) {
+            return dto.getClassSimpleDTO();
+        }
+        return null;
+    }
+
+    /**
+     * @return 行政班级科目信息
+     */
+    public static GradeComplexDTO getAdministrationGradeComplexDTO() {
+        ClassComplexDTO dto = getAdministrationClassComplexDTO();
+        if (dto != null) {
+            return dto.getGradeComplexDTO();
+        }
+        return null;
+    }
+
+    /**
+     * @return 行政班级对象
+     */
+    public static ClassComplexDTO getAdministrationClassComplexDTO() {
+        List<ClassComplexDTO> studentClassList = getStudentClassList();
+        if (!JListKit.isEmpty(studentClassList)) {
+            for (ClassComplexDTO dto : studentClassList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null && classSimpleDTO.isAdministrationClass())
+                    return dto;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return 学生的教学班级列表
+     */
+    public static List<ClassComplexDTO> getStudentTeachClassList() {
+        List<ClassComplexDTO> studentClassList = getStudentClassList();
+        if (JListKit.isNotEmpty(studentClassList)) {
+            List<ClassComplexDTO> teachList = JListKit.newArrayList();
+            for (ClassComplexDTO dto : studentClassList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null && !classSimpleDTO.isAdministrationClass()) {
+                    teachList.add(dto);
+                }
+            }
+            return teachList;
+        }
+        return JListKit.newArrayList();
+    }
+
+    /**
+     * 是否是我在班级-学生&教师均可用
+     *
+     * @param classId 班级ID
+     * @return true:是 false:否
+     */
+    public static boolean isMyClass(@NonNull String classId) {
+        if (TextUtils.isEmpty(classId))
+            return false;
+        // 判断是不是学生
+        List<ClassComplexDTO> studentClassList = getStudentClassList();
+        if (JListKit.isNotEmpty(studentClassList)) {
+            for (ClassComplexDTO dto : studentClassList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null) {
+                    if (classId.equals(classSimpleDTO.getId()))
+                        return true;
+                }
+            }
+        }
+        // 判断是不是老师
+        List<ClassComplexDTO> classList = getClassList();
+        if (JListKit.isNotEmpty(classList)) {
+            for (ClassComplexDTO dto : classList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null) {
+                    if (classId.equals(classSimpleDTO.getId()))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 根据班级id获取班级名称-学生&教师
+     *
+     * @param classId 班级id
+     * @return 班级名称
+     */
+    public static String getClassNameById(@NonNull String classId) {
+        if (TextUtils.isEmpty(classId))
+            return "";
+        ClassComplexDTO classDTOById = getClassDTOById(classId);
+        if (classDTOById != null) {
+            ClassSimpleDTO classSimpleDTO = classDTOById.getClassSimpleDTO();
+            if (classSimpleDTO != null) {
+                return classSimpleDTO.getName();
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 根据班级ID获取班级详情-学生&教师
+     *
+     * @param classId 班级ID
+     * @return 班级详情DTO
+     */
+    public static ClassComplexDTO getClassDTOById(@NonNull String classId) {
+        if (TextUtils.isEmpty(classId))
+            return null;
+        List<ClassComplexDTO> classList = getClassList();
+        if (JListKit.isNotEmpty(classList)) {
+            for (ClassComplexDTO dto : classList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null && classId.equals(classSimpleDTO.getId())) {
+                    return dto;
+                }
+            }
+        }
+        List<ClassComplexDTO> studentClassList = getStudentClassList();
+        if (JListKit.isNotEmpty(studentClassList)) {
+            for (ClassComplexDTO dto : studentClassList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null && classId.equals(classSimpleDTO.getId())) {
+                    return dto;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return 学生的所有班级列表
+     */
+    public static List<ClassComplexDTO> getStudentClassList() {
+        getLoginedAccount();
+        if (userInfoResponse != null) {
+            try {
+                return userInfoResponse.getClassComplexDTOS();
+            } catch (Exception e) {
+                e.printStackTrace();
+                LogUtil.e(e);
+                return null;
+            }
+        }
+        return null;
     }
 
     /**
@@ -517,7 +700,7 @@ public class SAccountUtil {
     public static String getClassId() {
         ClassSimpleDTO classSimpleDTO = getClassSimpleDTO();
         if (classSimpleDTO == null)
-            return "";
+            return getAdministrationClassId();
         else
             return classSimpleDTO.getId();
     }
@@ -539,6 +722,47 @@ public class SAccountUtil {
         return null;
     }
 
+    /**
+     * 获取教师行政班级列表
+     *
+     * @return 行政班级列表
+     */
+    public static List<ClassComplexDTO> getTeacherAdministrationClassList() {
+        List<ClassComplexDTO> classList = getClassList();
+        if (JListKit.isNotEmpty(classList)) {
+            List<ClassComplexDTO> tempList = JListKit.newArrayList();
+            for (ClassComplexDTO dto : classList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null && classSimpleDTO.isAdministrationClass()) {
+                    tempList.add(dto);
+                }
+            }
+            return tempList;
+        }
+        return JListKit.newArrayList();
+    }
+
+    /**
+     * 获取教师教学班级列表
+     *
+     * @return 教学班级列表
+     */
+    public static List<ClassComplexDTO> getTeacherTeachClassList() {
+        List<ClassComplexDTO> classList = getClassList();
+        if (JListKit.isNotEmpty(classList)) {
+            List<ClassComplexDTO> tempList = JListKit.newArrayList();
+            for (ClassComplexDTO dto : classList) {
+                ClassSimpleDTO classSimpleDTO = dto.getClassSimpleDTO();
+                if (classSimpleDTO != null && !classSimpleDTO.isAdministrationClass()) {
+                    tempList.add(dto);
+                }
+            }
+            return tempList;
+        }
+        return JListKit.newArrayList();
+    }
+
+
     public static List<TermComplexDTO> getTermList() {
         List<CourseComplexDTO> list = getCourseComplexDTOList();
         if (JListKit.isNotEmpty(list)) {
@@ -555,6 +779,7 @@ public class SAccountUtil {
 
     /**
      * 获取班级名称列表
+     * 教师专用
      */
     public static List<String> getClassNameList() {
         List<ClassComplexDTO> classList = getClassList();

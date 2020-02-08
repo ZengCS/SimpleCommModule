@@ -10,6 +10,7 @@ import org.androidannotations.annotations.ViewById;
 
 import cn.sxw.android.base.account.SAccountUtil;
 import cn.sxw.android.base.bean.LoginInfoBean;
+import cn.sxw.android.base.bean.user.ClassComplexDTO;
 import cn.sxw.android.base.di.component.AppComponent;
 import cn.sxw.android.base.okhttp.response.LoginResponse;
 import cn.sxw.android.base.utils.SxwMobileSSOUtil;
@@ -74,48 +75,87 @@ public class UserProfileActivity extends BaseActivityAdv {
         sb.append("\n-----------------------------------------\n");
         switch (userType) {
             case "STUDENT":
-                sb.append("班级名称：");
-                sb.append(SAccountUtil.getClassName());
-                sb.append("\n班级ID：");
-                sb.append(SAccountUtil.getClassId());
-                sb.append("\n年级名称：");
-                sb.append(SAccountUtil.getGradeName());
-                sb.append("\n年级ID：");
-                sb.append(SAccountUtil.getGradeId());
-                sb.append("\n学段名称：");
-                sb.append(SAccountUtil.getPeriodName());
-                sb.append("\n学段ID：");
-                sb.append(SAccountUtil.getPeriodId());
-                sb.append("\n年级级别名称：");
-                sb.append(SAccountUtil.getGradeLevelName());
-                sb.append("\n年级级别ID：");
-                sb.append(SAccountUtil.getGradeLevelId());
+                analysisStudentInfo(sb, textView);
                 break;
             case "TEACHER":
 //                sb.append("---->【getCourseComplexDTOList】：");
 //                sb.append(JSON.toJSONString(SAccountUtil.getCourseComplexDTOList()));
-                sb.append("---->【班级名称列表】：");
-                sb.append(JSON.toJSONString(SAccountUtil.getClassNameList()));
-                sb.append("\n\n---->【班级列表】：");
-                sb.append(JSON.toJSONString(SAccountUtil.getClassList()));
-                sb.append("\n\n---->【学科列表】：");
-                sb.append(JSON.toJSONString(SAccountUtil.getSubjectList()));
-                sb.append("\n\n---->【学期列表】：");
-                sb.append(JSON.toJSONString(SAccountUtil.getTermList()));
+                analysisTeacherInfo(sb, textView);
                 break;
             case "PARENT":
-                sb.append("---->【默认孩子-姓名】：");
-                sb.append(SAccountUtil.getDefaultChildName());
-                sb.append("\n---->【默认孩子-ID】：");
-                sb.append(SAccountUtil.getDefaultChildId());
-                sb.append("\n\n---->【全部孩子姓名列表】：");
-                sb.append(JSON.toJSONString(SAccountUtil.getChildNameList()));
-                sb.append("\n\n---->【孩子列表】：");
-                sb.append(JSON.toJSONString(SAccountUtil.getChildList()));
-                sb.append("\n\n---->【默认孩子】：");
-                sb.append(JSON.toJSONString(SAccountUtil.getDefaultChildUserSimpleDTO()));
+                analysisParentInfo(sb, textView);
                 break;
         }
+
+
+    }
+
+    private void analysisStudentInfo(StringBuilder sb, TextView textView) {
+        // 解析走班排课数据
+        sb.append("[行政]班级名称：");
+        sb.append(SAccountUtil.getClassName());
+        sb.append("\n班级ID：");
+        sb.append(SAccountUtil.getClassId());
+        sb.append("\n年级名称：");
+        sb.append(SAccountUtil.getGradeName());
+        sb.append("\n年级ID：");
+        sb.append(SAccountUtil.getGradeId());
+        sb.append("\n学段名称：");
+        sb.append(SAccountUtil.getPeriodName());
+        sb.append("\n学段ID：");
+        sb.append(SAccountUtil.getPeriodId());
+        sb.append("\n年级级别名称：");
+        sb.append(SAccountUtil.getGradeLevelName());
+        sb.append("\n年级级别ID：");
+        sb.append(SAccountUtil.getGradeLevelId());
+        sb.append("\n\n[教学]班级列表");
+        sb.append("\n");
+        sb.append(JSON.toJSONString(SAccountUtil.getStudentTeachClassList()));
+        sb.append("\n是否是我的班级1：");
+        sb.append(SAccountUtil.isMyClass("123"));
+        sb.append("\n是否是我的班级2：");
+        sb.append(SAccountUtil.isMyClass(SAccountUtil.getClassId()));
+        sb.append("\n根本班级ID获取班级名称：");
+        sb.append(SAccountUtil.getClassNameById(SAccountUtil.getClassId()));
+        sb.append("\n根本班级ID获取班级详情：");
+        ClassComplexDTO classDTOById = SAccountUtil.getClassDTOById(SAccountUtil.getClassId());
+        if (classDTOById == null) {
+            sb.append("classDTOById is null");
+        } else {
+            sb.append(JSON.toJSONString(classDTOById));
+        }
+
+        textView.setText(sb.toString());
+    }
+
+    private void analysisTeacherInfo(StringBuilder sb, TextView textView) {
+        sb.append("---->【班级名称列表】：");
+        sb.append(JSON.toJSONString(SAccountUtil.getClassNameList()));
+        sb.append("\n---->【行政班级数量】：");
+        sb.append(SAccountUtil.getTeacherAdministrationClassList().size());
+        sb.append("\n---->【教学班级数量】：");
+        sb.append(SAccountUtil.getTeacherTeachClassList().size());
+        sb.append("\n\n---->【班级列表】：");
+        sb.append(JSON.toJSONString(SAccountUtil.getClassList()));
+        sb.append("\n\n---->【学科列表】：");
+        sb.append(JSON.toJSONString(SAccountUtil.getSubjectList()));
+        sb.append("\n\n---->【学期列表】：");
+        sb.append(JSON.toJSONString(SAccountUtil.getTermList()));
+
+        textView.setText(sb.toString());
+    }
+
+    private void analysisParentInfo(StringBuilder sb, TextView textView) {
+        sb.append("---->【默认孩子-姓名】：");
+        sb.append(SAccountUtil.getDefaultChildName());
+        sb.append("\n---->【默认孩子-ID】：");
+        sb.append(SAccountUtil.getDefaultChildId());
+        sb.append("\n\n---->【全部孩子姓名列表】：");
+        sb.append(JSON.toJSONString(SAccountUtil.getChildNameList()));
+        sb.append("\n\n---->【孩子列表】：");
+        sb.append(JSON.toJSONString(SAccountUtil.getChildList()));
+        sb.append("\n\n---->【默认孩子】：");
+        sb.append(JSON.toJSONString(SAccountUtil.getDefaultChildUserSimpleDTO()));
 
         textView.setText(sb.toString());
     }

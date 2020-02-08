@@ -25,7 +25,9 @@ public class UserInfoRequest extends BaseRequest {
      * @param activity
      */
     public UserInfoRequest(Activity activity, int userType) {
-        super(activity, String.format(ApiConfig.API_FIND_USER_INFO, userType));
+        // super(activity, String.format(ApiConfig.API_FIND_USER_INFO, userType));
+        // 替换成支持走班排课的登录接口
+        super(activity, String.format(ApiConfig.API_FIND_USER_INFO_V4, userType));
     }
 
     @Override
