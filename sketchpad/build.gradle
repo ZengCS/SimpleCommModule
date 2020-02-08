@@ -30,7 +30,7 @@ dependencies {
 
     implementation rootProject.ext.var.appcompat_v7
     implementation rootProject.ext.var.design
-    implementation var.eventBus
+    api var.eventBus
 
     api project(':autolayout')
 }
