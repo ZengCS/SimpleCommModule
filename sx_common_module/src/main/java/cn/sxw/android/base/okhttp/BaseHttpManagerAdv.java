@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -351,7 +352,24 @@ public class BaseHttpManagerAdv implements OkApiHelper {
             } catch (IOException e) {
                 e.printStackTrace();
                 if (canCallback(activity, callback)) {
-                    mHandler.post(() -> callback.onFail(null, HttpCode.NOT_FOUND, "接口地址不存在！"));
+                    // mHandler.post(() -> callback.onFail(null, HttpCode.NOT_FOUND, "接口地址不存在！"));
+
+                    // 1.触发IOException的时候，直接返回超时错误
+                    callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "连接超时，请重试!");
+                    // 输出具体错误到log.txt
+                    LogUtil.e(Log.getStackTraceString(e));
+
+                    // 2.区分404和500 默认是500
+                    // HTTP response code like 404 or 500.
+                    // 2020年02月10日16:46:55
+//                    mHandler.post(() -> {
+//                        String eMessage = e.getMessage();
+//                        if (eMessage.contains("404") || eMessage.contains("Not Found") || eMessage.contains("NotFound")) {
+//                            callback.onFail(null, HttpCode.NOT_FOUND, "接口地址不存在！");
+//                        } else {
+//                            callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "连接超时，请重试!");
+//                        }
+//                    });
                 }
             } catch (JsonSyntaxException | JSONException e) {
                 e.printStackTrace();

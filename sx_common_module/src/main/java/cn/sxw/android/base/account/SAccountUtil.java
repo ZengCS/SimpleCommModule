@@ -686,8 +686,8 @@ public class SAccountUtil {
             try {
                 return userInfoResponse.getClassComplexDTOS();
             } catch (Exception e) {
-                e.printStackTrace();
-                LogUtil.e(e);
+                // e.printStackTrace();
+                // LogUtil.e(e);
                 return null;
             }
         }
@@ -813,8 +813,8 @@ public class SAccountUtil {
             try {
                 return userInfoResponse.getClassComplexDTO().getClassSimpleDTO();
             } catch (Exception e) {
-                e.printStackTrace();
-                LogUtil.e(e);
+                // e.printStackTrace();
+                // LogUtil.e(e);
                 return null;
             }
         }
