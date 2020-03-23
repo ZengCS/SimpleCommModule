@@ -13,10 +13,14 @@
             <flag name="marginTop" value="64"></flag>
             <flag name="marginRight" value="128"></flag>
             <flag name="marginBottom" value="256"></flag>
-            <flag name="paddingLeft" value="512"></flag>
-            <flag name="paddingTop" value="1024"></flag>
-            <flag name="paddingRight" value="2048"></flag>
-            <flag name="paddingBottom" value="4096"></flag>
+            <flag name="marginStart" value="512"></flag>
+            <flag name="marginEnd" value="1024"></flag>
+            <flag name="paddingLeft" value="2048"></flag>
+            <flag name="paddingTop" value="4096"></flag>
+            <flag name="paddingRight" value="8192"></flag>
+            <flag name="paddingBottom" value="16384"></flag>
+            <flag name="paddingStart" value="32768"></flag>
+            <flag name="paddingEnd" value="65536"></flag>
         </attr>
 
         <attr name="layout_auto_baseheight">
@@ -29,14 +33,18 @@
             <flag name="marginTop" value="64"></flag>
             <flag name="marginRight" value="128"></flag>
             <flag name="marginBottom" value="256"></flag>
-            <flag name="paddingLeft" value="512"></flag>
-            <flag name="paddingTop" value="1024"></flag>
-            <flag name="paddingRight" value="2048"></flag>
-            <flag name="paddingBottom" value="4096"></flag>
-            <flag name="minWidth" value="8192"></flag>
-            <flag name="maxWidth" value="16384"></flag>
-            <flag name="minHeight" value="32768"></flag>
-            <flag name="maxHeight" value="65536"></flag>
+            <flag name="marginStart" value="512"></flag>
+            <flag name="marginEnd" value="1024"></flag>
+            <flag name="paddingLeft" value="2048"></flag>
+            <flag name="paddingTop" value="4096"></flag>
+            <flag name="paddingRight" value="8192"></flag>
+            <flag name="paddingBottom" value="16384"></flag>
+            <flag name="paddingStart" value="32768"></flag>
+            <flag name="paddingEnd" value="65536"></flag>
+            <flag name="minWidth" value="131072"></flag>
+            <flag name="maxWidth" value="262144"></flag>
+            <flag name="minHeight" value="524288"></flag>
+            <flag name="maxHeight" value="1048576"></flag>
         </attr>
 
     </declare-styleable>

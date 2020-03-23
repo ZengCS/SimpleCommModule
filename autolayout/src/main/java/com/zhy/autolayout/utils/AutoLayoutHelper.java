@@ -65,8 +65,10 @@ public class AutoLayoutHelper {
                     android.R.attr.maxHeight,//
                     android.R.attr.minWidth,//
                     android.R.attr.minHeight,//16843072
-
-
+                    android.R.attr.paddingStart,//
+                    android.R.attr.paddingEnd,//
+                    android.R.attr.layout_marginStart,//
+                    android.R.attr.layout_marginEnd,//
             };
 
     private static final int INDEX_TEXT_SIZE = 0;
@@ -86,6 +88,10 @@ public class AutoLayoutHelper {
     private static final int INDEX_MAX_HEIGHT = 14;
     private static final int INDEX_MIN_WIDTH = 15;
     private static final int INDEX_MIN_HEIGHT = 16;
+    private static final int INDEX_PADDING_START = 17;
+    private static final int INDEX_PADDING_END = 18;
+    private static final int INDEX_MARGIN_START = 19;
+    private static final int INDEX_MARGIN_END = 20;
 
 
     /**
@@ -165,12 +171,14 @@ public class AutoLayoutHelper {
                     info.addAttr(new PaddingAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_PADDING_LEFT:
+                case INDEX_PADDING_START:
                     info.addAttr(new PaddingLeftAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_PADDING_TOP:
                     info.addAttr(new PaddingTopAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_PADDING_RIGHT:
+                case INDEX_PADDING_END:
                     info.addAttr(new PaddingRightAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_PADDING_BOTTOM:
@@ -186,12 +194,14 @@ public class AutoLayoutHelper {
                     info.addAttr(new MarginAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_MARGIN_LEFT:
+                case INDEX_MARGIN_START:
                     info.addAttr(new MarginLeftAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_MARGIN_TOP:
                     info.addAttr(new MarginTopAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_MARGIN_RIGHT:
+                case INDEX_MARGIN_END:
                     info.addAttr(new MarginRightAttr(pxVal, baseWidth, baseHeight));
                     break;
                 case INDEX_MARGIN_BOTTOM:

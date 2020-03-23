@@ -72,6 +72,12 @@ public class AutoLayoutInfo {
             if ((attrs & Attrs.MARGIN_BOTTOM) != 0) {
                 autoLayoutInfo.addAttr(MarginBottomAttr.generate(((ViewGroup.MarginLayoutParams) params).bottomMargin, base));
             }
+            if((attrs & Attrs.MARGIN_START) != 0){
+                autoLayoutInfo.addAttr(MarginLeftAttr.generate(((ViewGroup.MarginLayoutParams) params).getMarginStart(), base));
+            }
+            if((attrs & Attrs.MARGIN_END) != 0){
+                autoLayoutInfo.addAttr(MarginLeftAttr.generate(((ViewGroup.MarginLayoutParams) params).getMarginEnd(), base));
+            }
         }
 
         //padding
@@ -92,6 +98,12 @@ public class AutoLayoutInfo {
         }
         if ((attrs & Attrs.PADDING_BOTTOM) != 0) {
             autoLayoutInfo.addAttr(MarginBottomAttr.generate(view.getPaddingBottom(), base));
+        }
+        if((attrs & Attrs.PADDING_START) != 0){
+            autoLayoutInfo.addAttr(MarginLeftAttr.generate(view.getPaddingStart(),base));
+        }
+        if((attrs & Attrs.PADDING_END) != 0){
+            autoLayoutInfo.addAttr(MarginRightAttr.generate(view.getPaddingEnd(),base));
         }
 
         //minWidth ,maxWidth , minHeight , maxHeight
