@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
@@ -73,9 +74,10 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     public static final int BUTTON_STATE_ONLY_RECORDER = 0x102;     // 只能录像
     public static final int BUTTON_STATE_BOTH = 0x103;              // 两者都可以
 
-    @IntDef({BUTTON_STATE_ONLY_CAPTURE,BUTTON_STATE_ONLY_RECORDER,BUTTON_STATE_BOTH})
+    @IntDef({BUTTON_STATE_ONLY_CAPTURE, BUTTON_STATE_ONLY_RECORDER, BUTTON_STATE_BOTH})
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface ButtonState{}
+    public @interface ButtonState {
+    }
 
     // 回调监听
     private ZCameraListener zCameraListener;
@@ -290,14 +292,23 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     }
 
     //生命周期onResume
-    public void onResume() {
+    public void onResume(boolean isFirst) {
         LogUtil.i("ZCameraView onResume");
         resetState(TYPE_DEFAULT); //重置状态
         // CameraInterface.getInstance().registerSensorManager(mContext);
         CameraInterface.getInstance().setSwitchView(mSwitchCamera, mFlashLamp);
         mCameraMachine.start(mVideoView.getHolder(), screenProp);
-
-        autoFocusDelay();
+        if (!isFirst) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    CameraInterface.PRETEND_SWITCH_CAMERA = true;
+                    mCameraMachine.switchCamera(mVideoView.getHolder(), screenProp);
+                    // 每次切换摄像头后，刷新对焦
+                    autoFocusDelay();
+                }
+            }, 500);
+        }
     }
 
     private void autoFocusDelay() {
@@ -313,6 +324,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     public void onPause() {
         LogUtil.i("ZCameraView onPause");
         stopVideo();
+        mCaptureLayout.stopRecord();
         resetState(TYPE_PICTURE);
         CameraInterface.getInstance().isPreview(false);
         // CameraInterface.getInstance().unregisterSensorManager(mContext);

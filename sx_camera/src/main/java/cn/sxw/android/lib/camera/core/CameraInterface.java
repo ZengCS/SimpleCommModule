@@ -240,12 +240,18 @@ public class CameraInterface implements Camera.PreviewCallback {
         }
     }
 
+    public static boolean PRETEND_SWITCH_CAMERA = false;
+
     public synchronized void switchCamera(SurfaceHolder holder, float screenProp) {
-        if (SELECTED_CAMERA == CAMERA_POST_POSITION) {
-            SELECTED_CAMERA = CAMERA_FRONT_POSITION;
-        } else {
-            SELECTED_CAMERA = CAMERA_POST_POSITION;
+        if (!PRETEND_SWITCH_CAMERA) {
+            if (SELECTED_CAMERA == CAMERA_POST_POSITION) {
+                SELECTED_CAMERA = CAMERA_FRONT_POSITION;
+            } else {
+                SELECTED_CAMERA = CAMERA_POST_POSITION;
+            }
         }
+        PRETEND_SWITCH_CAMERA = false;
+
         doDestroyCamera();
         LogUtil.i("open start");
         openCamera(SELECTED_CAMERA);
