@@ -124,6 +124,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                 // 告知重新登录
                 LogUtil.methodStepHttp("告知重新登录");
                 EventBus.getDefault().post(new ReLoginEvent());
+                finishRequest(lastRequest);
             }
             return;
         }
@@ -147,7 +148,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                 SxwMobileSSOUtil.syncLoginResponse(loginResponse);
                 // 重发上一次的请求
                 lastRequest.getHeadMap().put("TOKEN", loginResponse.getToken());
-                sendRequest(lastRequest);
+                sendRequest(lastRequest,true);
             }
 
             @Override
@@ -166,7 +167,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
         sendGet(refreshTokenRequest);
     }
 
-    private void autoLoginBackground(BaseRequest lastRequest) {
+    private void autoLoginBackground(@NonNull BaseRequest lastRequest) {
         lastRequest.setAllowAutoLogin(false);// 表示已经自动登录过了，不能再登录了
 
         LoginRequest loginRequest = new LoginRequest(lastRequest.getActivity());
@@ -176,6 +177,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
             // 告知重新登录
             LogUtil.methodStepHttp("告知重新登录");
             EventBus.getDefault().post(new ReLoginEvent());
+            finishRequest(lastRequest);
             return;
         } else {
             loginRequest.setAccount(loginInfoBean.getAccount());
@@ -200,7 +202,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                 SxwMobileSSOUtil.syncLoginResponse(loginResponse);
                 // 重发上一次的请求
                 lastRequest.getHeadMap().put("TOKEN", loginResponse.getToken());
-                sendRequest(lastRequest);
+                sendRequest(lastRequest,true);
             }
 
             @Override
@@ -214,6 +216,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                 } else {
                     lastRequest.getHttpCallback().onFail(lastRequest, HttpCode.OTHER_ERROR, "数据加载失败，请重试。");
                 }
+                finishRequest(lastRequest);
             }
 
             @Override
@@ -223,7 +226,26 @@ public class BaseHttpManagerAdv implements OkApiHelper {
         }).post();
     }
 
+    /**
+     * 结束request请求
+     * @param req
+     */
+    private void finishRequest(@NonNull BaseRequest req){
+        if(req.getHttpCallback() != null){
+            req.getHttpCallback().onFinish();
+        }
+    }
+
     public <V> void sendRequest(BaseRequest req) {
+        sendRequest(req,false);
+    }
+
+    /**
+     *
+     * @param req 请求request
+     * @param isRetry 标记request是否是重试
+     */
+    public <V> void sendRequest(BaseRequest req,boolean isRetry) {
         // 把部分对象抽出来
         int methodType = req.getMethodType();
         Activity activity = req.getActivity();
@@ -233,13 +255,22 @@ public class BaseHttpManagerAdv implements OkApiHelper {
 
         if (!NetworkUtil.isConnected()) {
             if (canCallback(activity, callback)) {
-                mHandler.post(() -> callback.onFail(null, HttpCode.NETWORK_ERROR, "请检查网络是否连接"));
+                mHandler.post(() -> {
+                    callback.onFail(null, HttpCode.NETWORK_ERROR, "请检查网络是否连接");
+                    //若是重试的请求，第一次已经执行过onStart了，故这里要调用onFinish进行结束请求
+                    if(isRetry){
+                        callback.onFinish();
+                    }
+                });
             }
             return;
         }
-        if (canCallback(activity, callback)) {
-            // 回调onStart，开发者可在onStart中显示Loading状态
-            mHandler.post(callback::onStart);
+        //非重试请求，需要执行此处
+        if (!isRetry){
+            if (canCallback(activity, callback)) {
+                // 回调onStart，开发者可在onStart中显示Loading状态
+                mHandler.post(callback::onStart);
+            }
         }
 
         new Thread(() -> {
@@ -254,7 +285,11 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                     BaseResponse baseResponse = JSON.parseObject(response, BaseResponse.class);
                     if (baseResponse == null) {
                         if (canCallback(activity, callback)) {
-                            mHandler.post(() -> callback.onFail(req, HttpCode.INTERNAL_SERVER_ERROR, response));
+                            mHandler.post(() -> {
+                                callback.onFail(req, HttpCode.INTERNAL_SERVER_ERROR, response);
+                                //保证与onStart成对出现
+                                callback.onFinish();
+                            });
                         }
                         return;
                     }
@@ -281,7 +316,11 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                                     String typeName = req.getTypeReference().getType().toString();
                                     // 因为这里response是String类型的,如果泛型不是String的话,这里要Crash
                                     if (!TextUtils.isEmpty(typeName) && typeName.contains("java.lang.String")) {
-                                        mHandler.post(() -> callback.onResult(req, (V) response));
+                                        mHandler.post(() ->{
+                                            callback.onResult(req, (V) response);
+                                            //保证与onStart成对出现
+                                            callback.onFinish();
+                                        });
                                         return;
                                     }
                                 } catch (Exception e) {
