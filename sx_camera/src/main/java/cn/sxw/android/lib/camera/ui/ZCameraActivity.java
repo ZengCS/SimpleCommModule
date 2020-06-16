@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -81,9 +82,10 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
 
     /**
      * 是否仅启动拍照功能
+     *
      * @return
      */
-    protected boolean isOnlyCameraCapture(){
+    protected boolean isOnlyCameraCapture() {
         return configFeatureType() == ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
     }
 
@@ -193,12 +195,15 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
+    private boolean isFirst = true;
+
     @Override
     protected void onResume() {
         super.onResume();
         if (isGranted && mCameraView != null) {
-            mCameraView.onResume();
+            mCameraView.onResume(isFirst);
         }
+        isFirst = false;
     }
 
     @Override

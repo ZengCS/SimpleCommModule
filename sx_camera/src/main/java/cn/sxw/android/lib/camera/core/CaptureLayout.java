@@ -420,4 +420,8 @@ public class CaptureLayout extends FrameLayout {
         }
     }
 
+    public void stopRecord() {
+        if (mCaptureBtn != null)
+            mCaptureBtn.stopRecord();
+    }
 }
