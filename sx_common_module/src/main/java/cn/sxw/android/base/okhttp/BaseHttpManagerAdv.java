@@ -394,7 +394,7 @@ public class BaseHttpManagerAdv implements OkApiHelper {
                     // mHandler.post(() -> callback.onFail(null, HttpCode.NOT_FOUND, "接口地址不存在！"));
 
                     // 1.触发IOException的时候，直接返回超时错误
-                    callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "连接超时，请重试!");
+                    mHandler.post(() -> callback.onFail(null, HttpCode.SOCKET_TIMEOUT, "连接超时，请重试!"));
                     // 输出具体错误到log.txt
                     LogUtil.e(Log.getStackTraceString(e));
 
