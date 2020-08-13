@@ -70,14 +70,35 @@ public class SystemUtil {
      * 设备是否是华为C5系列
      */
     public static boolean isHwC5() {
-        return "BZT-W09".equals(getSystemModel());
+        return "BZT-W09".equals(getSystemModel()) || isNewC5();
     }
 
     /**
      * 设备是否是华为C3系列
      */
     public static boolean isHwC3() {
-        return "BZA-W00".equals(getSystemModel());
+        return "BZA-W00".equals(getSystemModel()) || isNewC3();
+    }
+
+    /**
+     * 设备是否是华为C5系列
+     */
+    public static boolean isNewC5() {
+        return "BZT3-W09".equals(getSystemModel());
+    }
+
+    /**
+     * 设备是否是华为C3系列
+     */
+    public static boolean isNewC3() {
+        return "BZC-W00".equals(getSystemModel());
+    }
+
+    /**
+     * 是否是被允许的管控的华为平板
+     */
+    public static boolean isAllowedHwPad() {
+        return isHwT3() || isHwT5() || isHwC3() || isHwC5();
     }
 
     /**
