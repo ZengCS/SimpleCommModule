@@ -8,7 +8,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Random;
+
 import cn.sxw.android.base.dialog.CustomDialogHelper;
+import cn.sxw.android.base.utils.dialog.DialogParam;
 import cn.sxw.android.lib.camera.ui.ZCameraActivity;
 import cn.sxw.android.lib.mvp.ui.activity.EmptyActivity_;
 import cn.sxw.android.lib.mvp.ui.activity.CameraDemoActivity;
@@ -66,11 +69,21 @@ public class MainActivity extends CustomBaseActivity {
         startActivity(intent);
     }
 
-    public void openZDialog(View view){
-
-        String msg = "大法官师大法官师大法官大法官师大法官师大法官个dfg 热图个dfg\n大法官大法官大法官\n\n大法官有金龟换酒过很久过很久光辉结核杆菌过很久\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n99";
-        CustomDialogHelper.DialogParam dialogParam = new CustomDialogHelper.DialogParam("作业内容",msg);
+    public void openZDialog(View view) {
+        String msg = "大法官师大法官师大法官大法官师大法官师大法官个dfg 热图个dfg\n大法官大法官大法官\n\n大法官有金龟换酒过很久过很久光辉结核杆菌过很久\n1\n2\n3\n4\n5\n6\n7\n8\n9\n8\n7\n6\n5\n4\n3\n2\n1\n2\n3\n4\n5\n6\n7\n8\n9";
+        CustomDialogHelper.DialogParam dialogParam = new CustomDialogHelper.DialogParam("作业内容", msg);
         dialogParam.setPositiveBtnText("我知道了");
+        dialogParam.setCenterContent(false);
+        dialogParam.setShowCloseIcon(true);
+
+        Random random = new Random();
+        if (random.nextBoolean()) {
+            msg = "恭喜你测试成功。";
+            dialogParam.setMessage(msg);
+            dialogParam.setShowCloseIcon(true);
+            dialogParam.setTitle("");
+            dialogParam.setCenterContent(true);
+        }
         CustomDialogHelper.showCustomMessageDialog(this, dialogParam, new CustomDialogHelper.NativeDialogCallback() {
             @Override
             public void onConfirm() {
@@ -78,7 +91,26 @@ public class MainActivity extends CustomBaseActivity {
             }
 
             @Override
-            public void onCancel() {}
+            public void onCancel() {
+            }
+        });
+    }
+
+    public void openConfirmDialog(View view) {
+        CustomDialogHelper.DialogParam dialogParam = new CustomDialogHelper.DialogParam("你确定要退出登录吗？");
+        dialogParam.setCenterContent(true);
+        dialogParam.setPositiveBtnText("退出");
+        dialogParam.setNegativeBtnText("点错了");
+        CustomDialogHelper.showCustomConfirmDialog(this, dialogParam, new CustomDialogHelper.NativeDialogCallback() {
+            @Override
+            public void onConfirm() {
+                Toast.makeText(MainActivity.this, "你点了 确定", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(MainActivity.this, "你点了取消", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }
