@@ -6,15 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
-import com.zhy.autolayout.AutoFrameLayout;
-import com.zhy.autolayout.utils.AutoUtils;
 
 import cn.sxw.android.R;
 
@@ -82,6 +78,9 @@ public class CustomDialogHelper {
     public static AlertDialog showCustomConfirmDialog(Context context, String msg, NativeDialogCallback callback) {
         try {
             DialogParam dialogParam = new DialogParam(msg);
+            dialogParam.setTitle("");
+            dialogParam.setCenterContent(true);
+            dialogParam.setShowCloseIcon(false);
             return showCustomConfirmDialog(context, dialogParam, callback);
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,59 +97,58 @@ public class CustomDialogHelper {
      * @return AlertDialog对象
      */
     public static AlertDialog showCustomConfirmDialog(Context context, DialogParam dialogParam, final NativeDialogCallback callback) {
-        View customView = View.inflate(context, R.layout.dialog_custom_confirm, null);
+        View customView = View.inflate(context, R.layout.dialog_custom_confirm_pretty, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomDialogWithDim);
         builder.setView(customView).setCancelable(true);
 
         if (dialogParam != null) {
-            builder.setView(customView).setCancelable(dialogParam.isCancelAble());
+            builder.setCancelable(dialogParam.isCancelAble());
             // 设置标题
             TextView tvTitle = customView.findViewById(R.id.id_tv_dialog_title);
             tvTitle.setText(dialogParam.getTitle());
             // 设置内容
             TextView tvContent = customView.findViewById(R.id.id_tv_dialog_content);
-            if (dialogParam.getAdvMessage() != null) {
-                tvContent.setText(dialogParam.getAdvMessage());
-            } else {
-                tvContent.setText(dialogParam.getMessage());
+            if (tvContent != null) {
+                if (dialogParam.getAdvMessage() != null) {
+                    tvContent.setText(dialogParam.getAdvMessage());
+                } else {
+                    tvContent.setText(dialogParam.getMessage());
+                }
+                // 添加滚动功能
+                tvContent.setMovementMethod(ScrollingMovementMethod.getInstance());
+                // 设置内容对齐方式
+                if (!dialogParam.isCenterContent()) tvContent.setGravity(Gravity.LEFT);
             }
-            // 设置内容对齐方式
-            if (!dialogParam.isCenterContent()) tvContent.setGravity(Gravity.LEFT);
             // 设置取消按钮
             TextView btnCancel = customView.findViewById(R.id.id_btn_dialog_cancel);
-            btnCancel.setText(dialogParam.getNegativeBtnText());
+            if (btnCancel != null)
+                btnCancel.setText(dialogParam.getNegativeBtnText());
             // 设置确认按钮
             TextView btnConfirm = customView.findViewById(R.id.id_btn_dialog_confirm);
-            btnConfirm.setText(dialogParam.getPositiveBtnText());
+            if (btnConfirm != null)
+                btnConfirm.setText(dialogParam.getPositiveBtnText());
             // 设置右上角x的显示状态
-            customView.findViewById(R.id.id_iv_dialog_close).setVisibility(dialogParam.isShowCloseIcon() ? View.VISIBLE : View.INVISIBLE);
+            View closeView = customView.findViewById(R.id.id_iv_dialog_close);
+            if (closeView != null)
+                closeView.setVisibility(dialogParam.isShowCloseIcon() ? View.VISIBLE : View.INVISIBLE);
         }
 
         final AlertDialog dialog = builder.show();
 
-        customView.findViewById(R.id.id_iv_dialog_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onCancel();
-            }
+        customView.findViewById(R.id.id_iv_dialog_close).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onCancel();
         });
-        customView.findViewById(R.id.id_btn_dialog_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onCancel();
-            }
+        customView.findViewById(R.id.id_btn_dialog_cancel).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onCancel();
         });
-        customView.findViewById(R.id.id_btn_dialog_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onConfirm();
-            }
+        customView.findViewById(R.id.id_btn_dialog_confirm).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onConfirm();
         });
         return dialog;
     }
@@ -199,29 +197,20 @@ public class CustomDialogHelper {
 
         final AlertDialog dialog = builder.show();
 
-        customView.findViewById(R.id.id_iv_dialog_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onCancel();
-            }
+        customView.findViewById(R.id.id_iv_dialog_close).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onCancel();
         });
-        customView.findViewById(R.id.id_btn_dialog_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onCancel();
-            }
+        customView.findViewById(R.id.id_btn_dialog_cancel).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onCancel();
         });
-        customView.findViewById(R.id.id_btn_dialog_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onConfirm();
-            }
+        customView.findViewById(R.id.id_btn_dialog_confirm).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onConfirm();
         });
         return dialog;
     }
@@ -259,77 +248,85 @@ public class CustomDialogHelper {
      * @return
      */
     public static AlertDialog showCustomMessageDialog(Context context, DialogParam dialogParam, final NativeDialogCallback callback) {
-        View customView = View.inflate(context, R.layout.dialog_custom_message, null);
+        View customView = View.inflate(context, R.layout.dialog_custom_message_pretty, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomDialogWithDim);
-        builder.setView(customView).setCancelable(dialogParam.isCancelAble());
+        builder.setView(customView).setCancelable(true);
 
         if (dialogParam != null) {
+            builder.setCancelable(dialogParam.isCancelAble());
             // 设置标题
             TextView tvTitle = customView.findViewById(R.id.id_tv_dialog_title);
-            tvTitle.setText(dialogParam.getTitle());
+            if (tvTitle != null) {
+                tvTitle.setText(dialogParam.getTitle());
+            }
 
-            ScrollView scrollView = customView.findViewById(R.id.id_scrollview_content);
+            // ScrollView scrollView = customView.findViewById(R.id.id_scrollview_content);
             // 设置内容
             TextView tvContent = customView.findViewById(R.id.id_tv_dialog_content);
-            if (dialogParam.getAdvMessage() != null) {
-                tvContent.setText(dialogParam.getAdvMessage());
-            } else {
-                tvContent.setText(dialogParam.getMessage());
-            }
-            ViewGroup.LayoutParams params = scrollView.getLayoutParams();
-            int maxHeight = AutoUtils.getPercentHeightSize(300);
-            if(params != null && params.width > 0){
-                int contentH = getContentHeight(tvContent,params.width,tvContent.getText().toString());
-                if(contentH > maxHeight){
-                    params.height = maxHeight;
-                }else {
-                    params.height = AutoFrameLayout.LayoutParams.WRAP_CONTENT;
+            if (tvContent != null) {
+                if (dialogParam.getAdvMessage() != null) {
+                    tvContent.setText(dialogParam.getAdvMessage());
+                } else {
+                    tvContent.setText(dialogParam.getMessage());
                 }
-            }else {
-                if(params == null){
-                    params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                }
-                params.height = maxHeight;
+                // 添加滚动功能
+                tvContent.setMovementMethod(ScrollingMovementMethod.getInstance());
+                // 设置内容对齐方式
+                if (!dialogParam.isCenterContent()) tvContent.setGravity(Gravity.LEFT);
             }
-            scrollView.setLayoutParams(params);
+
+//            ViewGroup.LayoutParams params = scrollView.getLayoutParams();
+//            int maxHeight = AutoUtils.getPercentHeightSize(300);
+//            if (params != null && params.width > 0) {
+//                int contentH = getContentHeight(tvContent, params.width, tvContent.getText().toString());
+//                if (contentH > maxHeight) {
+//                    params.height = maxHeight;
+//                } else {
+//                    params.height = AutoFrameLayout.LayoutParams.WRAP_CONTENT;
+//                }
+//            } else {
+//                if (params == null) {
+//                    params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                }
+//                params.height = maxHeight;
+//            }
+//            scrollView.setLayoutParams(params);
 
             // 设置确认按钮
             TextView btnConfirm = customView.findViewById(R.id.id_btn_dialog_confirm);
-            btnConfirm.setText(dialogParam.getPositiveBtnText());
+            if (btnConfirm != null)
+                btnConfirm.setText(dialogParam.getPositiveBtnText());
             // 设置右上角x的显示状态
-            customView.findViewById(R.id.id_iv_dialog_close).setVisibility(dialogParam.isShowCloseIcon() ? View.VISIBLE : View.INVISIBLE);
+            View closeView = customView.findViewById(R.id.id_iv_dialog_close);
+            if (closeView != null)
+                closeView.setVisibility(dialogParam.isShowCloseIcon() ? View.VISIBLE : View.INVISIBLE);
         }
 
         final AlertDialog dialog = builder.show();
 
-        customView.findViewById(R.id.id_iv_dialog_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onCancel();
-            }
+        customView.findViewById(R.id.id_iv_dialog_close).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onCancel();
         });
-        customView.findViewById(R.id.id_btn_dialog_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null)
-                    callback.onConfirm();
-            }
+        customView.findViewById(R.id.id_btn_dialog_confirm).setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null)
+                callback.onConfirm();
         });
         return dialog;
     }
 
     /**
      * 获取文字高度
+     *
      * @param textView
      * @param width
      * @param message
      * @return
      */
-    private static int getContentHeight(@NonNull TextView textView,int width,String message){
-        if(TextUtils.isEmpty(message)){
+    private static int getContentHeight(@NonNull TextView textView, int width, String message) {
+        if (TextUtils.isEmpty(message)) {
             return 0;
         }
         Paint paint = new Paint();
@@ -337,13 +334,13 @@ public class CustomDialogHelper {
         int lines = 0;
         int index = 0;//指定字符的长度
         index = message.indexOf('\n');
-        while(index!=-1) {
+        while (index != -1) {
             lines++;
-            index = message.indexOf('\n',index+1);
+            index = message.indexOf('\n', index + 1);
         }
         String[] splits = message.split("\n");
         lines -= splits.length;
-        for (String text : splits){
+        for (String text : splits) {
             float len = paint.measureText(text);
 
             lines += len / width + 1;
@@ -356,7 +353,7 @@ public class CustomDialogHelper {
         public static final int SIZE_NORMAL = 0;// 正常
         public static final int SIZE_LARGE = 1;// 加大型
 
-        private String title = "温馨提示";
+        private String title = "";// 默认无标题了
         private String message = "您确定要这么做吗？";
         private String positiveBtnText = "确定";
         private String negativeBtnText = "取消";
@@ -364,7 +361,7 @@ public class CustomDialogHelper {
         private int dialogSize = SIZE_NORMAL;
         private boolean showCloseIcon = false;
         private boolean centerContent = true;// 默认居中
-        private boolean cancelAble = false;// 默认居中
+        private boolean cancelAble = false;// 默认不可点击返回键取消弹框
         private boolean hideBtns = false;// 隐藏按钮组
 
         public DialogParam() {
