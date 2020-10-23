@@ -67,7 +67,7 @@ public class JDateKit {
     }
 
     public static String timeToString(long time) {
-        LogUtil.w("timeToString: time = " + time);
+        // LogUtil.w("timeToString: time = " + time);
         int s = (int) (time / 1000);
         int m = s / 60;
         int h = m / 60;
@@ -84,7 +84,7 @@ public class JDateKit {
     }
 
     public static String timeToStringChineChinese(long time) {
-        LogUtil.w("timeToString: time = " + time);
+        // LogUtil.w("timeToString: time = " + time);
         int s = (int) (time / 1000);
         int m = s / 60;
         int h = m / 60;
