@@ -24,7 +24,6 @@ import cn.sxw.android.R;
  * Add:成都市天府软件园E3-3F
  */
 public class CustomDialogHelper {
-
     public static void releaseDialog(AlertDialog alertDialog) {
         dismissDialog(alertDialog);
         alertDialog = null;
