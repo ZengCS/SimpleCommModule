@@ -536,7 +536,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
             return true;
         }
         if (markerDeleteRect.contains(downPoint[0], (int) downPoint[1])) {//判断是否在区域内
-            if (curPhotoRecord.isFromUser) {
+            if (curPhotoRecord != null && curPhotoRecord.isFromUser) {
                 Toast.makeText(mContext, "此图片无法删除", Toast.LENGTH_SHORT).show();
             } else {
                 photoRecordList.remove(curPhotoRecord);
@@ -1184,7 +1184,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         float wScale = (float) canvas.getWidth() / mBgBitmap.getWidth();
         float hScale = (float) canvas.getHeight() / mBgBitmap.getHeight();
         Matrix mMatrix = new Matrix();
-        float targetScale = Math.min(wScale,hScale);
+        float targetScale = Math.min(wScale, hScale);
         mMatrix.postScale(targetScale, targetScale);
         canvas.drawBitmap(mBgBitmap, mMatrix, null);
     }
