@@ -557,8 +557,8 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         }
         if (markerResetRect.contains(downPoint[0], (int) downPoint[1])) {//判断是否在区域内
             curPhotoRecord.matrix.reset();
-            curPhotoRecord.matrix.setTranslate(getWidth() / 2 - curPhotoRecord.photoRectSrc.width() / 2,
-                    getHeight() / 2 - curPhotoRecord.photoRectSrc.height() / 2);
+            curPhotoRecord.matrix.setTranslate(getWidth() * 0.5f - curPhotoRecord.photoRectSrc.width() * 0.5f,
+                    getHeight() * 0.5f - curPhotoRecord.photoRectSrc.height() * 0.5f);
             actionMode = ACTION_NONE;
             return true;
         }
@@ -653,8 +653,8 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         //两点之间的距离大于等于3时，生成贝塞尔绘制曲线
         if (dx >= 3 || dy >= 3) {
             // 设置贝塞尔曲线的操作点为起点和终点的一半
-            float controlX = (eventX + previousX) / 2;
-            float controlY = (eventY + previousY) / 2;
+            float controlX = (eventX + previousX) * 0.5f;
+            float controlY = (eventY + previousY) * 0.5f;
 
             // 二次贝塞尔，实现平滑曲线；previousX, previousY为操作点，controlX, cY为终点
             mBezierPath.quadTo(previousX, previousY, controlX, controlY);
@@ -1324,24 +1324,24 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         float x;
         float y;
         if (canUseCopy) {
-            x = photoCorners[0] - markerCopyRect.width() / 2;
-            y = photoCorners[1] - markerCopyRect.height() / 2;
+            x = photoCorners[0] - markerCopyRect.width() * 0.5f;
+            y = photoCorners[1] - markerCopyRect.height() * 0.5f;
             markerCopyRect.offsetTo(x, y);
             canvas.drawBitmap(mirrorMarkBM, x, y, null);
         }
 
-        x = photoCorners[2] - markerDeleteRect.width() / 2;
-        y = photoCorners[3] - markerDeleteRect.height() / 2;
+        x = photoCorners[2] - markerDeleteRect.width() * 0.5f;
+        y = photoCorners[3] - markerDeleteRect.height() * 0.5f;
         markerDeleteRect.offsetTo(x, y);
         canvas.drawBitmap(deleteMarkBM, x, y, null);
 
-        x = photoCorners[4] - markerRotateRect.width() / 2;
-        y = photoCorners[5] - markerRotateRect.height() / 2;
+        x = photoCorners[4] - markerRotateRect.width() * 0.5f;
+        y = photoCorners[5] - markerRotateRect.height() * 0.5f;
         markerRotateRect.offsetTo(x, y);
         canvas.drawBitmap(rotateMarkBM, x, y, null);
 
-        x = photoCorners[6] - markerResetRect.width() / 2;
-        y = photoCorners[7] - markerResetRect.height() / 2;
+        x = photoCorners[6] - markerResetRect.width() * 0.5f;
+        y = photoCorners[7] - markerResetRect.height() * 0.5f;
         markerResetRect.offsetTo(x, y);
         canvas.drawBitmap(resetMarkBM, x, y, null);
     }
@@ -1677,23 +1677,36 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         }
     });
 
+    private int[] getSize() {
+        int width = getWidth();
+        if (width <= 0)
+            width = AutoUtils.getPercentWidthSize(1920);
+        int height = getHeight();
+        if (height <= 0)
+            height = AutoUtils.getPercentWidthSize(1200);
+        return new int[]{width, height};
+    }
+
     private void ensureSketchBitmap() {
         if (mSketchBitmap == null) {
-            mSketchBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            int[] size = getSize();
+            mSketchBitmap = Bitmap.createBitmap(size[0], size[1], Bitmap.Config.ARGB_8888);
             mSketchCanvas = new Canvas(mSketchBitmap);
         }
     }
 
     private void ensureGeometricBitmap() {
         if (mGeometricBitmap == null) {
-            mGeometricBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            int[] size = getSize();
+            mGeometricBitmap = Bitmap.createBitmap(size[0], size[1], Bitmap.Config.ARGB_8888);
             mGeometricCanvas = new Canvas(mGeometricBitmap);
         }
     }
 
     private void ensureSpotlightBitmap() {
         if (mSpotlightBitmap == null) {
-            mSpotlightBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            int[] size = getSize();
+            mSpotlightBitmap = Bitmap.createBitmap(size[0], size[1], Bitmap.Config.ARGB_8888);
             mSpotlightCanvas = new Canvas(mSpotlightBitmap);
         }
     }
@@ -2197,7 +2210,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         newRecord.photoRectSrc = new RectF(0, 0, newRecord.bitmap.getWidth(), newRecord.bitmap.getHeight());
         newRecord.scaleMax = PhotoRecord.DFT_MAX_SCALE;//放大倍数
         newRecord.matrix = new Matrix();
-        newRecord.matrix.postTranslate(getWidth() / 2 - bitmap.getWidth() / 2, getHeight() / 2 - bitmap.getHeight() / 2);
+        newRecord.matrix.postTranslate(getWidth() * 0.5f - bitmap.getWidth() * 0.5f, getHeight() * 0.5f - bitmap.getHeight() * 0.5f);
         return newRecord;
     }
 
