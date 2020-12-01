@@ -539,7 +539,9 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
             if (curPhotoRecord != null && curPhotoRecord.isFromUser) {
                 Toast.makeText(mContext, "此图片无法删除", Toast.LENGTH_SHORT).show();
             } else {
-                photoRecordList.remove(curPhotoRecord);
+                if (curPhotoRecord != null) {
+                    photoRecordList.remove(curPhotoRecord);
+                }
                 setCurPhotoRecord(null);
             }
             actionMode = ACTION_NONE;
