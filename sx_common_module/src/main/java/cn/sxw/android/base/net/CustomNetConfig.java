@@ -54,7 +54,8 @@ public class CustomNetConfig {
                 "api.sxw.cn",      // 生产环境
                 "api.pre.sxw.cn",  // 预发布环境域名
                 "apio.test.sxw.cn", // 测试环境域名
-                "api.dev.sxw.cn"   // 开发环境域名
+                // "api.dev.sxw.cn"   // 开发环境域名
+                "api.hw.sxw.cn"   // 开发环境域名
         };
 
         // api
@@ -62,7 +63,8 @@ public class CustomNetConfig {
                 "http://api.sxw.cn",      // 生产环境
                 "http://api.pre.sxw.cn",  // 预发布环境域名
                 "http://apio.test.sxw.cn", // 测试环境域名
-                "http://api.dev.sxw.cn"   // 开发环境域名
+                // "http://api.dev.sxw.cn"   // 开发环境域名
+                "http://api.hw.sxw.cn"   // 开发环境域名
         };
 
         static final String[] MDM_APIS = {
