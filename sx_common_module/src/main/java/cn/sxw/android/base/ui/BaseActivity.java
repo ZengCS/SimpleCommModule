@@ -27,6 +27,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     private static final String LAYOUT_FRAMELAYOUT = "FrameLayout";
     private static final String LAYOUT_RELATIVELAYOUT = "RelativeLayout";
     private static final String LAYOUT_CONSTRAINTLAYOUT = "android.support.constraint.ConstraintLayout";
+    private static final String LAYOUT_CONSTRAINTLAYOUT_X = "androidx.constraintlayout.widget.ConstraintLayout";
     public static final String IS_NOT_ADD_ACTIVITY_LIST = "is_add_activity_list";//是否加入到activity的list，管理
 
     public BaseApplication mApplication;
@@ -47,6 +48,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
                 view = new AutoRelativeLayout(context, attrs);
                 break;
             case LAYOUT_CONSTRAINTLAYOUT:
+            case LAYOUT_CONSTRAINTLAYOUT_X:
                 view = new AutoConstraintLayout(context, attrs);
                 break;
         }
