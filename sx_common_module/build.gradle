@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 200
+        versionName "2.0.0"
         // 自定义字段到BuildConfig中
         buildConfigField 'String', 'SSO_KEY_V3', "\"JMybKEd6L1cVpw==\""
     }
