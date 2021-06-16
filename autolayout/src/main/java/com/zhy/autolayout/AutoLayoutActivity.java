@@ -13,6 +13,7 @@ public class AutoLayoutActivity extends AppCompatActivity {
     private static final String LAYOUT_FRAMELAYOUT = "FrameLayout";
     private static final String LAYOUT_RELATIVELAYOUT = "RelativeLayout";
     private static final String LAYOUT_CONSTRAINTLAYOUT = "android.support.constraint.ConstraintLayout";
+    private static final String LAYOUT_CONSTRAINTLAYOUT_X = "androidx.constraintlayout.widget.ConstraintLayout";
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
@@ -29,7 +30,8 @@ public class AutoLayoutActivity extends AppCompatActivity {
             view = new AutoRelativeLayout(context, attrs);
         }
 
-        if (name.equals(LAYOUT_CONSTRAINTLAYOUT)) {
+        if (name.equals(LAYOUT_CONSTRAINTLAYOUT) || name.equals(LAYOUT_CONSTRAINTLAYOUT_X)) {
+            // 增加AndroidX ConstraintLayout适配
             view = new AutoConstraintLayout(context, attrs);
         }
 
