@@ -202,12 +202,13 @@ public class CameraInterface implements Camera.PreviewCallback {
      * open Camera
      */
     void doOpenCamera(CameraOpenOverCallback callback) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            if (!CheckPermission.isCameraUseable(SELECTED_CAMERA) && this.errorListener != null) {
-                this.errorListener.onError();
-                return;
-            }
-        }
+
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            if (!CheckPermission.isCameraUseable(SELECTED_CAMERA) && this.errorListener != null) {
+//                this.errorListener.onError();
+//                return;
+//            }
+//        }
         if (mCamera == null) {
             openCamera(SELECTED_CAMERA);
         }
@@ -218,6 +219,28 @@ public class CameraInterface implements Camera.PreviewCallback {
         mParams = mCamera.getParameters();
         mParams.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH); //设置camera参数为Torch模式
         mCamera.setParameters(mParams);
+    }
+
+    public synchronized boolean isCameraUseable(int cameraID) {
+        boolean canUse = true;
+        Camera mCamera = null;
+        try {
+            mCamera = Camera.open(cameraID);
+            // setParameters 是针对魅族MX5。MX5通过Camera.open()拿到的Camera对象不为null
+            Camera.Parameters mParameters = mCamera.getParameters();
+            mCamera.setParameters(mParameters);
+        } catch (Exception e) {
+            e.printStackTrace();
+            canUse = false;
+        } finally {
+            if (mCamera != null) {
+                mCamera.release();
+            } else {
+                canUse = false;
+            }
+            mCamera = null;
+        }
+        return canUse;
     }
 
     private synchronized void openCamera(int id) {
