@@ -51,7 +51,7 @@ public class CustomNetConfig {
     private static class RunEnvironment {
         // Host
         static final String[] SXW_HOST = {
-                "api.sxw.cn",      // 生产环境
+                "api.kp.sxw.cn",      // 生产环境
                 "api.pre.sxw.cn",  // 预发布环境域名
                 "apio.test.sxw.cn", // 测试环境域名
                 // "api.dev.sxw.cn"   // 开发环境域名
@@ -60,7 +60,7 @@ public class CustomNetConfig {
 
         // api
         static final String[] SXW_BASE_APIS = {
-                "http://api.sxw.cn",      // 生产环境
+                "http://api.kp.sxw.cn",      // 生产环境
                 "http://api.pre.sxw.cn",  // 预发布环境域名
                 "http://apio.test.sxw.cn", // 测试环境域名
                 // "http://api.dev.sxw.cn"   // 开发环境域名

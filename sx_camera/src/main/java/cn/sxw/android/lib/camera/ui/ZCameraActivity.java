@@ -110,14 +110,18 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         mCameraView.setErrorListener(new ErrorListener() {
             @Override
             public void onError() {
-                // 错误监听
-                Toast.makeText(ZCameraActivity.this, "相机无法打开", Toast.LENGTH_SHORT).show();
-                finish();
+                runOnUiThread(()->{
+                    // 错误监听
+                    Toast.makeText(ZCameraActivity.this, "相机无法打开", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
             }
 
             @Override
             public void onAudioPermissionError() {
-                Toast.makeText(ZCameraActivity.this, "请授予录音权限！", Toast.LENGTH_SHORT).show();
+                runOnUiThread(()->{
+                    Toast.makeText(ZCameraActivity.this, "请授予录音权限！", Toast.LENGTH_SHORT).show();
+                });
             }
         });
         //ZCameraView监听
