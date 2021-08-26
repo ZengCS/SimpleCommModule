@@ -164,7 +164,7 @@ public class SketchPadFragment extends BaseFragment implements ISketchView {
         if (mInputContainer.getVisibility() != View.VISIBLE)
             mInputContainer.setVisibility(View.VISIBLE);
         int height = mInputContainer.getHeight();
-        Log.d(TAG, "showInputDialog: height =" + height);
+        // Log.d(TAG, "showInputDialog: height =" + height);
         ObjectAnimator anim = ObjectAnimator.ofFloat(mInputContainer, "translationY", -height, 0);
         anim.setDuration(300);
         anim.start();
@@ -336,15 +336,15 @@ public class SketchPadFragment extends BaseFragment implements ISketchView {
         }
         final float x1 = mDragContainer.getX();
         final float y1 = mDragContainer.getY();
-        Log.d(TAG, "updateFontSize: ----------------------------");
-        Log.d(TAG, "updateFontSize-before: " + x1 + "," + y1);
+        // Log.d(TAG, "updateFontSize: ----------------------------");
+        // Log.d(TAG, "updateFontSize-before: " + x1 + "," + y1);
         mTvDraw.setTextSize(TypedValue.COMPLEX_UNIT_PX, mCurrTextSize);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 float x2 = mDragContainer.getX();
                 float y2 = mDragContainer.getY();
-                Log.d(TAG, "updateFontSize-after: " + x2 + "," + y2);
+                // Log.d(TAG, "updateFontSize-after: " + x2 + "," + y2);
             }
         }, 200);
         return false;

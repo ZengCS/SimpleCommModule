@@ -188,23 +188,23 @@ public class DashRectangle extends BaseBean {
     public int getDirection(float x, float y) {
         if (x > getMinX() && x < getMaxX()) {
             if (y > getMinY() - RANGE_OFFSET && y < getMinY() + RANGE_OFFSET) {
-                Log.d(TAG, "getDirection: TOP");
+                // Log.d(TAG, "getDirection: TOP");
                 return Direction.TOP;
             } else if (y > getMaxY() - RANGE_OFFSET && y < getMaxY() + RANGE_OFFSET) {
-                Log.d(TAG, "getDirection: BOTTOM");
+                // Log.d(TAG, "getDirection: BOTTOM");
                 return Direction.BOTTOM;
             }
         }
         if (y > getMinY() && y < getMaxY()) {
             if (x > getMinX() - RANGE_OFFSET && x < getMinX() + RANGE_OFFSET) {
-                Log.d(TAG, "getDirection: LEFT");
+                // Log.d(TAG, "getDirection: LEFT");
                 return Direction.LEFT;
             } else if (x > getMaxX() - RANGE_OFFSET && x < getMaxX() + RANGE_OFFSET) {
-                Log.d(TAG, "getDirection: RIGHT");
+                // Log.d(TAG, "getDirection: RIGHT");
                 return Direction.RIGHT;
             }
         }
-        Log.d(TAG, "getDirection: OUTSIDE");
+        // Log.d(TAG, "getDirection: OUTSIDE");
         return Direction.OUTSIDE;
     }
 

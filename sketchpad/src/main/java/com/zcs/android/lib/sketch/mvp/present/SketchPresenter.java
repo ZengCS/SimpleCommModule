@@ -149,7 +149,7 @@ public class SketchPresenter extends BasePresenter {
                     mToolMenuLayoutWidth = mToolMenusLayout.getWidth();
 
                 float val = (float) animation.getAnimatedValue();
-                Log.w(TAG, "onAnimationUpdate: val = " + val);
+                // Log.w(TAG, "onAnimationUpdate: val = " + val);
                 mToolMenusCursor.setAlpha(val);
                 if (val == 0) {
                     mRootView.invalidateToolMenus(isToolPanShowing);
@@ -160,13 +160,13 @@ public class SketchPresenter extends BasePresenter {
                     layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
                 float newWidth = mToolMenuLayoutWidth * val;
-                Log.w(TAG, "onAnimationUpdate: newWidth = " + newWidth);
+                // Log.w(TAG, "onAnimationUpdate: newWidth = " + newWidth);
                 if (newWidth < MIN_WIDTH)
                     newWidth = MIN_WIDTH;
                 layoutParams.width = (int) (newWidth);
 
                 mToolMenusLayout.setLayoutParams(layoutParams);
-                Log.w(TAG, "onAnimationUpdate: getTranslationX = " + mToolMenusLayout.getTranslationX());
+                // Log.w(TAG, "onAnimationUpdate: getTranslationX = " + mToolMenusLayout.getTranslationX());
             }
         });
     }

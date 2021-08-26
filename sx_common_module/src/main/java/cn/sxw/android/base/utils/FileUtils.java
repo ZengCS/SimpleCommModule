@@ -32,7 +32,7 @@ public class FileUtils {
         }
 
         if (file.isFile()) {
-            Log.d("CacheFile", "delete-->[" + file.length() + "]" + file.getPath());
+            LogUtil.d("CacheFile", "delete-->[" + file.length() + "]" + file.getPath());
             file.delete();
             return;
         }
@@ -41,9 +41,6 @@ public class FileUtils {
         for (File f : lists) {
             deleteDir(f);
         }
-        // 最后删除当前目录
-//        Log.d("CacheFile", "最后删除当前目录delete-->[" + file.length() + "]" + file.getPath());
-//        file.delete();
     }
 
     /**
@@ -63,7 +60,7 @@ public class FileUtils {
         File[] files = dir.listFiles();
         for (File file : files) {
             if (file.isFile()) {
-                Log.d("CacheFile", "[" + file.length() + "]" + file.getPath());
+                LogUtil.d("CacheFile", "[" + file.length() + "]" + file.getPath());
                 dirSize += file.length();
             } else if (file.isDirectory()) {
 //                dirSize += file.length();

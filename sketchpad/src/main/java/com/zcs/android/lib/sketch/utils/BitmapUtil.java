@@ -87,14 +87,14 @@ public class BitmapUtil {
      * @return
      */
     public static Bitmap compressFile(Context context, String filePath, float width, float height) {
-        Log.d(TAG, "compressFile() called with: " + "context = [" + context + "], filePath = [" + filePath + "], width = [" + width + "], height = [" + height + "]");
+        // Log.d(TAG, "compressFile() called with: " + "context = [" + context + "], filePath = [" + filePath + "], width = [" + width + "], height = [" + height + "]");
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, opts);
         float scale_h = (float) opts.outHeight / height;
         float scale_w = (float) opts.outWidth / width;
-        Log.d(TAG, "compressFile: scale_h = " + scale_h);
-        Log.d(TAG, "compressFile: scale_w = " + scale_w);
+        // Log.d(TAG, "compressFile: scale_h = " + scale_h);
+        // Log.d(TAG, "compressFile: scale_w = " + scale_w);
         float scale = scale_h > scale_w ? scale_w : scale_h;
         if (scale < 1) {
             scale = 1f;
@@ -107,7 +107,7 @@ public class BitmapUtil {
         } else {
             scale = 16f;
         }
-        Log.d(TAG, "compressFile: scale = " + scale);
+        // Log.d(TAG, "compressFile: scale = " + scale);
         opts.inSampleSize = (int) scale;
         opts.inJustDecodeBounds = false;
         Bitmap bmp = BitmapFactory.decodeFile(filePath, opts);
@@ -149,7 +149,7 @@ public class BitmapUtil {
      * @author blue
      */
     public static Bitmap decodeSampledBitmap(FileDescriptor fileDescriptor, int reqWidth, int reqHeight) {
-        Log.d(TAG, "decodeSampledBitmap() called with: " + "fileDescriptor = [" + fileDescriptor + "], reqWidth = [" + reqWidth + "], reqHeight = [" + reqHeight + "]");
+        // Log.d(TAG, "decodeSampledBitmap() called with: " + "fileDescriptor = [" + fileDescriptor + "], reqWidth = [" + reqWidth + "], reqHeight = [" + reqHeight + "]");
         // 第一次解析将inJustDecodeBounds设置为true，来获取图片大小
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

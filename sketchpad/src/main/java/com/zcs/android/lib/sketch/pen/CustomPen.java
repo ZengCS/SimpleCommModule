@@ -86,7 +86,7 @@ public class CustomPen extends BasePenExtend {
 
         //src 代表需要绘制的区域
         // mOldRect.set(0, 0, mBitmap.getWidth() / 4, mBitmap.getHeight() / 4);
-        Log.d(TAG, "bitmap size is " + mBitmap.getWidth() + " * " + mBitmap.getHeight());
+        // Log.d(TAG, "bitmap size is " + mBitmap.getWidth() + " * " + mBitmap.getHeight());
 
         float scale = getScale();
         mOldRect.set(0, 0, (int) (mBitmap.getWidth() / scale), (int) (mBitmap.getHeight() / scale));
@@ -121,7 +121,7 @@ public class CustomPen extends BasePenExtend {
         nPoint.y = point.y;
         nPoint.width = point.width;
         int alpha = getAlpha(point.width);
-        Log.d(TAG, "getWithPointAlphaPoint: alpha = " + alpha);
+        // Log.d(TAG, "getWithPointAlphaPoint: alpha = " + alpha);
         if (alpha < 10) {
             alpha = 10;
         } else if (alpha > 255) {

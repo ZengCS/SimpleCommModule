@@ -101,13 +101,6 @@ public class GeometricView extends View {
 
         mCenterX = mWidth / 2;
         mCenterY = mHeight / 2;
-        Log.d(TAG, "onMeasure: -------------------------");
-        Log.d(TAG, "onMeasure: mWidth = " + mWidth);
-        Log.d(TAG, "onMeasure: mHeight = " + mHeight);
-        Log.d(TAG, "onMeasure: mRadius = " + mRadius);
-        Log.d(TAG, "onMeasure: mCenterX = " + mCenterX);
-        Log.d(TAG, "onMeasure: mCenterY = " + mCenterY);
-        Log.d(TAG, "onMeasure: -------------------------");
     }
 
     @Override

@@ -368,7 +368,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
                     setFocusViewWidthAnimation(event.getX(), event.getY());
                 }
                 if (event.getPointerCount() == 2) {
-                    Log.i("ZCamera", "ACTION_DOWN = " + 2);
+                    LogUtil.i("ZCamera", "ACTION_DOWN = " + 2);
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -564,7 +564,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     @Override
     public boolean handlerFocus(float x, float y) {
-        Log.w(TAG, "handlerFocus() called with: x = [" + x + "], y = [" + y + "]");
+        LogUtil.w(TAG, "handlerFocus() called with: x = [" + x + "], y = [" + y + "]");
         if (y > mCaptureLayout.getTop()) {
             return false;
         }

@@ -90,7 +90,7 @@ public abstract class BasePenExtend extends BasePen {
     }
 
     public void redo() {
-        Log.d(TAG, "redo: called");
+        // Log.d(TAG, "redo: called");
         if (mCanvas == null) {
             Toast.makeText(mContext, "没有笔迹", Toast.LENGTH_SHORT).show();
             return;
@@ -106,7 +106,7 @@ public abstract class BasePenExtend extends BasePen {
     }
 
     private void onDownWithPoint(DrawPoint point) {
-        Log.d(TAG, "onDownWithPoint() called with: point = [" + point + "]");
+        // Log.d(TAG, "onDownWithPoint() called with: point = [" + point + "]");
         if (getNewPaint(mPaint) != null) {
             Paint paint = getNewPaint(mPaint);
             mPaint = paint;
@@ -127,7 +127,7 @@ public abstract class BasePenExtend extends BasePen {
     }
 
     private void onMoveWithPoint(DrawPoint curPoint) {
-        Log.d(TAG, "onMoveWithPoint() called with: curPoint = [" + curPoint + "]");
+        // Log.d(TAG, "onMoveWithPoint() called with: curPoint = [" + curPoint + "]");
         double deltaX = curPoint.x - mLastPoint.x;
         double deltaY = curPoint.y - mLastPoint.y;
         //deltaX和deltay平方和的二次方根 想象一个例子 1+1的平方根为1.4 （x²+y²）开根号
@@ -157,7 +157,7 @@ public abstract class BasePenExtend extends BasePen {
     }
 
     private void onUpWithPoint(DrawPoint controllerPoint) {
-        Log.d(TAG, "onUpWithPoint() called with: controllerPoint = [" + controllerPoint + "]");
+        // Log.d(TAG, "onUpWithPoint() called with: controllerPoint = [" + controllerPoint + "]");
         mCurPoint = controllerPoint;
 
         double deltaX = mCurPoint.x - mLastPoint.x;
@@ -297,7 +297,6 @@ public abstract class BasePenExtend extends BasePen {
     }
 
     public void clear() {
-        Log.d(TAG, "clear: ");
         mPointList.clear();
         mHWPointList.clear();
     }

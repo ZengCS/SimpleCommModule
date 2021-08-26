@@ -67,14 +67,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 if (mkdirs) {
                     return dir.getAbsolutePath();
                 } else {
-                    Log.e(TAG, "创建Crash目录失败");
+                    LogUtil.e(TAG, "创建Crash目录失败");
                     return "";
                 }
             } else {
                 return dir.getAbsolutePath();
             }
         } catch (Exception e) {
-            Log.e(TAG, "创建Crash目录失败", e);
+            LogUtil.e(TAG, "创建Crash目录失败", e);
             return "";
         }
     }

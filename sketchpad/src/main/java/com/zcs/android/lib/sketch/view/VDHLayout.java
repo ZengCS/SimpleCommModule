@@ -46,14 +46,14 @@ public class VDHLayout extends AutoLinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d(TAG, "onMeasure: "+getMeasuredHeight());
-        Log.d(TAG, "onMeasure: "+getMeasuredWidth());
+        // Log.d(TAG, "onMeasure: "+getMeasuredHeight());
+        // Log.d(TAG, "onMeasure: "+getMeasuredWidth());
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        Log.d(TAG, "onLayout() called with: changed = [" + changed + "], l = [" + l + "], t = [" + t + "], r = [" + r + "], b = [" + b + "]");
+        // Log.d(TAG, "onLayout() called with: changed = [" + changed + "], l = [" + l + "], t = [" + t + "], r = [" + r + "], b = [" + b + "]");
     }
 
     private static final String TAG = "VDHLayout";

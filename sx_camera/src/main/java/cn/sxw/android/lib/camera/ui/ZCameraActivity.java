@@ -125,7 +125,7 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
             @Override
             public void captureSuccess(Bitmap bitmap) {
                 //获取图片bitmap
-                Log.i("ZCameraView", "bitmap = " + bitmap.getWidth());
+                LogUtil.i("ZCameraView", "bitmap = " + bitmap.getWidth());
                 String path = FileUtil.saveBitmap("ZCamera", bitmap);
                 LogUtil.d("图片保存成功:" + path);
                 onPhotoResult(path);

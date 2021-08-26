@@ -17,11 +17,21 @@ public abstract class LogUtil {
     private static Logger log = Logger.getLogger(TAG);
     public static boolean isDebug = BuildConfig.DEBUG;// 开发过程中可以通过 LogUtil.isDebug = true;开启日志打印
     private static boolean useLog4j = true;
+    private static boolean enableLogcat = false;// 允许使用logcat
 
     protected abstract void showFloatLog(int type, String tag, String msg);
 
+    /**
+     * 切换Logcat开关状态
+     */
+    public static void switchLogcat(boolean enable) {
+        isDebug = enable;
+        enableLogcat = enable;
+    }
+
     public static void e(String tag, String msg) {
-        Log.e(tag, msg);
+        if (enableLogcat)
+            Log.e(tag, msg);
         if (useLog4j)
             log.error(msg);
     }
@@ -33,7 +43,8 @@ public abstract class LogUtil {
     }
 
     public static void e(String tag, String msg, Throwable e) {
-        Log.e(tag, msg, e);
+        if (enableLogcat)
+            Log.e(tag, msg, e);
         if (useLog4j)
             if (e != null)
                 e(e);
@@ -42,28 +53,28 @@ public abstract class LogUtil {
     }
 
     public static void w(String tag, String msg) {
-        if (isDebug)
+        if (isDebug && enableLogcat)
             Log.w(tag, msg);
         if (useLog4j)
             log.warn(msg);
     }
 
     public static void i(String tag, String msg) {
-        if (isDebug)
+        if (isDebug && enableLogcat)
             Log.i(tag, msg);
         if (useLog4j)
             log.info(msg);
     }
 
     public static void d(String tag, String msg) {
-        if (isDebug)
+        if (isDebug && enableLogcat)
             Log.w(tag, msg);
         if (useLog4j)
             log.info(msg);
     }
 
     public static void v(String tag, String msg) {
-        if (isDebug)
+        if (isDebug && enableLogcat)
             Log.v(tag, msg);
         if (useLog4j)
             log.info(msg);

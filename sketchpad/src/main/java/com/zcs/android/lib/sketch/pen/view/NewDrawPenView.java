@@ -93,7 +93,7 @@ public class NewDrawPenView extends View {
                 reset();
                 break;
             default:
-                Log.e(TAG, "onDraw" + Integer.toString(mCanvasCode));
+                // Log.e(TAG, "onDraw" + Integer.toString(mCanvasCode));
                 break;
         }
         super.onDraw(canvas);

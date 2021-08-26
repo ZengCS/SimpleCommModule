@@ -141,7 +141,7 @@ public class SxwMobileSSOUtil {
             save2SDCard(FILE_PATH, FILE_NAME, encrypt);
             return true;
         } catch (Exception e) {
-            Log.e(TAG, "saveOSSInfo: 保存OSS登录信息失败", e);
+            LogUtil.e(TAG, "saveOSSInfo: 保存OSS登录信息失败", e);
             e.printStackTrace();
             LogUtil.e(e);
         }

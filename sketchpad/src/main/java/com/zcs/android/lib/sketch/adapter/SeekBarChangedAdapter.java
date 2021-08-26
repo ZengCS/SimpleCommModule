@@ -19,11 +19,11 @@ public class SeekBarChangedAdapter implements SeekBar.OnSeekBarChangeListener {
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        Log.d(TAG, "onStartTrackingTouch: ");
+        // Log.d(TAG, "onStartTrackingTouch: ");
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        Log.d(TAG, "onStopTrackingTouch: ");
+        // Log.d(TAG, "onStopTrackingTouch: ");
     }
 }

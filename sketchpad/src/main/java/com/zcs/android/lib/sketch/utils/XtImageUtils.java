@@ -80,7 +80,7 @@ public final class XtImageUtils {
         while (baos.toByteArray().length / 1024 > imgMaxKb) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
             baos.reset();// 重置baos即清空baos
             quality -= 10;// 每次都减少10
-            Log.d("compressImage", "quality = " + quality);
+            // Log.d("compressImage", "quality = " + quality);
             if (quality == 10) {
                 image.compress(Bitmap.CompressFormat.JPEG, quality, baos);// 这里压缩options%，把压缩后的数据存放到baos中
                 break;
@@ -88,7 +88,7 @@ public final class XtImageUtils {
                 image.compress(Bitmap.CompressFormat.JPEG, quality, baos);// 这里压缩options%，把压缩后的数据存放到baos中
             }
         }
-        Log.d("compressImage", "图片压缩结束");
+        // Log.d("compressImage", "图片压缩结束");
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(newFile);
