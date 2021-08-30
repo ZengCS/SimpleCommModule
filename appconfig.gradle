@@ -21,7 +21,7 @@ ext {
             multidexVersion             : "1.0.2",
             photoViewVersion            : "2.0.0",
             eventBusVersion             : "3.0.0",
-            okHttp3Version              : "3.7.0",
+            okHttp3Version              : "3.14.7",
             fastJsonVersion             : "1.2.28",
             fastJsonAndroidVersion      : "1.2.28.android",
             umengAnalyticsVersion       : "6.1.4",
