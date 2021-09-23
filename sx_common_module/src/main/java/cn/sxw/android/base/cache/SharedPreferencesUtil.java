@@ -70,6 +70,10 @@ public class SharedPreferencesUtil {
      */
     public static Object getParam(String key, Object defaultObject) {
         Context context = BaseApplication.getContext();
+        if (context == null) {
+            LogUtil.e("BaseApplication has terminal");
+            return null;
+        }
 
         String type = defaultObject.getClass().getSimpleName();
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
