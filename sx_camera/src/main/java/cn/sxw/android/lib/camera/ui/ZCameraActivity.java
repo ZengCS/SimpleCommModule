@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,7 +32,7 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     public static final int TYPE_PICTURE = 0;
     public static final int TYPE_VIDEO = 1;
 
-    private ZCameraView mCameraView;
+    public ZCameraView mCameraView;
     private boolean isGranted = false;
 
     private OrientationEventListener orientationEventListener;
@@ -226,8 +224,13 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     @Override
     protected void onStop() {
         super.onStop();
-        if (mCameraView != null)
+        if (mCameraView != null){
             mCameraView.onStop();
+            //若是回到桌面的，则需要停止
+            if (isUserLeaveHint){
+                mCameraView.stopVideo();
+            }
+        }
     }
 
     @Override
@@ -241,5 +244,13 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isUserLeaveHint = false;
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        isUserLeaveHint = true;
     }
 }
