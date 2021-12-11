@@ -203,7 +203,11 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     protected void onResume() {
         super.onResume();
         if (isGranted && mCameraView != null) {
-            mCameraView.onResume(isFirst);
+            if (isRestoreUserLeaveHint()){
+                isUserLeaveHint = false;
+            }else {
+                mCameraView.onResume(isFirst);
+            }
         }
         isFirst = false;
     }
@@ -218,14 +222,20 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     protected void onPause() {
         super.onPause();
         if (isGranted && mCameraView != null)
-            mCameraView.onPause();
+            if (isRestoreUserLeaveHint()){
+            }else {
+                mCameraView.onPause();
+            }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         if (mCameraView != null){
-            mCameraView.onStop();
+            if (isRestoreUserLeaveHint()){
+            }else {
+                mCameraView.onStop();
+            }
             //若是回到桌面的，则需要停止
             if (isUserLeaveHint){
                 mCameraView.stopVideo();
@@ -244,6 +254,25 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 拍照模式时，用户退到桌面，再返回时是否需要恢复退出时的状态。
+     * 默认情况下，会恢复
+     * 若不需要，则重写该方法，直接返回false，则不会恢复，即：退到后台再返回时，重新进入拍照，之前拍过的照片会清除
+     * 注：该方法仅针对应用退到后台再回来操作。请勿
+     * @return
+     */
+    public boolean isRestorePictureFromHome(){
+        return false;
+    }
+
+    /**
+     * 用户退到后台再恢复状态判断
+     * @return
+     */
+    private boolean isRestoreUserLeaveHint(){
+        return isRestorePictureFromHome() && isUserLeaveHint && mCameraView.isShowingPictureConfirm;
     }
 
     private boolean isUserLeaveHint = false;

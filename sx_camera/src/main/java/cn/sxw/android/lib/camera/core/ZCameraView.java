@@ -10,11 +10,9 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -114,6 +112,8 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     private boolean firstTouch = true;
     private float firstTouchLength = 0;
+
+    public boolean isShowingPictureConfirm = false; //当前是否处于拍照-拍完状态
 
     public ZCameraView(Context context) {
         this(context, null);
@@ -261,11 +261,13 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mCaptureLayout.setTypeListener(new TypeListener() {
             @Override
             public void cancel() {
+                isShowingPictureConfirm = false;
                 mCameraMachine.cancel(mVideoView.getHolder(), screenProp);
             }
 
             @Override
             public void confirm() {
+                isShowingPictureConfirm = false;
                 mCameraMachine.confirm();
             }
         });
@@ -323,6 +325,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     //生命周期onPause
     public void onPause() {
         LogUtil.i("ZCameraView onPause");
+        //停止视频播放，放这里无效，因为录制还未结束，播放还未开始
         stopVideo();
         mCaptureLayout.stopRecord();
         resetState(TYPE_PICTURE);
@@ -512,6 +515,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mPhoto.setVisibility(VISIBLE);
         mCaptureLayout.startAlphaAnimation();
         mCaptureLayout.startTypeBtnAnimator();
+        isShowingPictureConfirm = true;
     }
 
     @Override
