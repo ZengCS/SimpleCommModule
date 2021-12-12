@@ -310,6 +310,8 @@ public class CaptureLayout extends FrameLayout {
      **************************************************/
     public void resetCaptureLayout() {
         mCaptureBtn.resetState();
+        //不显示时间
+        showTime(false,"");
         mCancelBtn.setVisibility(GONE);
         mConfirmBtn.setVisibility(GONE);
         mCaptureBtn.setVisibility(VISIBLE);

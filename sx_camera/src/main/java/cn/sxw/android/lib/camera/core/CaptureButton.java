@@ -1,5 +1,8 @@
 package cn.sxw.android.lib.camera.core;
 
+import static cn.sxw.android.lib.camera.core.ZCameraView.BUTTON_STATE_BOTH;
+import static cn.sxw.android.lib.camera.core.ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -16,9 +19,6 @@ import cn.sxw.android.lib.camera.listener.CaptureListener;
 import cn.sxw.android.lib.camera.listener.RecordTimeListener;
 import cn.sxw.android.lib.camera.util.CheckPermission;
 import cn.sxw.android.lib.camera.util.LogUtil;
-
-import static cn.sxw.android.lib.camera.core.ZCameraView.BUTTON_STATE_BOTH;
-import static cn.sxw.android.lib.camera.core.ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
 
 public class CaptureButton extends View {
     public static final int ACTION_PHOTO = 0x101;// 拍照
@@ -372,6 +372,8 @@ public class CaptureButton extends View {
         state = STATE_IDLE;
         if (mAction == ACTION_RECORD_FINISH) {
             mAction = ACTION_RECORD;
+            //需要刷新按钮状态
+            invalidate();
         }
     }
 }
