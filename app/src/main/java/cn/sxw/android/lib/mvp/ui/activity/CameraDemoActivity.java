@@ -12,9 +12,9 @@ import cn.sxw.android.lib.camera.ui.ZCameraActivity;
 public class CameraDemoActivity extends ZCameraActivity {
     @Override
     protected int configFeatureType() {
-        // return ZCameraView.BUTTON_STATE_BOTH;
-        // return ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
-        return ZCameraView.BUTTON_STATE_ONLY_RECORDER;
+         return ZCameraView.BUTTON_STATE_BOTH;
+//         return ZCameraView.BUTTON_STATE_ONLY_CAPTURE;
+//        return ZCameraView.BUTTON_STATE_ONLY_RECORDER;
     }
 
     @Override
