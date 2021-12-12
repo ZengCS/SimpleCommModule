@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.IntDef;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -113,7 +114,10 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     private boolean firstTouch = true;
     private float firstTouchLength = 0;
 
-    public boolean isShowingPictureConfirm = false; //当前是否处于拍照-拍完状态
+    public boolean isShowingConfirm = false; //当前是否处于拍照-拍完状态
+    public boolean isRecording = false;
+
+    private Handler handler = new Handler();
 
     public ZCameraView(Context context) {
         this(context, null);
@@ -203,6 +207,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mCaptureLayout.setDuration(duration);
         mCaptureLayout.setIconSrc(iconLeft, iconRight);
         mFocusView = view.findViewById(R.id.id_focus_view);
+        //移到onResume中注册
         mVideoView.getHolder().addCallback(this);
         if (hasFrontCamera) {
             //切换摄像头
@@ -219,6 +224,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mCaptureLayout.setCaptureListener(new CaptureListener() {
             @Override
             public void takePictures() {
+                isShowingConfirm = true;
                 mSwitchCamera.setVisibility(INVISIBLE);
                 // mFlashLamp.setVisibility(INVISIBLE);
                 mCameraMachine.capture();
@@ -229,10 +235,12 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
                 mSwitchCamera.setVisibility(INVISIBLE);
                 // mFlashLamp.setVisibility(INVISIBLE);
                 mCameraMachine.record(mVideoView.getHolder().getSurface(), screenProp);
+                isRecording = true;
             }
 
             @Override
             public void recordShort(final long time) {
+                isRecording = false;
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
                 mSwitchCamera.setVisibility(hasFrontCamera ? VISIBLE : INVISIBLE);
                 // mFlashLamp.setVisibility(hasFlashLight ? VISIBLE : INVISIBLE);
@@ -241,6 +249,8 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
             @Override
             public void recordEnd(long time) {
+                isShowingConfirm = true;
+                isRecording = false;
                 mCameraMachine.stopRecord(false, time);
             }
 
@@ -261,13 +271,13 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mCaptureLayout.setTypeListener(new TypeListener() {
             @Override
             public void cancel() {
-                isShowingPictureConfirm = false;
+                isShowingConfirm = false;
                 mCameraMachine.cancel(mVideoView.getHolder(), screenProp);
             }
 
             @Override
             public void confirm() {
-                isShowingPictureConfirm = false;
+                isShowingConfirm = false;
                 mCameraMachine.confirm();
             }
         });
@@ -296,12 +306,19 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
     //生命周期onResume
     public void onResume(boolean isFirst) {
         LogUtil.i("ZCameraView onResume");
+        isActivityPause = false;
+        //已经拍了照或录了视频时，需要保留原来状态，这里不执行任何操作
+        if (isShowingConfirm){
+            //移到onResume中注册
+            mVideoView.getHolder().addCallback(this);
+            return;
+        }
         resetState(TYPE_DEFAULT); //重置状态
         // CameraInterface.getInstance().registerSensorManager(mContext);
         CameraInterface.getInstance().setSwitchView(mSwitchCamera, mFlashLamp);
         mCameraMachine.start(mVideoView.getHolder(), screenProp);
         if (!isFirst) {
-            new Handler().postDelayed(new Runnable() {
+            handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     CameraInterface.PRETEND_SWITCH_CAMERA = true;
@@ -315,36 +332,91 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     private void autoFocusDelay() {
         // 延时500毫秒进行自动对焦操作
-        new Handler().postDelayed(() -> {
+        handler.postDelayed(() -> {
             // Toast.makeText(mContext, "开始自动对焦...", Toast.LENGTH_SHORT).show();
             // 添加自动对焦监听
             SensorController.getInstance().setCameraFocusListener(this::requestCameraFocus).onStart();
         }, 500);
     }
 
+    //Activity暂停
+    private boolean isActivityPause = false;
     //生命周期onPause
-    public void onPause() {
+    public void onPause(boolean finishing) {
         LogUtil.i("ZCameraView onPause");
-        //停止视频播放，放这里无效，因为录制还未结束，播放还未开始
-        stopVideo();
-        mCaptureLayout.stopRecord();
-        resetState(TYPE_PICTURE);
-        CameraInterface.getInstance().isPreview(false);
-        // CameraInterface.getInstance().unregisterSensorManager(mContext);
+        this.isActivityPause = true;
+        if (finishing){
+            //停止视频播放，放这里无效，因为录制还未结束，播放还未开始
+            stopVideo();
+            //正在录制视频时，才调用，否则在拍照状态下退出到后台再回来提示“录视时间过短"
+            if (isRecording){
+                mCaptureLayout.stopRecord();
+            }
+            resetState(TYPE_PICTURE);
+            CameraInterface.getInstance().isPreview(false);
+            // CameraInterface.getInstance().unregisterSensorManager(mContext);
+        }else {
+            onStopRecordOnly();
+        }
     }
 
-    public void onStop() {
+    public void onStop(boolean finishing) {
         LogUtil.i("ZCameraView onStop");
-        SensorController.getInstance().onStop();
-        CameraInterface.getInstance().doDestroyCamera();
-        // 移除监听，防止泄漏
-        mVideoView.getHolder().removeCallback(this);
+        if (finishing){
+            SensorController.getInstance().onStop();
+            CameraInterface.getInstance().doDestroyCamera();
+            // 移除监听，防止泄漏
+            mVideoView.getHolder().removeCallback(this);
+            handler.removeCallbacksAndMessages(null);
+        }
+    }
+
+    /**
+     * 视频模式下，停止录制和停止播放
+     */
+    public void onStopRecordOnly(){
+        if (mCaptureLayout.isStateOfVideo()){
+            //正在录制，新停止录制
+            if (isRecording){
+                isRecording = false;
+                mCaptureLayout.stopRecord();
+            }
+
+            //停止播放
+            if (isShowingConfirm){
+                if (mMediaPlayer != null && mMediaPlayer.isPlaying()){
+                    mMediaPlayer.stop();
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 回收Bitmap
+     */
+    public void onDestroy(){
+        if (firstFrame != null && !firstFrame.isRecycled()){
+            firstFrame.recycle();
+            firstFrame = null;
+        }
+
     }
 
     //SurfaceView生命周期
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         LogUtil.i("ZCameraView SurfaceCreated");
+        //如果是正在显示已拍的照片或预览已录制的视频时，不去打开相机
+        if (isShowingConfirm){
+            //是录制视频状态时，需要去播放视频
+            if (mCaptureLayout.isStateOfVideo()){
+                if (firstFrame != null && !TextUtils.isEmpty(videoUrl)){
+                    playVideo(firstFrame,videoUrl);
+                }
+            }
+            return;
+        }
         new Thread() {
             @Override
             public void run() {
@@ -446,7 +518,7 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     //设置CaptureButton功能（拍照和录像）
     public void setFeatures(int state) {
-        new Handler().postDelayed(() -> ZCameraView.this.mCaptureLayout.setButtonFeatures(state), 200);
+        handler.postDelayed(() -> ZCameraView.this.mCaptureLayout.setButtonFeatures(state), 200);
     }
 
     //设置录制质量
@@ -515,13 +587,17 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         mPhoto.setVisibility(VISIBLE);
         mCaptureLayout.startAlphaAnimation();
         mCaptureLayout.startTypeBtnAnimator();
-        isShowingPictureConfirm = true;
     }
 
     @Override
     public void playVideo(Bitmap firstFrame, final String url) {
+        LogUtil.i("ZCameraView playVideo --"+mVideoView.getHolder().getSurface());
         videoUrl = url;
         ZCameraView.this.firstFrame = firstFrame;
+        if (isActivityPause){
+            LogUtil.i("ZCameraView playVideo -- 未开始播放");
+            return;
+        }
         new Thread(() -> {
             try {
                 if (mMediaPlayer == null) {

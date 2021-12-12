@@ -305,6 +305,14 @@ public class CaptureLayout extends FrameLayout {
         this.addView(mRecordTimeTv);
     }
 
+    /**
+     * 当前是录制视频状态
+     * @return
+     */
+    public boolean isStateOfVideo(){
+        return mCaptureBtn.getAction() != CaptureButton.ACTION_PHOTO;
+    }
+
     /**************************************************
      * 对外提供的API                      *
      **************************************************/
