@@ -316,7 +316,6 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
         resetState(TYPE_DEFAULT); //重置状态
         // CameraInterface.getInstance().registerSensorManager(mContext);
         CameraInterface.getInstance().setSwitchView(mSwitchCamera, mFlashLamp);
-        mCameraMachine.start(mVideoView.getHolder(), screenProp);
         if (!isFirst) {
             handler.postDelayed(new Runnable() {
                 @Override
@@ -327,6 +326,8 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
                     autoFocusDelay();
                 }
             }, 500);
+        }else {
+            mCameraMachine.start(mVideoView.getHolder(), screenProp);
         }
     }
 
@@ -415,12 +416,16 @@ public class ZCameraView extends FrameLayout implements CameraInterface.CameraOp
                     playVideo(firstFrame,videoUrl);
                 }
             }
-            return;
         }
         new Thread() {
             @Override
             public void run() {
-                CameraInterface.getInstance().doOpenCamera(ZCameraView.this);
+                //预览时仅检测打开相机
+                if (isShowingConfirm){
+                    CameraInterface.getInstance().doOpenCameraOnly();
+                }else {
+                    CameraInterface.getInstance().doOpenCamera(ZCameraView.this);
+                }
             }
         }.start();
     }
