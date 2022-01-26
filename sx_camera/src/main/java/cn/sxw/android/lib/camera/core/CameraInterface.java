@@ -211,6 +211,8 @@ public class CameraInterface implements Camera.PreviewCallback {
 //        }
         if (mCamera == null) {
             openCamera(SELECTED_CAMERA);
+        }else {
+            doOpenCameraOnly();
         }
         callback.cameraHasOpened();
     }
@@ -259,6 +261,21 @@ public class CameraInterface implements Camera.PreviewCallback {
             } catch (Exception e) {
                 e.printStackTrace();
                 LogUtil.e("ZCamera", "enable shutter sound faild");
+            }
+        }
+    }
+
+    /**
+     * 用于相机被抢占时使用
+     */
+    public void doOpenCameraOnly(){
+        if (mCamera != null){
+            try {
+                //抛异常时，重新构建相机
+                mCamera.getParameters();
+            }catch (Exception e){
+                doDestroyCamera();
+                openCamera(SELECTED_CAMERA);
             }
         }
     }

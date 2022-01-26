@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,7 +32,7 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     public static final int TYPE_PICTURE = 0;
     public static final int TYPE_VIDEO = 1;
 
-    private ZCameraView mCameraView;
+    public ZCameraView mCameraView;
     private boolean isGranted = false;
 
     private OrientationEventListener orientationEventListener;
@@ -220,19 +218,23 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
     protected void onPause() {
         super.onPause();
         if (isGranted && mCameraView != null)
-            mCameraView.onPause();
+            mCameraView.onPause(isFinishing());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mCameraView != null)
-            mCameraView.onStop();
+        if (mCameraView != null){
+            mCameraView.onStop(isFinishing());
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mCameraView != null){
+            mCameraView.onDestroy();
+        }
         try {
             if (orientationEventListener != null) {
                 orientationEventListener.disable();

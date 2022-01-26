@@ -305,11 +305,21 @@ public class CaptureLayout extends FrameLayout {
         this.addView(mRecordTimeTv);
     }
 
+    /**
+     * 当前是录制视频状态
+     * @return
+     */
+    public boolean isStateOfVideo(){
+        return mCaptureBtn.getAction() != CaptureButton.ACTION_PHOTO;
+    }
+
     /**************************************************
      * 对外提供的API                      *
      **************************************************/
     public void resetCaptureLayout() {
         mCaptureBtn.resetState();
+        //不显示时间
+        showTime(false,"");
         mCancelBtn.setVisibility(GONE);
         mConfirmBtn.setVisibility(GONE);
         mCaptureBtn.setVisibility(VISIBLE);
