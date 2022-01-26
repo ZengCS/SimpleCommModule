@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation rootProject.ext.var.appcompat_v7
     implementation var.constraintLayout
@@ -60,8 +60,8 @@ dependencies {
     // RecyclerView适配器
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
 
-    api files('libs/log4j-1.2.17.jar')
-    api files('libs/android-logging-log4j-1.0.3.jar')
+//    api files('libs/log4j-1.2.17.jar')
+//    api files('libs/android-logging-log4j-1.0.3.jar')
 
     api project(':sketchpad')
 

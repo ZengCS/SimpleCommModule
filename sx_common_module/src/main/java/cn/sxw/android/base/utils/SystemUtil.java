@@ -91,7 +91,8 @@ public class SystemUtil {
      * 设备是否是华为C3系列
      */
     public static boolean isNewC3() {
-        return "BZC-W00".equals(getSystemModel());
+        return "BZC-W00".equals(getSystemModel())
+                || "BZH-W00".equals(getSystemModel());
     }
 
     /**
