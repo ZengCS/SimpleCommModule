@@ -42,6 +42,22 @@ public class CustomNetConfig {
     }
 
     /**
+     * 根据服务器类型获取服务器名称
+     * @param type 服务器类型
+     * @return 对应类型的环境名称
+     */
+    public static String getServerNameByType(int type){
+        if (type < 0 || type > ENVIRONMENT_NAMES.length){
+            return "未知的服务器类型";
+        }
+        return ENVIRONMENT_NAMES[type];
+    }
+    //返回服务器环境列表
+    public static String[] getEnvironmentNames(){
+        return ENVIRONMENT_NAMES;
+    }
+
+    /**
      * 切换服务器
      */
     public static String changeServer(int serverType) {
