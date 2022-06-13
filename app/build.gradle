@@ -11,6 +11,15 @@ android {
         versionName "1.2.3"
 
         multiDexEnabled = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        'resourcePackageName': "cn.sxw.android.lib",
+                        "androidManifestFile": "$projectDir/src/main/AndroidManifest.xml".toString()
+                ]
+            }
+        }
     }
     buildTypes {
         release {
@@ -20,8 +29,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

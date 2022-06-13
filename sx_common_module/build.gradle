@@ -12,6 +12,16 @@ android {
         versionName "2.0.0"
         // 自定义字段到BuildConfig中
         buildConfigField 'String', 'SSO_KEY_V3', "\"JMybKEd6L1cVpw==\""
+
+//        解决编译报错 无法找到Manifest问题
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        'resourcePackageName': "cn.sxw.android",
+                        "androidManifestFile": "$projectDir/src/main/AndroidManifest.xml".toString()
+                ]
+            }
+        }
     }
 
     buildTypes {
@@ -22,8 +32,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
