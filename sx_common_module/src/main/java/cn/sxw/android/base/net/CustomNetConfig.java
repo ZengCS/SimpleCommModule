@@ -11,12 +11,13 @@ import cn.sxw.android.base.utils.LogUtil;
 public class CustomNetConfig {
     public static final String KEY_CURR_ENVIRONMENT = "KEY_CURR_ENVIRONMENT_V2";
 
-    private static String[] ENVIRONMENT_NAMES = {"生产环境", "预发布环境", "测试环境", "开发环境"};
+    private static String[] ENVIRONMENT_NAMES = {"生产环境", "预发布环境", "测试环境", "华为环境","K8S环境"};
 
     public static final int ENVIRONMENT_RELEASE = 0;// 生产环境
     public static final int ENVIRONMENT_RELEASE_PRE = 1;// 预发布环境
     public static final int ENVIRONMENT_BETA_TEST = 2;// 测试环境
     public static final int ENVIRONMENT_BETA_DEV = 3;// 开发环境
+    public static final int ENVIRONMENT_BETA_K8S = 4;// k8s环境
 
     // 当前环境，默认生产环境
     public static int currEnvironment = ENVIRONMENT_RELEASE;
@@ -55,7 +56,8 @@ public class CustomNetConfig {
                 "api.pre.sxw.cn",  // 预发布环境域名
                 "apio.test.sxw.cn", // 测试环境域名
                 // "api.dev.sxw.cn"   // 开发环境域名
-                "api.hw.sxw.cn"   // 开发环境域名
+                "api.hw.sxw.cn",   // 华为环境域名
+                "k8s.api.sxw.cn",   // k8s环境域名
         };
 
         // api
@@ -64,7 +66,8 @@ public class CustomNetConfig {
                 "http://api.pre.sxw.cn",  // 预发布环境域名
                 "http://apio.test.sxw.cn", // 测试环境域名
                 // "http://api.dev.sxw.cn"   // 开发环境域名
-                "http://api.hw.sxw.cn"   // 开发环境域名
+                "http://api.hw.sxw.cn",   // 华为环境域名
+                "http://k8s.api.sxw.cn",   // k8s环境域名
         };
 
         static final String[] MDM_APIS = {
