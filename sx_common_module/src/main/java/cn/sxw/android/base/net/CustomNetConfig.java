@@ -1,5 +1,7 @@
 package cn.sxw.android.base.net;
 
+import android.support.annotation.NonNull;
+
 import cn.sxw.android.base.okhttp.HttpManager;
 import cn.sxw.android.base.utils.LogUtil;
 
@@ -86,51 +88,63 @@ public class CustomNetConfig {
                 "http://k8s.api.sxw.cn",   // k8s环境域名
         };
 
-        static final String[] MDM_APIS = {
-                SXW_BASE_APIS[0].concat("/mdc2/api/"),// 生产环境
-                SXW_BASE_APIS[1].concat("/mdc2/api/"),// 预发布
-                SXW_BASE_APIS[2].concat("/mdc2/api/"),// 测试
-                SXW_BASE_APIS[3].concat("/mdc2/api/"),// 开发
-        };
+//        static final String[] MDM_APIS = {
+//                SXW_BASE_APIS[0].concat("/mdc2/api/"),// 生产环境
+//                SXW_BASE_APIS[1].concat("/mdc2/api/"),// 预发布
+//                SXW_BASE_APIS[2].concat("/mdc2/api/"),// 测试
+//                SXW_BASE_APIS[3].concat("/mdc2/api/"),// 开发
+//        };
+//
+//        // 版本检测
+//        static final String[] SXW_UPDATE_APIS = {
+//                SXW_BASE_APIS[0].concat("/update/"),// 生产环境
+//                SXW_BASE_APIS[1].concat("/update/"),// 预发布环境域名
+//                SXW_BASE_APIS[2].concat("/update/"),// 测试环境域名
+//                SXW_BASE_APIS[3].concat("/update/"),// 开发环境域名
+//        };
+    }
 
-        // 版本检测
-        static final String[] SXW_UPDATE_APIS = {
-                SXW_BASE_APIS[0].concat("/update/"),// 生产环境
-                SXW_BASE_APIS[1].concat("/update/"),// 预发布环境域名
-                SXW_BASE_APIS[2].concat("/update/"),// 测试环境域名
-                SXW_BASE_APIS[3].concat("/update/"),// 开发环境域名
-        };
+    private static String getBaseHostApi(@NonNull final String[] hosts){
+        if (currEnvironment < 0 || currEnvironment > hosts.length){
+            LogUtil.e("CustomNetConfig","服务器环境值越界：【"+currEnvironment+"】，自动默认设置为【生产环境】");
+            return hosts[0];
+        }
+        return hosts[currEnvironment];
     }
 
     /**
      * @return Host
      */
     public static String getHost() {
-        return RunEnvironment.SXW_HOST[currEnvironment];
+        return getBaseHostApi(RunEnvironment.SXW_HOST);
+    }
+
+    private static String getSxwBaseApi(){
+        return getBaseHostApi(RunEnvironment.SXW_BASE_APIS);
     }
 
     /**
      * @return Passport接口头
      */
     public static String getPassportHost() {
-        return RunEnvironment.SXW_BASE_APIS[currEnvironment].concat("/passport/api/");
+        return getSxwBaseApi().concat("/passport/api/");
     }
 
     public static String getNewUpdateHost() {
-        return RunEnvironment.SXW_UPDATE_APIS[currEnvironment];
+        return getSxwBaseApi().concat("/update/");
     }
 
     /**
      * @return Platform接口头 - NEW
      */
     public static String getNewPlatformHost() {
-        return RunEnvironment.SXW_BASE_APIS[currEnvironment].concat("/platform/api/");
+        return getSxwBaseApi().concat("/platform/api/");
     }
 
     /**
      * @return 管控接口地址头
      */
     public static String getMdmHost() {
-        return RunEnvironment.MDM_APIS[currEnvironment];
+        return getSxwBaseApi().concat("/mdc2/api/");
     }
 }
