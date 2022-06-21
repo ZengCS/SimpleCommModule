@@ -2,10 +2,12 @@ package cn.sxw.android.base.ui;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 
-import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 import com.zhy.autolayout.config.AutoLayoutConfig;
 
 import org.xutils.x;
@@ -40,8 +42,9 @@ public abstract class BaseApplication extends Application {
         x.Ext.init(this);
 //        //路由初始化
 //        Router.initialize(this);
-        //初始化友盟
-        MobclickAgent.setScenarioType(mApplication, MobclickAgent.EScenarioType.E_UM_NORMAL);
+
+        preInitUMSDK();
+
         //初始化CrashHandler
         CrashHandler.getInstance().init(this);
 
@@ -53,6 +56,27 @@ public abstract class BaseApplication extends Application {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
+    }
+
+    /**
+     * 初始化友盟SDK
+     */
+    private void preInitUMSDK(){
+        try {
+            Bundle bundle = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA).metaData;
+            String appKey = bundle.getString("UMENG_APPKEY");
+            //默认用生学渠道
+            String appChannel = bundle.getString("UMENG_CHANNEL","official");
+            UMConfigure.preInit(this,appKey,appChannel);
+        }catch (Exception e){
+        }
+    }
+
+    /**
+     * 用户同意隐私协议后真正的进行一次舒适化工作
+     */
+    protected void initUMSDKReally(){
+        UMConfigure.init(this,UMConfigure.DEVICE_TYPE_PHONE,null);
     }
 
     /**

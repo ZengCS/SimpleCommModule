@@ -56,7 +56,8 @@ dependencies {
     api var.fastJson
     api var.fastJsonAndroid
     api var.timber//日志工具
-    api var.umengAnalytics//友盟统计分析
+    api var.umengAnalytics  //友盟统计分析
+    api var.umengAnalyticsASM
     // Glide
     api var.glide
     // annotationProcessor var.glideCompiler
