@@ -666,6 +666,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
         if (mSketchCanvas == null || mBezierPath == null || mNewPenPaint == null)
             return;
         mSketchCanvas.drawPath(mBezierPath, mNewPenPaint);
+        invalidate();
     }
 
     /**
@@ -754,6 +755,7 @@ public class CustomSketchViewAdv extends View implements IBaseSketchView, ISketc
                     mDrawPointList.clear();
                     addPoint(eventX, eventY);
                 }
+                break;
             case MotionEvent.ACTION_MOVE:// -----------移动
                 resetDirtyRect(eventX, eventY);
                 if (mSketchMode.getModeType() == SketchMode.Mode.ERASER) {// 橡皮擦
