@@ -1,6 +1,6 @@
 package cn.sxw.android.base.account;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -24,7 +24,6 @@ import cn.sxw.android.base.net.bean.LocalTokenCache;
 import cn.sxw.android.base.okhttp.HttpManager;
 import cn.sxw.android.base.okhttp.response.LoginResponse;
 import cn.sxw.android.base.utils.JListKit;
-import cn.sxw.android.base.utils.LogUtil;
 import cn.sxw.android.base.utils.SxwMobileSSOUtil;
 
 /**

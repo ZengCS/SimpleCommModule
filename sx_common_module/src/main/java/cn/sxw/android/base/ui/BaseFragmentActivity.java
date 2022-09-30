@@ -1,7 +1,5 @@
 package cn.sxw.android.base.ui;
 
-import android.support.v4.app.FragmentActivity;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 

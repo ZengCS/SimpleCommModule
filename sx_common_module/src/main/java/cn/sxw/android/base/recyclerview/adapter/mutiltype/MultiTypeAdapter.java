@@ -3,8 +3,8 @@ package cn.sxw.android.base.recyclerview.adapter.mutiltype;
 /**
  * Created by Alex.Tang on 2017-05-10.
  */
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 

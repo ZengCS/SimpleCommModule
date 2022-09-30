@@ -1,13 +1,11 @@
 package cn.sxw.android.base.ui;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
-
-import cn.sxw.android.base.ui.BaseHolder;
 
 
 public abstract class DefaultAdapter<T> extends RecyclerView.Adapter<BaseHolder<T>> {

@@ -41,7 +41,7 @@
         android:orientation="horizontal"
         app:layout_auto_basewidth="height">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/id_rv_tool_colors"
             style="@style/disableSplitMotion"
             android:layout_width="518px"

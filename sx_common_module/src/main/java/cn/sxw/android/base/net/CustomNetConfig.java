@@ -1,6 +1,6 @@
 package cn.sxw.android.base.net;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import cn.sxw.android.base.okhttp.HttpManager;
 import cn.sxw.android.base.utils.LogUtil;

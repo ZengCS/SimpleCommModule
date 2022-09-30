@@ -1,6 +1,6 @@
 package cn.sxw.android.base.net;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;

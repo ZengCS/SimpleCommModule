@@ -9,6 +9,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google' } //google
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
@@ -34,6 +35,7 @@ allprojects {
             name 'glide-snapshot'
             url 'http://oss.sonatype.org/content/repositories/snapshots'
         }
+        google()
     }
 }
 

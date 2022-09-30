@@ -4,7 +4,7 @@ package cn.sxw.android.base.recyclerview.adapter.viewhodler;
  * Created by Alex.Tang on 2017-05-10.
  */
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;

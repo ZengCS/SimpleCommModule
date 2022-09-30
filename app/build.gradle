@@ -51,5 +51,5 @@ dependencies {
     annotationProcessor var.permissionsDispatcherProcessor
     // AndroidAnnotationsPermissionsDispatcherPlugin
     annotationProcessor "com.github.AleksanderMielczarek:AndroidAnnotationsPermissionsDispatcherPlugin:2.1.1"
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 }

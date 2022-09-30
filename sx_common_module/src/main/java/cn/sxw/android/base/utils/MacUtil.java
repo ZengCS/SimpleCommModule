@@ -1,6 +1,6 @@
 package cn.sxw.android.base.utils;
 
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.RequiresPermission;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

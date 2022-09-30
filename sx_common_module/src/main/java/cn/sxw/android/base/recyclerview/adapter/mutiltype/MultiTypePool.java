@@ -4,8 +4,7 @@ package cn.sxw.android.base.recyclerview.adapter.mutiltype;
  * Created by Alex.Tang on 2017-05-10.
  */
 
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;

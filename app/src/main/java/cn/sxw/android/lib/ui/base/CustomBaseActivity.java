@@ -2,7 +2,7 @@ package cn.sxw.android.lib.ui.base;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by ZengCS on 2019/1/3.
