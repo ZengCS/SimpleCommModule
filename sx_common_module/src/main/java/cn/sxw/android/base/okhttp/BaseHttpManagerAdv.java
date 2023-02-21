@@ -3,9 +3,10 @@ package cn.sxw.android.base.okhttp;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -22,11 +23,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 
 import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
@@ -43,6 +49,7 @@ import cn.sxw.android.base.utils.NetworkUtil;
 import cn.sxw.android.base.utils.SxwMobileSSOUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.ConnectionSpec;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -89,6 +96,28 @@ public class BaseHttpManagerAdv implements OkApiHelper {
     public BaseHttpManagerAdv setOnResultCallback(OnResultCallback callback) {
         onResultCallback = callback;
         return this;
+    }
+
+    /**
+     * 设置证书信息
+     * @param factory sslsocketfactory对象
+     */
+    public void setHttpsCer(SSLSocketFactory factory){
+        if(factory != null){
+            ConnectionSpec spec = new ConnectionSpec.
+                    Builder(ConnectionSpec.MODERN_TLS)
+                    .allEnabledTlsVersions()
+                    .allEnabledCipherSuites()
+                    .build();
+            httpClient = httpClient.newBuilder()
+                    .connectionSpecs(Collections.singletonList(spec))
+                    .sslSocketFactory(factory)
+                    .hostnameVerifier(new HostnameVerifier() {
+                        @Override  public boolean verify(String s, SSLSession sslSession) {
+                            return true;
+                        }
+                    }).build();
+        }
     }
 
     @Override

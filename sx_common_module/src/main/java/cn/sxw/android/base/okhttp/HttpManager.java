@@ -2,10 +2,15 @@ package cn.sxw.android.base.okhttp;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson.JSON;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.net.ssl.SSLSocketFactory;
 
 import cn.sxw.android.BuildConfig;
 import cn.sxw.android.base.account.SAccountUtil;
@@ -67,10 +72,11 @@ public class HttpManager implements OkApiHelper {
     }
 
     public HttpManager setTokenHeader(String token) {
-        if (globalHeaderMap == null)
+        if (globalHeaderMap == null) {
             globalHeaderMap = new HashMap<>();
-        else
+        } else {
             globalHeaderMap.clear();
+        }
         // 2019年7月31日 添加全局header
         globalHeaderMap.put("Content-Type", "application/json");
         globalHeaderMap.put("versionName", RequestParmUtil.getVersionName(BaseApplication.getContext()));
@@ -110,8 +116,9 @@ public class HttpManager implements OkApiHelper {
     }
 
     public String getScheme() {
-        if (TextUtils.isEmpty(scheme))
+        if (TextUtils.isEmpty(scheme)) {
             scheme = "http";
+        }
         return scheme;
     }
 
@@ -138,6 +145,15 @@ public class HttpManager implements OkApiHelper {
 
     public BaseHttpManagerAdv getHttpManager() {
         return mHttp;
+    }
+
+    /**
+     * https协议使用的证书数据
+     * @param cerStream 证书的数据流
+     */
+    public HttpManager setSSLCerStream(@NonNull InputStream cerStream){
+        mHttp.setHttpsCer(SSLContextFactory.getSSLSocketFactory(cerStream));
+        return sHttpManager;
     }
 
     @Override
