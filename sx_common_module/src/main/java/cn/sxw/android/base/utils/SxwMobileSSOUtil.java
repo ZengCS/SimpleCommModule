@@ -218,9 +218,7 @@ public class SxwMobileSSOUtil {
      * 获取SDCard的目录路径功能
      */
     private static String getSDCardPath() {
-        return (checkSDCard() ? Environment.getExternalStorageDirectory().getAbsolutePath()
-                : Environment.getDataDirectory().getAbsolutePath())
-                + File.separator;
+        return IFileUtils.getExternalFileDirPath();
     }
 
 }

@@ -1,6 +1,7 @@
 package cn.sxw.android.base.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
@@ -12,6 +13,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import cn.sxw.android.base.ui.BaseApplication;
+
 /**
  * @Description 文件工具类
  * @Author kk20
@@ -21,21 +24,33 @@ import java.util.zip.ZipFile;
 public class IFileUtils {
 
     /**
-     * 检验SDcard状态
+     * 兼容Android 11存储方式更新 采用Context#getExternalFilesDir方式，无需申请权限
+     * 存储路径：/storage/emulated/0/Android/data/{applicationId}/files
+     * @return 返回文件对象
      */
-    public static boolean checkSDCard() {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    public static File getExternalFileDir(){
+        return BaseApplication.getContext().getExternalFilesDir(null);
     }
 
     /**
-     * 获取SDCard的目录路径功能
+     * 兼容Android 11存储方式更新 采用Context#getExternalFilesDir方式
+     * @return 返回目录路径
      */
-    public static String getSDCardPath() {
-        return (checkSDCard() ? Environment.getExternalStorageDirectory().getAbsolutePath()
-                : Environment.getDataDirectory().getAbsolutePath())
-                + File.separator;
+    public static String getExternalFileDirPath(){
+        File storage = getExternalFileDir();
+        return storage == null? "":storage.getAbsolutePath() + File.separator;
     }
 
+    /**
+     * 检验SDcard状态
+     */
+    private static boolean checkSDCard() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+    private static File getSdcardFile(){
+        return getExternalFileDir();
+    }
     /**
      * 按名称创建目录
      *
@@ -43,7 +58,7 @@ public class IFileUtils {
      * @return 文件夹完整路径
      */
     public static String mkdirs(String filePath) {
-        String rootPath = getSDCardPath();
+        String rootPath = getExternalFileDirPath();
         if (rootPath != null) {
             File dir = new File(rootPath + filePath);
             if (!dir.exists()) {

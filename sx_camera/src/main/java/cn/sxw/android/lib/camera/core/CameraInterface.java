@@ -1,5 +1,7 @@
 package cn.sxw.android.lib.camera.core;
 
+import static android.graphics.Bitmap.createBitmap;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,8 +13,6 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.widget.ImageView;
@@ -25,13 +25,10 @@ import java.util.List;
 
 import cn.sxw.android.lib.camera.listener.ErrorListener;
 import cn.sxw.android.lib.camera.util.CameraParamUtil;
-import cn.sxw.android.lib.camera.util.CheckPermission;
 import cn.sxw.android.lib.camera.util.DeviceUtil;
 import cn.sxw.android.lib.camera.util.FileUtil;
 import cn.sxw.android.lib.camera.util.LogUtil;
 import cn.sxw.android.lib.camera.util.ScreenUtils;
-
-import static android.graphics.Bitmap.createBitmap;
 
 @SuppressWarnings("deprecation")
 public class CameraInterface implements Camera.PreviewCallback {
@@ -557,7 +554,7 @@ public class CameraInterface implements Camera.PreviewCallback {
 
         videoFileName = "video_" + System.currentTimeMillis() + ".mp4";
         if (saveVideoPath.equals("")) {
-            saveVideoPath = Environment.getExternalStorageDirectory().getPath();
+            saveVideoPath = FileUtil.getStoragePath();
         }
         videoFileAbsPath = saveVideoPath + File.separator + videoFileName;
         mediaRecorder.setOutputFile(videoFileAbsPath);

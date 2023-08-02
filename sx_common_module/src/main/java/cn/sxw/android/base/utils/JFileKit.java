@@ -58,7 +58,7 @@ public class JFileKit {
             throw new CustomBaseException("SDCard不是可读写模式");
         }
 
-        String sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String sdcard = IFileUtils.getExternalFileDir().getAbsolutePath();
 
         return sdcard;
 

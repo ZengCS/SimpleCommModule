@@ -1,9 +1,9 @@
 // 统一版本控制
 ext {
     android = [
-            compileSdkVersion: 28,
+            compileSdkVersion: 30,
             minSdkVersion    : 21,
-            targetSdkVersion : 28,
+            targetSdkVersion : 30,
             versionCode      : 100,
             versionName      : "1.0.0",
     ]

@@ -28,7 +28,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/sxw/app/kt3/student/log/crash/";
+    private static final String PATH = IFileUtils.getExternalFileDirPath() + "sxw/app/kt3/student/log/crash/";
     private static final String FILE_NAME = "crash_";
 
     //log文件的后缀名

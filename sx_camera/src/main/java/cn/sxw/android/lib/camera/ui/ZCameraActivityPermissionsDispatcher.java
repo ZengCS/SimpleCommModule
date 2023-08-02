@@ -8,15 +8,15 @@ import permissions.dispatcher.PermissionUtils;
 final class ZCameraActivityPermissionsDispatcher {
   private static final int REQUEST_OPENCAMERA = 0;
 
-  private static final String[] DEFAULT_PERMISSION = new String[] {"android.permission.WRITE_EXTERNAL_STORAGE","android.permission.RECORD_AUDIO","android.permission.CAMERA"};
-  private static String[] PERMISSION_OPENCAMERA = new String[] {"android.permission.WRITE_EXTERNAL_STORAGE","android.permission.RECORD_AUDIO","android.permission.CAMERA"};
+  private static final String[] DEFAULT_PERMISSION = new String[] {"android.permission.RECORD_AUDIO","android.permission.CAMERA"};
+  private static String[] PERMISSION_OPENCAMERA = new String[] {"android.permission.RECORD_AUDIO","android.permission.CAMERA"};
 
   private ZCameraActivityPermissionsDispatcher() {
   }
 
   static void openCameraWithPermissionCheck(ZCameraActivity target) {
     if(target.isOnlyCameraCapture()){
-        PERMISSION_OPENCAMERA = new String[] {"android.permission.CAMERA","android.permission.WRITE_EXTERNAL_STORAGE"};
+        PERMISSION_OPENCAMERA = new String[] {"android.permission.CAMERA"};
     }else {
       PERMISSION_OPENCAMERA = DEFAULT_PERMISSION;
     }

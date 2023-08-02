@@ -12,9 +12,18 @@ import java.io.IOException;
 import cn.sxw.android.lib.camera.core.CameraApp;
 
 public class FileUtil {
-    private static final File parentPath = Environment.getExternalStorageDirectory();
     private static String storagePath = "";
     private static String DST_FOLDER_NAME = "ZCameraPic";
+
+    public static String getStoragePath(){
+        if (CameraApp.getApp() != null) {
+            File externalCacheDir = CameraApp.getApp().getExternalCacheDir();
+            if (externalCacheDir != null) {
+                return externalCacheDir.getAbsolutePath();
+            }
+        }
+        return "";
+    }
 
     private static String initPath() {
         if (TextUtils.isEmpty(storagePath)) {
@@ -25,9 +34,6 @@ public class FileUtil {
                             .concat(File.separator)
                             .concat(DST_FOLDER_NAME);
                 }
-            }
-            if (TextUtils.isEmpty(storagePath)) {
-                storagePath = parentPath.getAbsolutePath().concat(File.separator).concat(DST_FOLDER_NAME);
             }
             File f = new File(storagePath);
             if (!f.exists()) {

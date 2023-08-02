@@ -4,13 +4,13 @@ import android.Manifest;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 
@@ -100,7 +100,7 @@ public abstract class ZCameraActivity extends AppCompatActivity implements Camer
         mCameraView = findViewById(R.id.ic_zcv_camera);
 
         //设置视频保存路径
-        mCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "ZCamera");
+        mCameraView.setSaveVideoPath(FileUtil.getStoragePath() + File.separator + "ZCamera");
         mCameraView.setFeatures(configFeatureType());
         mCameraView.setDuration(configMaxRecordTimeMillis());
         mCameraView.setMediaQuality(ZCameraView.MEDIA_QUALITY_MIDDLE);
