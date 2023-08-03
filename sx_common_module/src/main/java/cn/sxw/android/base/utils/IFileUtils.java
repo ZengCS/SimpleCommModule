@@ -29,7 +29,11 @@ public class IFileUtils {
      * @return 返回文件对象
      */
     public static File getExternalFileDir(){
-        return BaseApplication.getContext().getExternalFilesDir(null);
+        //sdcard正常挂载，可读写
+        if(checkSDCard()){
+            return BaseApplication.getContext().getExternalFilesDir(null);
+        }
+        return Environment.getDataDirectory();
     }
 
     /**
@@ -37,8 +41,7 @@ public class IFileUtils {
      * @return 返回目录路径
      */
     public static String getExternalFileDirPath(){
-        File storage = getExternalFileDir();
-        return storage == null? "":storage.getAbsolutePath() + File.separator;
+        return getExternalFileDir().getAbsolutePath();
     }
 
     /**
@@ -48,9 +51,6 @@ public class IFileUtils {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
-    private static File getSdcardFile(){
-        return getExternalFileDir();
-    }
     /**
      * 按名称创建目录
      *

@@ -15,8 +15,15 @@ public class FileUtil {
     private static String storagePath = "";
     private static String DST_FOLDER_NAME = "ZCameraPic";
 
+    /**
+     * 检验SDcard状态
+     */
+    private static boolean checkSDCard() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
     public static String getStoragePath(){
-        if (CameraApp.getApp() != null) {
+        if (CameraApp.getApp() != null && checkSDCard()) {
             File externalCacheDir = CameraApp.getApp().getExternalCacheDir();
             if (externalCacheDir != null) {
                 return externalCacheDir.getAbsolutePath();
@@ -27,14 +34,9 @@ public class FileUtil {
 
     private static String initPath() {
         if (TextUtils.isEmpty(storagePath)) {
-            if (CameraApp.getApp() != null) {
-                File externalCacheDir = CameraApp.getApp().getExternalCacheDir();
-                if (externalCacheDir != null) {
-                    storagePath = externalCacheDir.getAbsolutePath()
-                            .concat(File.separator)
-                            .concat(DST_FOLDER_NAME);
-                }
-            }
+            storagePath = getStoragePath()
+                    .concat(File.separator)
+                    .concat(DST_FOLDER_NAME);
             File f = new File(storagePath);
             if (!f.exists()) {
                 f.mkdir();
